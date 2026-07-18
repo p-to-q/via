@@ -54,6 +54,8 @@ Each route requires:
 - integer `gates` from 0–9
 - `summary` up to 54 characters
 
+Time ranges estimate active agent work, including inspection, edits, and verification. Do not translate conventional human engineering estimates into minutes. A useful default calibration is 5–12 minutes for small bounded work, 10–25 for multi-surface work, and 20–45 for runtime or integration work; widen the range when repositories, external systems, or proofs are unusually uncertain.
+
 ## Graph
 
 Each node requires `id`, `label`, `column`, and `lane`. No two nodes may occupy the same position.

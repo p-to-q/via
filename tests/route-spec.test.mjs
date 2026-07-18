@@ -65,10 +65,21 @@ test("renderer emits Git-tree topology, signal window, and terse cards", () => {
   assert.match(svg, /^<svg /);
   assert.match(svg, /class="edge/);
   assert.match(svg, /class="window-lights"/);
-  assert.match(svg, /#FF5F57/);
-  assert.match(svg, /#FFBD2E/);
-  assert.match(svg, /#40C878/);
-  assert.equal((svg.match(/class="card"/g) || []).length, 3);
+  assert.match(svg, /#E8615E/);
+  assert.match(svg, /#E4A83B/);
+  assert.match(svg, /#38B879/);
+  assert.equal((svg.match(/class="card(?: selected)?"/g) || []).length, 3);
+  assert.equal((svg.match(/class="gate-light"/g) || []).length, 3);
+  assert.doesNotMatch(svg, / gate(?:s)?</);
+  assert.doesNotMatch(svg, /<circle cx="22" cy="25"/);
+  assert.match(svg, /stroke="#1A73E8"/);
+  assert.match(svg, /stroke="#7B6A9B"/);
+  assert.match(svg, /stroke="#B7791F"/);
+  assert.equal((svg.match(/class="card selected"/g) || []).length, 1);
+  assert.match(svg, /fill="#F7FAFF" stroke="#1A73E8"/);
+  assert.match(svg, /stroke="#DADCE0" stroke-width="1.25"/);
+  assert.match(svg, /Recommended · Small contract/);
+  assert.doesNotMatch(svg, />REC</);
   assert.doesNotMatch(svg, /Recommendation:/);
 });
 

@@ -30,7 +30,9 @@ Everything visible must represent one of these atoms.
 └──────────────────────────────────────────────┘
 ```
 
-The window lights are chrome, not data. Route color is identity. Gate dots are local conditions. Copy stays inside node labels and three cards.
+The window lights are chrome, not data. Blue, plum, and amber identify routes in the tree. Gate dots are local conditions. Copy stays inside node labels and three cards.
+
+The option tray borrows the calm hierarchy of a maps product without copying its structure. The selected card uses Google blue (`#1A73E8`), a 2.25 px outline, a 4% blue tint, and a 10 px radius. Alternatives use 1.25 px neutral outlines. Each card has one dominant number, one compact time-and-gate row, and one short status line. The gate count appears before a traffic-light icon; the word `gates` is never shown.
 
 ## Motion
 

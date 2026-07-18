@@ -22,9 +22,10 @@ Create the map yourself. Do not make the user assemble JSON or run commands.
 - Reuse nodes and edges when routes share work.
 - Add a small branch only when a route contains a genuine detour or parallel check.
 - Keep visible labels concrete and under the contract limits.
-- Use lime, violet, and amber for route identity.
+- Use blue, plum, and amber for route identity in the Git tree. In the option tray, reserve Google blue for the selected route and use neutral gray outlines for alternatives.
 - Keep the red/yellow/green window lights decorative. Put real gate state only on graph nodes.
 - Use token/time ranges, never exact predictions.
+- Estimate active agent work, not human calendar time: use roughly 5–12 minutes for a small bounded path, 10–25 for a multi-surface path, and 20–45 for runtime or integration work. Widen only when evidence justifies it.
 - Never expose hidden chain-of-thought.
 
 For forward testing, use [references/eval.md](references/eval.md).
