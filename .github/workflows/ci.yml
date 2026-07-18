@@ -1,0 +1,31 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run validate:example
+      - run: npm run build:example
+      - run: npm pack --dry-run
+      - name: Validate Skill and Plugin
+        run: |
+          python3 -m pip install --disable-pip-version-check PyYAML
+          python3 .github/scripts/validate_release.py

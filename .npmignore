@@ -1,0 +1,10 @@
+.codex-plugin/
+.github/
+docs/
+evals/
+tests/
+example-output/
+via-output/
+CONTRIBUTING.md
+SECURITY.md
+CODE_OF_CONDUCT.md

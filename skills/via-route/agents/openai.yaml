@@ -1,0 +1,7 @@
+interface:
+  display_name: "via route"
+  short_description: "Draw an engineering task as a Git-tree map"
+  default_prompt: "Use $via-route to draw this engineering task as a Git-tree map."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,37 @@
+{
+  "name": "via",
+  "version": "0.2.0",
+  "description": "Turn an engineering task into a compact Git-tree map with shared steps, branches, and three route costs.",
+  "author": {
+    "name": "P-to-Q",
+    "url": "https://github.com/p-to-q"
+  },
+  "homepage": "https://github.com/p-to-q/via",
+  "repository": "https://github.com/p-to-q/via",
+  "license": "Apache-2.0",
+  "keywords": [
+    "agent",
+    "skill",
+    "planning",
+    "route-map",
+    "token-budget"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "[via]",
+    "shortDescription": "See an engineering task as a Git-tree map.",
+    "longDescription": "[via] draws three engineering paths with shared checkpoints, local branches, merge points, and token/time ranges.",
+    "developerName": "P-to-Q",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use via to draw this task as a Git-tree route map.",
+      "Show the shared steps and branches for three paths.",
+      "Map the token cost before implementation."
+    ],
+    "brandColor": "#72B600"
+  }
+}

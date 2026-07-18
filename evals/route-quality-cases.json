@@ -1,0 +1,51 @@
+[
+  {
+    "id": "speed-label-clones",
+    "shouldPass": false,
+    "routes": [
+      { "label": "Fast", "changeSurface": "same adapter", "proof": "same unit tests" },
+      { "label": "Balanced", "changeSurface": "same adapter", "proof": "same unit tests" },
+      { "label": "Safe", "changeSurface": "same adapter", "proof": "same unit tests" }
+    ],
+    "reason": "Speed adjectives do not create different engineering paths."
+  },
+  {
+    "id": "framework-name-clones",
+    "shouldPass": false,
+    "routes": [
+      { "label": "Library A", "changeSurface": "replace UI library", "proof": "visual smoke" },
+      { "label": "Library B", "changeSurface": "replace UI library", "proof": "visual smoke" },
+      { "label": "Library C", "changeSurface": "replace UI library", "proof": "visual smoke" }
+    ],
+    "reason": "Dependency names alone are options, not route strategies."
+  },
+  {
+    "id": "same-proof-clones",
+    "shouldPass": false,
+    "routes": [
+      { "label": "Patch", "changeSurface": "auth middleware", "proof": "run typecheck" },
+      { "label": "Isolate", "changeSurface": "auth middleware", "proof": "run typecheck" },
+      { "label": "Refactor", "changeSurface": "auth middleware", "proof": "run typecheck" }
+    ],
+    "reason": "Different verbs with the same boundary and weak proof are cosmetic."
+  },
+  {
+    "id": "credible-migration-routes",
+    "shouldPass": true,
+    "routes": [
+      { "label": "Compatibility rollout", "changeSurface": "additive credential path", "proof": "legacy-client contract tests" },
+      { "label": "Auth gateway", "changeSurface": "shared auth boundary", "proof": "credential-provider contract suite" },
+      { "label": "Beta lane", "changeSurface": "cohort-gated passkey path", "proof": "cohort metrics and rollback drill" }
+    ],
+    "reason": "Boundary, rollout, reversibility, and proof differ consequentially."
+  },
+  {
+    "id": "only-two-credible-routes",
+    "shouldPass": false,
+    "routes": [
+      { "label": "Patch", "changeSurface": "one boundary", "proof": "targeted regression" },
+      { "label": "Replace", "changeSurface": "whole subsystem", "proof": "migration and compatibility suite" }
+    ],
+    "reason": "Skip the three-route map rather than fabricate a third route."
+  }
+]

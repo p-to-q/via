@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "0.2",
+  "destination": "Ship the first useful route map",
+  "routes": [
+    {
+      "id": "skill-first",
+      "label": "Skill first",
+      "color": "lime",
+      "recommended": true,
+      "tokens": { "min": 3500, "max": 9000 },
+      "minutes": { "min": 20, "max": 45 },
+      "gates": 1,
+      "summary": "Small contract, real map, fastest proof"
+    },
+    {
+      "id": "ui-first",
+      "label": "Interface first",
+      "color": "violet",
+      "recommended": false,
+      "tokens": { "min": 6000, "max": 14000 },
+      "minutes": { "min": 45, "max": 120 },
+      "gates": 2,
+      "summary": "Test the map before the workflow"
+    },
+    {
+      "id": "telemetry-first",
+      "label": "Telemetry first",
+      "color": "amber",
+      "recommended": false,
+      "tokens": { "min": 9000, "max": 22000 },
+      "minutes": { "min": 90, "max": 240 },
+      "gates": 3,
+      "summary": "Measure actual cost before prediction"
+    }
+  ],
+  "graph": {
+    "nodes": [
+      { "id": "intent", "label": "intent", "column": 0, "lane": 2 },
+      { "id": "inspect", "label": "inspect task", "column": 1, "lane": 2 },
+      { "id": "frame", "label": "frame routes", "column": 2, "lane": 2, "gate": "green" },
+
+      { "id": "contract", "label": "lock contract", "column": 3, "lane": 0 },
+      { "id": "renderer", "label": "render map", "column": 5, "lane": 0 },
+
+      { "id": "wire", "label": "wire graph", "column": 3, "lane": 2 },
+      { "id": "motion", "label": "motion pass", "column": 4, "lane": 3 },
+      { "id": "user-check", "label": "5 user check", "column": 5, "lane": 2, "gate": "yellow" },
+
+      { "id": "runtime", "label": "runtime hooks", "column": 3, "lane": 4 },
+      { "id": "measure", "label": "measure run", "column": 5, "lane": 4, "gate": "red" },
+
+      { "id": "validate", "label": "validate", "column": 6, "lane": 2 },
+      { "id": "ship", "label": "ship", "column": 7, "lane": 2 }
+    ],
+    "edges": [
+      { "from": "intent", "to": "inspect", "routes": ["skill-first", "ui-first", "telemetry-first"] },
+      { "from": "inspect", "to": "frame", "routes": ["skill-first", "ui-first", "telemetry-first"] },
+
+      { "from": "frame", "to": "contract", "routes": ["skill-first"] },
+      { "from": "contract", "to": "renderer", "routes": ["skill-first"] },
+      { "from": "renderer", "to": "validate", "routes": ["skill-first"] },
+
+      { "from": "frame", "to": "wire", "routes": ["ui-first"] },
+      { "from": "wire", "to": "user-check", "routes": ["ui-first"] },
+      { "from": "wire", "to": "motion", "routes": ["ui-first"], "kind": "branch" },
+      { "from": "motion", "to": "user-check", "routes": ["ui-first"], "kind": "branch" },
+      { "from": "user-check", "to": "validate", "routes": ["ui-first"] },
+
+      { "from": "frame", "to": "runtime", "routes": ["telemetry-first"] },
+      { "from": "runtime", "to": "measure", "routes": ["telemetry-first"] },
+      { "from": "measure", "to": "validate", "routes": ["telemetry-first"] },
+
+      { "from": "validate", "to": "ship", "routes": ["skill-first", "ui-first", "telemetry-first"] }
+    ]
+  }
+}

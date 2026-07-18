@@ -1,0 +1,15 @@
+.DS_Store
+node_modules/
+*.log
+example-output/
+via-output/
+.env
+.env.*
+!.env.example
+.coverage/
+coverage/
+dist/
+build/
+*.tgz
+.idea/
+.vscode/

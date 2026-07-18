@@ -1,0 +1,35 @@
+name: Bug report
+description: Report an invalid graph, broken render, or installation problem.
+title: "bug: "
+labels: [bug]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Include the command and the complete error message.
+    validations:
+      required: true
+  - type: textarea
+    id: spec
+    attributes:
+      label: RouteSpec
+      description: Attach or paste the smallest RouteSpec that reproduces the issue. Remove private project details.
+  - type: input
+    id: node
+    attributes:
+      label: Node.js version
+      placeholder: v22.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Surface
+      options:
+        - CLI
+        - Codex Skill
+        - Codex Plugin
+        - Other Agent Skills client
+    validations:
+      required: true

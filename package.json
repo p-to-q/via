@@ -1,0 +1,48 @@
+{
+  "name": "@p-to-q/via",
+  "version": "0.2.0",
+  "description": "Turn an engineering task into a Git-tree route map.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "scripts/",
+    "skills/",
+    "examples/",
+    "assets/",
+    "README.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "bin": {
+    "via": "./scripts/via.mjs"
+  },
+  "scripts": {
+    "render:example": "node skills/via-route/scripts/render-route.mjs examples/web-coder-route.json assets/web-coder-route.svg",
+    "validate:example": "node skills/via-route/scripts/validate-route.mjs examples/web-coder-route.json",
+    "build:example": "node scripts/via.mjs build examples/web-coder-route.json --out example-output",
+    "test": "node --test tests/*.test.mjs",
+    "check": "npm test && npm run validate:example && npm run build:example && npm pack --dry-run"
+  },
+  "keywords": [
+    "agent",
+    "skill",
+    "planning",
+    "route-map",
+    "token-budget"
+  ],
+  "homepage": "https://github.com/p-to-q/via#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p-to-q/via.git"
+  },
+  "bugs": {
+    "url": "https://github.com/p-to-q/via/issues"
+  },
+  "author": "P-to-Q",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "Apache-2.0"
+}

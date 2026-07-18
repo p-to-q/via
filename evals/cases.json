@@ -1,0 +1,74 @@
+[
+  {
+    "id": "tiny-copy-fix",
+    "prompt": "Change the typo in README from teh to the.",
+    "shouldTrigger": false,
+    "reason": "One obvious reversible edit has no meaningful route choice."
+  },
+  {
+    "id": "fact-question",
+    "prompt": "What does this function return?",
+    "shouldTrigger": false,
+    "reason": "A factual explanation does not benefit from route planning."
+  },
+  {
+    "id": "chosen-route",
+    "prompt": "Use the existing adapter and add the specified unit test; do not change the API.",
+    "shouldTrigger": false,
+    "reason": "The user already fixed the implementation boundary."
+  },
+  {
+    "id": "auth-migration",
+    "prompt": "Plan our migration from session cookies to passkeys without breaking existing mobile clients.",
+    "shouldTrigger": true,
+    "routeAxes": ["compatibility boundary", "rollout strategy", "reversibility", "proof"]
+  },
+  {
+    "id": "performance-diagnosis",
+    "prompt": "Checkout latency doubled after the last release. Compare how we should diagnose and fix it.",
+    "shouldTrigger": true,
+    "routeAxes": ["evidence collection", "change surface", "rollback", "measurement"]
+  },
+  {
+    "id": "ui-redesign",
+    "prompt": "We need to redesign onboarding. Show a low-risk path, a prototype-first path, and a systems path with costs.",
+    "shouldTrigger": true,
+    "routeAxes": ["learning goal", "implementation depth", "budget", "user proof"]
+  },
+  {
+    "id": "database-sharding",
+    "prompt": "Architect a path for tenant sharding while keeping zero-downtime deploys.",
+    "shouldTrigger": true,
+    "routeAxes": ["data boundary", "migration sequencing", "operational risk", "rollback"]
+  },
+  {
+    "id": "vendor-api",
+    "prompt": "Should we integrate the payment vendor through their SDK, raw API, or an internal adapter?",
+    "shouldTrigger": true,
+    "routeAxes": ["dependency ownership", "change surface", "portability", "contract tests"]
+  },
+  {
+    "id": "test-strategy",
+    "prompt": "Choose a testing strategy for a legacy billing service with no fixtures and frequent regressions.",
+    "shouldTrigger": true,
+    "routeAxes": ["test boundary", "setup cost", "confidence", "maintenance"]
+  },
+  {
+    "id": "security-response",
+    "prompt": "We found a possible cross-tenant data leak. Map containment, targeted repair, and architectural correction paths.",
+    "shouldTrigger": true,
+    "routeAxes": ["time to containment", "evidence", "blast radius", "security proof"]
+  },
+  {
+    "id": "docs-rewrite",
+    "prompt": "Rewrite this five-line install note more clearly.",
+    "shouldTrigger": false,
+    "reason": "A small prose rewrite has no costly engineering fork."
+  },
+  {
+    "id": "ambiguous-refactor",
+    "prompt": "This state layer is hard to maintain. Help us decide whether to patch, isolate, or replace it.",
+    "shouldTrigger": true,
+    "routeAxes": ["change boundary", "migration cost", "reversibility", "regression proof"]
+  }
+]
