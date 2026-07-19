@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.3 — 2026-07-19
+
+- Document common wake-up patterns across coding-agent surfaces: Codex `$via-route`, ChatGPT-style `/via`, Claude Code-style `/via`, and natural-language route planning.
+- Clarify that `via -v` is a CLI version check, not the agent wake-up command.
+- Keep npm install guidance conditional until `@p-to-q/via` is actually published to the registry.
+
 ## 0.3.2 — 2026-07-19
 
 - Tag the post-0.3.1 visual rhythm pass: tighter token/time metric grouping and regenerated README SVG.

@@ -33,7 +33,16 @@ ln -s "$(cd via && pwd)/skills/via-route" ~/.agents/skills/via-route
 
 ### Wake it up
 
-Invoke the Skill directly:
+Common invocation patterns:
+
+| surface | invocation | notes |
+| --- | --- | --- |
+| Codex Skill | `$via-route ...` | Directly names the installed Skill. |
+| ChatGPT | `/via ...` | Recommended short command when Via is packaged as a ChatGPT-facing shortcut or GPT instruction. |
+| Claude Code | `/via ...` | Recommended name when adapting `skills/via-route` into a Claude Code skill/slash command. |
+| Any coding agent | "make a token map..." | Natural-language trigger; useful when the platform has no command syntax. |
+
+Invoke the Codex Skill directly:
 
 ```text
 $via-route plan three ways to migrate this auth flow
@@ -136,6 +145,6 @@ npm install
 npm run check
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.2 release notes](docs/releases/v0.3.2.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.3 release notes](docs/releases/v0.3.3.md).
 
 Apache-2.0 © P-to-Q contributors.

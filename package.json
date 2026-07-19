@@ -1,6 +1,6 @@
 {
   "name": "@p-to-q/via",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Turn an engineering task into a Git-tree route map.",
   "type": "module",
   "engines": {
