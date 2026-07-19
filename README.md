@@ -13,9 +13,11 @@ Read https://github.com/p-to-q/via/blob/main/skills/via-route/SKILL.md and follo
 
 Three routes. Real overlap. Local branches. Distinct starts or outcomes when the task calls for them. Token and time ranges.
 
-via is for the moment before you build, when a model would usually answer with a wall of planning text. It asks the agent to understand the user's intent, form three useful ways forward when real choices exist, and render those choices as one compact route map.
+At its simplest, via asks a model for the useful paths and gives you a picture instead of a wall of planning text. The compact map makes the alternatives easier to scan and can avoid spending tokens on repetitive prose that does not help the decision.
 
-The interface borrows three ideas without copying any one product: the quiet, readable feel of ChatGPT/Codex; the route-choice intuition of Google Maps; and the branching/merging topology of a Git tree. The result is a planning surface that humans can scan quickly and agents can use as structured context.
+via keeps the prompt light. It nudges the model to think carefully, understand the user's real intent, and work from the task itself, then leaves the model room to use its own judgment. RouteSpec constrains the visible result—not the model's reasoning—and the bundled scripts handle validation and SVG rendering.
+
+The interface borrows three ideas without copying any one product: the quiet, readable feel of ChatGPT/Codex; the spatial and route-choice intuition of Google Maps and Google Earth; and the branching/merging topology of a Git tree. The result is a user-friendly planning surface for humans and a small, programming-native scaffold for agents.
 
 ## Install
 
@@ -141,11 +143,14 @@ The source is one directed graph:
 
 The Skill creates the RouteSpec, validates it, renders it, and shows the SVG first. It skips tiny work and tasks without three credible paths.
 
+This separation is deliberate: the model decides what the task means and which paths are useful; the schema organizes only what needs to be shown; the renderer turns that compact representation into the interface. via does not ask the model to follow a second reasoning system.
+
 See the [RouteSpec contract](skills/via-route/references/route-spec.md), [example graph](examples/web-coder-route.json), [product architecture](docs/product-architecture.md), [interface system](docs/design-system.md), and [agent surface notes](docs/agent-surfaces.md).
 
 ## What via does not claim
 
 - Token and time values are estimates, not telemetry.
+- via can reduce unnecessary explanatory output, but it does not promise that every run uses fewer total tokens; difficult tasks may deserve deeper inspection.
 - Three routes are useful only when three materially different paths exist.
 - A passing validator proves graph structure, not that a recommendation is correct.
 - via is not a mandatory planning workflow. If the map does not save reading time, skip it.

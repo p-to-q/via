@@ -5,9 +5,9 @@ description: Generate and render a compact Git-tree comparison for open-ended pl
 
 # via route
 
-Turn an open planning question into three options and a detailed route map. Use your own judgment to understand the task. RouteSpec constrains what is displayed, not how you reason. Create the artifact yourself; do not make the user assemble JSON or run commands.
+Turn an open planning question into three options and a detailed route map. Use your own judgment to understand the task. RouteSpec is a lightweight scaffold for what is displayed, not a framework for how you reason. Create the artifact yourself; do not make the user assemble JSON or run commands.
 
-Before proposing routes, think deeply about the user's intent and purpose. Look beyond the literal request to understand the outcome they are actually trying to achieve, using context and evidence without inventing hidden requirements. Then use your own judgment to form three genuinely useful ways forward.
+Before proposing routes, think deeply and from first principles about the user's intent and purpose. Look beyond the literal request to understand the outcome they are actually trying to achieve, using context and evidence without inventing hidden requirements. Then use your own judgment to form three genuinely useful ways forward.
 
 ## Create the map
 
@@ -18,7 +18,7 @@ Before proposing routes, think deeply about the user's intent and purpose. Look 
 5. Encode the result as RouteSpec 0.3 using [the contract](references/route-spec.md) and bundled [JSON Schema](references/route-spec.schema.json). Write `destination` as a short model-generated title for what this map is about, similar to a clear PR title. Share, split, branch, and merge nodes only where the real work does.
 6. Make the graph's origin and destination nodes meaningful. For the common case, let the renderer infer one shared origin and one shared destination. When routes genuinely start from different states or produce different outcomes, declare `graph.terminals` in the RouteSpec. The renderer fixes their roles as `START` and `DONE`; your node labels provide the changing captions underneath.
 7. Resolve `SKILL_DIR` to this Skill directory. Validate with `node "$SKILL_DIR/scripts/validate-route.mjs" <spec.json>`, repair structural errors, then render with `node "$SKILL_DIR/scripts/render-route.mjs" <spec.json> <map.svg>`.
-8. Present the SVG first. Keep any additional response brief and include it only when decision-critical context cannot fit in the map. Do not repeat generic instructions like choosing, combining, or customizing routes after every render.
+8. Present the SVG first. Let the map replace repetitive planning prose: keep any additional response brief and include it only when decision-critical context cannot fit in the map. Do not repeat generic instructions like choosing, combining, or customizing routes after every render.
 
 ## Map what matters
 

@@ -6,7 +6,11 @@ Input: one engineering task.
 
 Output: one Git-tree map showing three paths through that task.
 
-via is a decision interface for both the developer and the model. Its ChatGPT-like surface keeps the artifact natural inside coding agents, while the Google Maps route metaphor and Git Tree topology turn model planning into structured context that is easier to scan, compare, and control.
+The smallest useful version of via is simple: the model offers useful paths and the user gets a picture instead of a long planning answer. Compact representation can avoid token expenditure on repeated explanation while making the decision easier to scan.
+
+Underneath that interface, via is a lightweight scaffold for both the developer and the model. Its ChatGPT-like surface keeps the artifact natural inside coding agents, while the spatial navigation language of Google Maps and Google Earth and the topology of a Git Tree turn the model's existing judgment into structured context that is easier to compare and use in programming work.
+
+The scaffold has a strict boundary. The prompt encourages careful intent reading, first-principles understanding, and model intuition, but does not prescribe a reasoning procedure. RouteSpec organizes the visible answer. Deterministic scripts validate and render it. Stronger models retain room to do what they already do well; less capable models receive a few useful directional cues without a heavy rubric.
 
 ## Atoms
 
@@ -48,4 +52,4 @@ The static SVG is always complete. In compatible viewers, a subtle dotted curren
 
 ## Runtime
 
-The Skill inspects the task, writes RouteSpec, validates it, renders it, and presents the SVG. The CLI also writes `route.json` and `route.md`, so the graph documents itself without asking the user to assemble artifacts.
+The Skill inspects the task, writes only the visible decisions into RouteSpec, validates it, renders it, and presents the SVG. The CLI also writes `route.json` and `route.md`, so the graph documents itself without asking the user or model to repeatedly explain the format.

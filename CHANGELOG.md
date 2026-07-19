@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Clarify via's design philosophy: avoid unnecessary planning prose, preserve model autonomy, and use RouteSpec as a lightweight display scaffold rather than a reasoning framework.
+- Record Google Earth spatial overview alongside Google Maps route choice and Git Tree topology as an interface influence.
+
 ## 0.3.6 — 2026-07-19
 
 - Teach the Skill to choose a task-shaped graph topology instead of defaulting to a symmetrical three-way fork.

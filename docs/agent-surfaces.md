@@ -36,7 +36,7 @@ via is not trying to become a universal command framework. The durable thing is 
 - natural language for capable agents;
 - CLI rendering when the host cannot load Skills.
 
-The Skill body should stay light. The prompt should activate model judgment with a few high-leverage hints—understand intent, use engineering intuition, form three meaningful options when real choices exist, encode the visible result—then rely on validation and rendering scripts for determinism.
+The Skill body should stay light. The prompt should activate model judgment with a few high-leverage hints—think carefully, understand intent from first principles, use engineering intuition, form three meaningful options when real choices exist, encode the visible result—then rely on validation and rendering scripts for determinism. This avoids spending context on a second reasoning framework and lets the SVG replace repetitive explanatory output.
 
 ## Sources checked
 

@@ -13,9 +13,10 @@ The wordmark is always lowercase: `via`. In generated SVGs, identity should stay
 Two outside ideas define the part that is not generic:
 
 - Google Maps gives the route-choice intuition: a user should understand that several paths lead from a current point to an outcome, with cost and time summarized in cards.
+- Google Earth contributes spatial overview: the whole decision landscape should be graspable before the user inspects an individual node. This is an information principle, not a cue to imitate map textures or geographic chrome.
 - Git Tree gives the engineering topology: shared work, forks, local detours, merges, proofs, and releases are visible as one graph instead of three separate plans.
 
-This interface serves both sides of the human-agent loop. For humans, it turns a planning answer into a scannable decision surface. For the model, RouteSpec creates structured context and sharper control over what gets displayed. The map should therefore improve decision-making without becoming a heavy planning ritual.
+This interface serves both sides of the human-agent loop. For humans, it turns a planning answer into a scannable decision surface and removes the need to read repeated route prose. For the model, RouteSpec is a programming-native scaffold that structures only the visible answer. The map should improve decision-making and avoid unnecessary output without becoming a heavy planning ritual.
 
 ## Type
 
