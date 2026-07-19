@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.4 — 2026-07-19
+
+- Document `/via` as the explicit chat-box wake-up phrase and `$via-route` as the direct Codex Skill invocation.
+- Clarify that `SKILL.md` is the Skill entrypoint and provide a copy-paste prompt for another model or coding agent to read it and configure Via.
+- Clarify that `via -v` is a CLI version check, not the agent wake-up command.
+- Keep npm install guidance conditional until `@p-to-q/via` is actually published to the registry.
+
 ## 0.3.3 — 2026-07-19
 
 - Document common wake-up patterns across coding-agent surfaces: Codex `$via-route`, ChatGPT-style `/via`, Claude Code-style `/via`, and natural-language route planning.
