@@ -7,6 +7,8 @@ See the paths before you build.
 
 via helps your coding agent reason through the options, then maps 3 potential engineering paths.
 
+Compare tokens, time, and key route prompts at a glance.
+
 ```text
 Read https://github.com/p-to-q/via/blob/main/skills/via-route/SKILL.md and follow the instructions to install and configure via.
 ```

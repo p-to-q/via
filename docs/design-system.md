@@ -19,6 +19,8 @@ Three reference families define the interface:
 
 This interface serves both sides of the human-agent loop. For humans, it adds a scannable decision surface to the model's route explanations and feedback. For the model, RouteSpec is a programming-native scaffold that structures the additional visual. The map should improve decision-making without displacing useful written analysis or becoming a heavy planning ritual.
 
+Estimated tokens, anticipated time, and one concise route prompt are primary decision signals. Keep them visible and comparable across all three options; they are not decorative metadata.
+
 ## Type
 
 The portable SVG uses the host system UI stack:
