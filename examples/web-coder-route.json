@@ -32,7 +32,7 @@
   ],
   "graph": {
     "nodes": [
-      { "id": "intent", "label": "intent", "column": 0, "lane": 2 },
+      { "id": "current-draft", "label": "draft repo", "column": 0, "lane": 2 },
       { "id": "inspect", "label": "inspect task", "column": 1, "lane": 2 },
       { "id": "frame", "label": "frame routes", "column": 2, "lane": 2, "gate": "green", "control": "decision" },
 
@@ -47,10 +47,10 @@
       { "id": "measure", "label": "measure run", "column": 5, "lane": 4, "gate": "red", "control": "proof" },
 
       { "id": "validate", "label": "validate", "column": 6, "lane": 2, "control": "proof" },
-      { "id": "ship", "label": "ship", "column": 7, "lane": 2, "control": "release" }
+      { "id": "release-ready", "label": "release ready", "column": 7, "lane": 2, "control": "release" }
     ],
     "edges": [
-      { "from": "intent", "to": "inspect", "routes": ["skill-first", "ui-first", "telemetry-first"] },
+      { "from": "current-draft", "to": "inspect", "routes": ["skill-first", "ui-first", "telemetry-first"] },
       { "from": "inspect", "to": "frame", "routes": ["skill-first", "ui-first", "telemetry-first"] },
 
       { "from": "frame", "to": "contract", "routes": ["skill-first"] },
@@ -67,7 +67,7 @@
       { "from": "runtime", "to": "measure", "routes": ["telemetry-first"] },
       { "from": "measure", "to": "validate", "routes": ["telemetry-first"] },
 
-      { "from": "validate", "to": "ship", "routes": ["skill-first", "ui-first", "telemetry-first"] }
+      { "from": "validate", "to": "release-ready", "routes": ["skill-first", "ui-first", "telemetry-first"] }
     ]
   }
 }

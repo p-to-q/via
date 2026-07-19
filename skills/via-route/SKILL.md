@@ -15,13 +15,14 @@ Before proposing routes, think deeply about the user's intent and purpose. Look 
 2. For an open planning question, naturally propose three useful options. Treat three as the interface default, not a demand to fabricate distinctions: if the task truly has fewer viable directions, continue normally and say so.
 3. Choose and recommend the options from the user's goal, constraints, and likely journey through the work. Let meaningful differences emerge from the problem—such as boundary, dependency strategy, reversibility, learning path, risk, or proof—rather than forcing a taxonomy or generic quick/balanced/robust labels.
 4. Encode the result as RouteSpec 0.3 using [the contract](references/route-spec.md) and bundled [JSON Schema](references/route-spec.schema.json). Write `destination` as a short model-generated title for what this map is about, similar to a clear PR title. Share, split, branch, and merge nodes only where the real work does.
-5. Resolve `SKILL_DIR` to this Skill directory. Validate with `node "$SKILL_DIR/scripts/validate-route.mjs" <spec.json>`, repair structural errors, then render with `node "$SKILL_DIR/scripts/render-route.mjs" <spec.json> <map.svg>`.
-6. Present the SVG first. Keep any additional response brief and include it only when decision-critical context cannot fit in the map. Do not repeat generic instructions like choosing, combining, or customizing routes after every render.
+5. Make the graph's single origin and destination meaningful. The renderer fixes their roles as `START` and `DONE`; your node labels provide the changing captions underneath. The origin should name the user's current state. The destination should name what this run leaves behind.
+6. Resolve `SKILL_DIR` to this Skill directory. Validate with `node "$SKILL_DIR/scripts/validate-route.mjs" <spec.json>`, repair structural errors, then render with `node "$SKILL_DIR/scripts/render-route.mjs" <spec.json> <map.svg>`.
+7. Present the SVG first. Keep any additional response brief and include it only when decision-critical context cannot fit in the map. Do not repeat generic instructions like choosing, combining, or customizing routes after every render.
 
 ## Map what matters
 
 - A node is a concrete action or checkpoint, not hidden reasoning.
-- The origin node names the user's current starting state, such as `from scratch`, an existing stage, or the live artifact being continued. The destination node names what this run can leave behind, not an abstract finish line.
+- The origin node names the user's current starting state, such as `from scratch`, `draft repo`, `failing build`, `round 12 design`, or another real stage. The destination node names what this run can leave behind, such as `release ready`, `validated patch`, `migration plan`, or `narrowed cause`. Do not default to generic `intent` and `ship` unless those are truly the user's state and outcome.
 - Preserve real overlap between routes. Do not manufacture symmetry, branches, merges, or checks for visual richness.
 - Make the selected route startable and summaries useful for choosing.
 - Pick three distinct colors from blue, orange, green, pink, purple, and cyan when creating a map. Write the choices into RouteSpec so re-rendering stays stable. Use the bright color on the Git tree and its accessible dark companion on the time label. Keep route names, primary metrics, and card shells neutral.

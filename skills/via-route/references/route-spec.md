@@ -21,7 +21,7 @@ RouteSpec is the serialization contract for the renderer, not a planning method.
   ],
   "graph": {
     "nodes": [
-      { "id": "audit", "label": "audit clients", "column": 0, "lane": 2 },
+      { "id": "legacy-auth", "label": "legacy auth", "column": 0, "lane": 2 },
       { "id": "contract", "label": "lock contract", "column": 1, "lane": 2, "gate": "yellow", "control": "boundary" }
     ],
     "edges": [
@@ -42,7 +42,7 @@ The excerpt illustrates fields; a valid spec needs exactly three complete route 
 - `control`: an auditable engineering stop: `decision`, `proof`, `boundary`, or `release`
 - `cost`: non-negative token and minute ranges
 
-The single origin and destination are semantic labels, not decoration. Use the origin node to name where the user is starting from: from scratch, a prototype, a failing build, an existing design round, or whatever stage the context supports. Use the destination node to name the concrete state this run can produce: validated patch, roadmap, migration plan, shipped release, narrowed investigation, and so on.
+The renderer displays the origin role as `START` and the destination role as `DONE`; those role labels are fixed. The node labels underneath are not fixed. Use the origin node label to name where the user is starting from: from scratch, a prototype, a failing build, an existing design round, a draft repo, or whatever stage the context supports. Use the destination node label to name the concrete state this run can produce: validated patch, roadmap, migration plan, release ready, narrowed investigation, and so on. Avoid generic labels like `intent` and `ship` unless they are genuinely the most specific available terms.
 
 ## Route
 

@@ -1,6 +1,6 @@
 {
   "name": "via",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Turn an engineering task into a compact Git-tree map with shared steps, branches, and three route costs.",
   "author": {
     "name": "P-to-Q",

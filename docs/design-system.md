@@ -1,8 +1,19 @@
 # Via interface system
 
-Via is shown inside agent interfaces repeatedly. Its shell should therefore feel native to Codex: quiet neutral surfaces, precise spacing, light separators, and one controlled elevation around the selector. Route topology remains Via's own visual signature.
+Via is shown inside agent interfaces repeatedly. Its shell should therefore feel native to Codex and ChatGPT: quiet neutral surfaces, precise spacing, light separators, system typography, and one controlled elevation around the selector. Route topology remains Via's own visual signature.
 
-These tokens are inferred from the current Codex desktop interface and normalized for a portable 1080 × 660 SVG. They are not an official OpenAI design-system export.
+These tokens are inferred from the current Codex desktop interface, ChatGPT's restrained product surfaces, and Codex's public visualization color family, then normalized for a portable 1080 × 660 SVG. They are not an official OpenAI design-system export.
+
+## Visual identity
+
+Via's visual identity should feel close to ChatGPT and Codex because the artifact appears inside coding agents, not beside them. The interface is plain, generalized, and easy to read: neutral shells, compact spacing, restrained radius, quiet borders, and selective color. That makes it natural in other agent products too; it should read as a useful native surface rather than a branded poster.
+
+Two outside ideas define the part that is not generic:
+
+- Google Maps gives the route-choice intuition: a user should understand that several paths lead from a current point to an outcome, with cost and time summarized in cards.
+- Git Tree gives the engineering topology: shared work, forks, local detours, merges, proofs, and releases are visible as one graph instead of three separate plans.
+
+This interface serves both sides of the human-agent loop. For humans, it turns a planning answer into a scannable decision surface. For the model, RouteSpec creates structured context and sharper control over what gets displayed. The map should therefore improve decision-making without becoming a heavy planning ritual.
 
 ## Type
 
@@ -58,6 +69,8 @@ Do not add blank text lines to create space. Use fixed line height and geometric
 | hairline | `#E5E5E5` |
 | grid | `#E8E8E8` |
 
+The base UI philosophy is ChatGPT-like restraint: white paper, soft gray surround, black text, muted secondary copy, compact information groups, and restrained radius. Color is reserved for route identity and should not spread into every shell. The result should feel like a native agent artifact, not a decorative dashboard.
+
 Route identity draws any three distinct colors from the [public Codex visualization family](https://github.com/openai/codex/blob/0fb559f0f6e231a88ac02ea002d3ecd248e2b515/codex-rs/tui/src/inline_visualization/assets/visualize.css): Blue `#339CFF`, Orange `#F3883B`, Green `#5DC977`, Pink `#EB77B1`, Purple `#9B79EC`, and Cyan `#3AB9B1`. Bright values form the graph stroke. Darker Via companions (`#246FA6`, `#A95227`, `#267A43`, `#A84177`, `#674BA8`, `#247C78`) provide time-label contrast. A newly generated map may choose a different trio, but RouteSpec stores the result; re-rendering never randomizes it.
 
 The outer surface uses an 18 px radius, the paper frame 16 px, the route dock 22 px, and cards 12 px. The dock is `1016 × 164` at `(32, 468)`; three `320 × 132` cards sit at x=`48, 380, 712`, y=`484`. This produces a 16 px enclosure on every dock edge and 16 px between the dock and the inner frame bottom. Use 1 px separators. Individual cards never cast shadows; the route dock is the single elevation exception, echoing the Codex composer with a deliberately visible but fully contained three-layer neutral shadow (`0 6 14 / 16%`, `0 2 7 / 9%`, `0 1 2 / 6%`). Selection is expressed through a subtle surface shift and border contrast, never elevation or glow.
@@ -69,7 +82,7 @@ The outer surface uses an 18 px radius, the paper frame 16 px, the route dock 22
 - All three card labels, metrics, metadata, and sub lines align on common baselines. Use y=`33`, `67`, `87`, and `117` inside the card so the token and time read as one compact metric block with balanced space above and below.
 - Gate count and traffic-light pictogram form one right-aligned inline group on the metadata baseline.
 - Route cards are ordered exactly as their routes are presented. Route names and shells remain neutral; time labels carry the graph's route color. The selected outline is 1 px `#AEBFC0`; alternatives use 1 px `#E5E5E5`.
-- START and DONE align to graph endpoints, not card edges. They use heavier utility type and a one-line caption from the actual origin/destination node labels so the user can tell where this run begins and what it produces.
+- START and DONE align to graph endpoints, not card edges. These role labels are fixed and use heavier utility type. The one-line captions under them come from the model-generated origin and destination node labels, so the user can tell where this run begins and what it produces.
 
 ## Guides
 

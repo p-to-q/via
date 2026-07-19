@@ -77,7 +77,8 @@ The source is one directed graph:
 - edges carry one or more route IDs;
 - shared edges create overlap;
 - branch edges create local detours;
-- every route reaches the same destination.
+- every route reaches the same destination;
+- `START` and `DONE` are fixed endpoint roles, while the captions below them are generated from the actual origin and achieved state.
 
 The Skill creates the RouteSpec, validates it, renders it, and shows the SVG first. It skips tiny work and tasks without three credible paths.
 
@@ -101,6 +102,6 @@ npm install
 npm run check
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.1 release notes](docs/releases/v0.3.1.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.2 release notes](docs/releases/v0.3.2.md).
 
 Apache-2.0 © P-to-Q contributors.
