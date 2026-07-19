@@ -13,6 +13,7 @@ via is a decision interface for both the developer and the model. Its ChatGPT-li
 - point: an action
 - link: a dependency
 - route: links forming a viable path
+- terminal: a route's origin or destination; shared by default, explicit when routes have different p or q
 - gate: a local red/yellow/green condition attached to a point
 - check: a decision, proof, boundary, or release control derived from route nodes
 - cost: token and time ranges along a route
@@ -34,6 +35,8 @@ Everything visible must represent one of these atoms.
 ```
 
 The window lights are chrome, not data. Three distinct colors drawn from the six-color route pool identify routes in the tree. Gate dots are local conditions. Copy stays inside node labels and three cards.
+
+The screen above is illustrative, not a prescribed topology. A valid map may share its p and q, share only one of them, or use different origin and destination nodes for each route. The renderer attaches endpoint roles to the actual nodes so the visual surface does not imply overlap that the graph does not contain.
 
 The option tray borrows the calm hierarchy of a maps product without copying its structure. Three plaques sit on a shared route dock. Route names and card shells stay neutral while time labels carry the same brand color as the Git tree. The selected route adds only a quiet tint and a neutral outline. Each plaque has one dominant number, one compact time-and-check row, and one short status line. The renderer derives checks from route nodes marked as decisions, proofs, boundaries, or releases, then places a monochrome two-lamp traffic-light pictogram before the count and label.
 

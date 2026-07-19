@@ -69,10 +69,120 @@ test("edges must reference real nodes", () => {
   assert.match(validateRouteSpec(invalid).join("\n"), /missing node/);
 });
 
+test("every node must participate and duplicate edge pairs must be combined", () => {
+  const isolated = structuredClone(fixture);
+  isolated.graph.nodes.push({ id: "decorative", label: "decorative point", column: 9, lane: 0 });
+  assert.match(validateRouteSpec(isolated).join("\n"), /decorative must participate/);
+
+  const duplicate = structuredClone(fixture);
+  duplicate.graph.edges.push({ from: "current-draft", to: "inspect", routes: ["skill-first"] });
+  assert.match(validateRouteSpec(duplicate).join("\n"), /duplicate edge current-draft->inspect/);
+});
+
 test("every route must reach the shared destination", () => {
   const invalid = structuredClone(fixture);
   invalid.graph.edges.find((edge) => edge.from === "measure").routes = ["skill-first"];
   assert.match(validateRouteSpec(invalid).join("\n"), /telemetry-first must connect/);
+});
+
+test("graph.terminals permits distinct route origins and destinations", () => {
+  const candidate = {
+    ...structuredClone(fixture),
+    destination: "Choose the right next engineering move",
+    graph: {
+      terminals: {
+        origins: {
+          "skill-first": "scratch",
+          "ui-first": "prototype",
+          "telemetry-first": "incident"
+        },
+        destinations: {
+          "skill-first": "mvp-ready",
+          "ui-first": "design-ready",
+          "telemetry-first": "cause-known"
+        }
+      },
+      nodes: [
+        { "id": "scratch", "label": "from scratch", "column": 0, "lane": 0 },
+        { "id": "scope", "label": "scope kernel", "column": 1, "lane": 0, "control": "decision" },
+        { "id": "mvp-ready", "label": "mvp ready", "column": 3, "lane": 0, "control": "release" },
+        { "id": "prototype", "label": "prototype", "column": 0, "lane": 2 },
+        { "id": "interaction", "label": "test feel", "column": 1, "lane": 2, "control": "proof" },
+        { "id": "design-ready", "label": "design ready", "column": 3, "lane": 2, "control": "release" },
+        { "id": "incident", "label": "failing build", "column": 0, "lane": 4 },
+        { "id": "trace", "label": "trace cost", "column": 1, "lane": 4, "control": "proof" },
+        { "id": "cause-known", "label": "cause known", "column": 3, "lane": 4, "control": "release" }
+      ],
+      edges: [
+        { "from": "scratch", "to": "scope", "routes": ["skill-first"] },
+        { "from": "scope", "to": "mvp-ready", "routes": ["skill-first"] },
+        { "from": "prototype", "to": "interaction", "routes": ["ui-first"] },
+        { "from": "interaction", "to": "design-ready", "routes": ["ui-first"] },
+        { "from": "incident", "to": "trace", "routes": ["telemetry-first"] },
+        { "from": "trace", "to": "cause-known", "routes": ["telemetry-first"] }
+      ]
+    }
+  };
+  assert.deepEqual(validateRouteSpec(candidate), []);
+  const svg = renderRouteMap(candidate);
+  assert.equal((svg.match(/class="endpoint"/g) || []).length, 6);
+  assert.match(svg, />START</);
+  assert.match(svg, />DONE</);
+  assert.match(svg, /transform="translate\(72 142\)">\s*<text y="-24"/);
+  assert.match(svg, /transform="translate\(996 142\)">\s*<text y="-24"/);
+});
+
+test("graph.terminals permits a mix of shared and distinct endpoints", () => {
+  const candidate = structuredClone(fixture);
+  candidate.graph.terminals = {
+    origins: {
+      "skill-first": "current-draft",
+      "ui-first": "current-draft",
+      "telemetry-first": "current-draft"
+    },
+    destinations: {
+      "skill-first": "release-ready",
+      "ui-first": "release-ready",
+      "telemetry-first": "release-ready"
+    }
+  };
+  assert.deepEqual(validateRouteSpec(candidate), []);
+});
+
+test("graph.terminals must name reachable route-specific endpoints", () => {
+  const invalid = structuredClone(fixture);
+  invalid.graph.terminals = {
+    origins: {
+      "skill-first": "inspect",
+      "ui-first": "wire",
+      "telemetry-first": "runtime"
+    },
+    destinations: {
+      "skill-first": "measure",
+      "ui-first": "user-check",
+      "telemetry-first": "measure"
+    }
+  };
+  const errors = validateRouteSpec(invalid).join("\n");
+  assert.match(errors, /skill-first origin must not have an incoming edge/);
+  assert.match(errors, /skill-first must connect its origin to destination/);
+});
+
+test("graph.terminals rejects a zero-length route", () => {
+  const invalid = structuredClone(fixture);
+  invalid.graph.terminals = {
+    origins: {
+      "skill-first": "current-draft",
+      "ui-first": "current-draft",
+      "telemetry-first": "current-draft"
+    },
+    destinations: {
+      "skill-first": "current-draft",
+      "ui-first": "release-ready",
+      "telemetry-first": "release-ready"
+    }
+  };
+  assert.match(validateRouteSpec(invalid).join("\n"), /skill-first origin and destination must be different/);
 });
 
 test("renderer contract permits routes without shared overlap", () => {
@@ -139,7 +249,7 @@ test("renderer emits Git-tree topology, signal window, and terse cards", () => {
   assert.match(svg, /class="endpoint-sub"/);
   assert.match(svg, /<rect x="5" y="1.5" width="8" height="15" rx="2.4"/);
   assert.equal((svg.match(/<circle cx="9" cy="(?:6|12)" r="1.45"/g) || []).length, 6);
-  assert.match(svg, /<text x="22" y="4" class="check-count">4 checks<\/text>/);
+  assert.match(svg, /<text x="22" y="4" class="check-count">5 checks<\/text>/);
   assert.doesNotMatch(svg, /text x="-8" y="4" text-anchor="end" class="check-count"/);
   assert.doesNotMatch(svg, /fill="#F1F3F4" stroke="#DADCE0"/);
   assert.doesNotMatch(svg, /Recommended ·/);
@@ -190,7 +300,7 @@ test("CLI supports help, version, and validate", () => {
   assert.match(help.stdout, /via validate/);
   const version = spawnSync(process.execPath, [cli, "--version"], { encoding: "utf8" });
   assert.equal(version.status, 0);
-  assert.match(version.stdout, /^0\.3\.5/);
+  assert.match(version.stdout, /^0\.3\.6/);
   const validate = spawnSync(process.execPath, [cli, "validate", fixturePath], { encoding: "utf8" });
   assert.equal(validate.status, 0, validate.stderr);
   assert.match(validate.stdout, /valid RouteSpec/);

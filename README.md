@@ -11,7 +11,7 @@ Read https://github.com/p-to-q/via/blob/main/skills/via-route/SKILL.md and follo
 
 ![via route map](assets/web-coder-route.svg)
 
-Three routes. Shared checkpoints. Local branches. Merge points. Token and time ranges.
+Three routes. Real overlap. Local branches. Distinct starts or outcomes when the task calls for them. Token and time ranges.
 
 via is for the moment before you build, when a model would usually answer with a wall of planning text. It asks the agent to understand the user's intent, form three useful ways forward when real choices exist, and render those choices as one compact route map.
 
@@ -135,8 +135,9 @@ The source is one directed graph:
 - edges carry one or more route IDs;
 - shared edges create overlap;
 - branch edges create local detours;
-- every route reaches the same destination;
-- `START` and `DONE` are fixed endpoint roles, while the captions below them are generated from the actual origin and achieved state.
+- routes may share all, some, or none of their path;
+- routes normally share a start and finish, but may declare different origins or outcomes when that is true of the task;
+- `START` and `DONE` are fixed endpoint roles attached to their graph nodes, while their captions are generated from the actual origin and achieved state.
 
 The Skill creates the RouteSpec, validates it, renders it, and shows the SVG first. It skips tiny work and tasks without three credible paths.
 
@@ -160,6 +161,6 @@ npm install
 npm run check
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.5 release notes](docs/releases/v0.3.5.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.6 release notes](docs/releases/v0.3.6.md).
 
 Apache-2.0 © P-to-Q contributors.

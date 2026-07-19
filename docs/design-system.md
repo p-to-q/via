@@ -84,7 +84,7 @@ The outer surface uses an 18 px radius, the paper frame 16 px, the route dock 22
 - All three card labels, metrics, metadata, and sub lines align on common baselines. Use y=`33`, `67`, `87`, and `117` inside the card so the token and time read as one compact metric block with balanced space above and below.
 - Gate count and traffic-light pictogram form one right-aligned inline group on the metadata baseline.
 - Route cards are ordered exactly as their routes are presented. Route names and shells remain neutral; time labels carry the graph's route color. The selected outline is 1 px `#AEBFC0`; alternatives use 1 px `#E5E5E5`.
-- START and DONE align to graph endpoints, not card edges. These role labels are fixed and use heavier utility type. The one-line captions under them come from the model-generated origin and destination node labels, so the user can tell where this run begins and what it produces.
+- START and DONE attach directly to their graph endpoint nodes, not to the cards or a shared baseline. These role labels are fixed and use heavier utility type. The one-line captions under the nodes come from the model-generated origin and destination labels. If routes have different endpoints, each endpoint is labeled in place so the topology remains legible without an implied common p or q.
 
 ## Guides
 

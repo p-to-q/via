@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+## 0.3.6 — 2026-07-19
+
+- Teach the Skill to choose a task-shaped graph topology instead of defaulting to a symmetrical three-way fork.
+- Update the example RouteSpec/SVG to show shared trunks, two-route overlap, route offsets, and dashed probe branches.
+- Add optional `graph.terminals` so routes can have distinct origin and destination nodes when the task calls for it.
+- Attach START and DONE labels directly to their endpoint nodes so multiple p and q states remain legible.
+- Reject isolated nodes, zero-length routes, and duplicate connections that would add visual structure without graph meaning.
+- Synchronize README, RouteSpec, product architecture, and interface guidance with the more expressive graph contract.
+
 ## 0.3.5 — 2026-07-19
 
 - Make the generated SVG identity quieter: lowercase `via`, `a [p → q] project`, and right-aligned `ptoq.io`.

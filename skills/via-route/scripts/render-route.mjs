@@ -46,8 +46,7 @@ export function renderRouteMap(spec) {
   const maxColumn = Math.max(...spec.graph.nodes.map((node) => node.column), 1);
   const point = (node) => ({ x: 72 + node.column * (924 / maxColumn), y: 142 + node.lane * 68 });
   const routeColor = (id) => routePalette[routes.get(id).color].line;
-  const originNode = spec.graph.nodes.find((node) => !spec.graph.edges.some((edge) => edge.to === node.id));
-  const destinationNode = spec.graph.nodes.find((node) => !spec.graph.edges.some((edge) => edge.from === node.id));
+  const terminals = terminalNodes(spec);
 
   const grid = [0, 1, 2, 3, 4].map((lane) => {
     const y = point({ column: 0, lane }).y;
@@ -76,9 +75,8 @@ export function renderRouteMap(spec) {
     const shared = membership.size > 1;
     const color = shared ? palette.ink : routeColor([...membership][0]);
     const gate = node.gate ? `<g transform="translate(${x + 13} ${y - 17})"><circle r="6" fill="${palette[node.gate]}" stroke="${palette.paper}" stroke-width="3"/></g>` : "";
-    const indegree = spec.graph.edges.filter((edge) => edge.to === node.id).length;
-    const outdegree = spec.graph.edges.filter((edge) => edge.from === node.id).length;
-    const label = indegree === 0 || outdegree === 0 ? "" : `<text x="${x}" y="${y + 29}" text-anchor="middle" class="node-label">${xml(short(node.label, 18))}</text>`;
+    const isTerminal = terminals.origins.some((terminal) => terminal.id === node.id) || terminals.destinations.some((terminal) => terminal.id === node.id);
+    const label = isTerminal ? "" : `<text x="${x}" y="${y + 29}" text-anchor="middle" class="node-label">${xml(short(node.label, 18))}</text>`;
     return `<g class="node"><circle cx="${x}" cy="${y}" r="11" fill="${palette.paper}" stroke="${color}" stroke-width="3.5"/>${gate}${label}</g>`;
   }).join("");
 
@@ -127,8 +125,7 @@ export function renderRouteMap(spec) {
   <text x="48" y="80" class="title">${xml(spec.destination)}</text>
   <text x="48" y="104" class="subtitle">Choose how this gets built</text>
   <g class="map">${grid}${edges}${nodeSvg}</g>
-  ${endpointLabel(point(originNode).x, 439, "START", originNode.label)}
-  ${endpointLabel(point(destinationNode).x, 439, "DONE", destinationNode.label)}
+  ${endpointLabels(terminals, point)}
   <rect class="route-dock" x="32" y="468" width="1016" height="164" rx="22" fill="${palette.paper}" stroke="#DEDEDE" filter="url(#dock-shadow)"/>
   ${cards}
   </svg>\n`;
@@ -151,11 +148,40 @@ function trafficLight(x, y, count, palette) {
   </g>`;
 }
 
-function endpointLabel(x, y, role, label) {
+function endpointLabel(node, point, role) {
+  const { x, y } = point(node);
   return `<g class="endpoint" transform="translate(${x} ${y})">
-    <text y="0" text-anchor="middle" class="eyebrow">${role}</text>
-    <text y="18" text-anchor="middle" class="endpoint-sub">${xml(short(label, 18))}</text>
+    <text y="-24" text-anchor="middle" class="eyebrow">${role}</text>
+    <text y="29" text-anchor="middle" class="endpoint-sub">${xml(short(node.label, 18))}</text>
   </g>`;
+}
+
+function endpointLabels(terminals, point) {
+  const roles = new Map();
+  for (const node of terminals.origins) roles.set(node.id, "START");
+  for (const node of terminals.destinations) {
+    roles.set(node.id, roles.has(node.id) ? "START · DONE" : "DONE");
+  }
+  const nodes = new Map([...terminals.origins, ...terminals.destinations].map((node) => [node.id, node]));
+  return [...nodes.values()]
+    .sort((a, b) => point(a).x - point(b).x || point(a).y - point(b).y)
+    .map((node) => endpointLabel(node, point, roles.get(node.id)))
+    .join("");
+}
+
+function terminalNodes(spec) {
+  const nodes = new Map(spec.graph.nodes.map((node) => [node.id, node]));
+  const unique = (ids) => [...new Set(ids)].map((id) => nodes.get(id)).filter(Boolean);
+  if (spec.graph.terminals) {
+    return {
+      origins: unique(Object.values(spec.graph.terminals.origins || {})),
+      destinations: unique(Object.values(spec.graph.terminals.destinations || {}))
+    };
+  }
+  return {
+    origins: spec.graph.nodes.filter((node) => !spec.graph.edges.some((edge) => edge.to === node.id)),
+    destinations: spec.graph.nodes.filter((node) => !spec.graph.edges.some((edge) => edge.from === node.id))
+  };
 }
 
 function controlStops(spec, routeId) {

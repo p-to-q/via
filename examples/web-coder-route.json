@@ -36,34 +36,39 @@
       { "id": "inspect", "label": "inspect task", "column": 1, "lane": 2 },
       { "id": "frame", "label": "frame routes", "column": 2, "lane": 2, "gate": "green", "control": "decision" },
 
-      { "id": "contract", "label": "lock contract", "column": 3, "lane": 0, "control": "boundary" },
-      { "id": "renderer", "label": "render map", "column": 5, "lane": 0 },
+      { "id": "contract", "label": "lock contract", "column": 3, "lane": 1, "control": "boundary" },
+      { "id": "schema-probe", "label": "schema probe", "column": 4, "lane": 0, "gate": "yellow", "control": "proof" },
+      { "id": "renderer", "label": "render map", "column": 5, "lane": 1 },
 
       { "id": "wire", "label": "wire graph", "column": 3, "lane": 2 },
-      { "id": "motion", "label": "motion pass", "column": 4, "lane": 3, "control": "proof" },
-      { "id": "user-check", "label": "5 user check", "column": 5, "lane": 2, "gate": "yellow", "control": "proof" },
+      { "id": "shared-ui", "label": "shared ui", "column": 4, "lane": 2 },
+      { "id": "motion", "label": "motion pass", "column": 5, "lane": 3, "control": "proof" },
+      { "id": "user-check", "label": "5 user check", "column": 6, "lane": 2, "gate": "yellow", "control": "proof" },
 
-      { "id": "runtime", "label": "runtime hooks", "column": 3, "lane": 4, "control": "boundary" },
-      { "id": "measure", "label": "measure run", "column": 5, "lane": 4, "gate": "red", "control": "proof" },
+      { "id": "runtime", "label": "runtime hooks", "column": 5, "lane": 4, "control": "boundary" },
+      { "id": "measure", "label": "measure run", "column": 6, "lane": 4, "gate": "red", "control": "proof" },
 
-      { "id": "validate", "label": "validate", "column": 6, "lane": 2, "control": "proof" },
-      { "id": "release-ready", "label": "release ready", "column": 7, "lane": 2, "control": "release" }
+      { "id": "validate", "label": "validate", "column": 7, "lane": 2, "control": "proof" },
+      { "id": "release-ready", "label": "release ready", "column": 8, "lane": 2, "control": "release" }
     ],
     "edges": [
       { "from": "current-draft", "to": "inspect", "routes": ["skill-first", "ui-first", "telemetry-first"] },
       { "from": "inspect", "to": "frame", "routes": ["skill-first", "ui-first", "telemetry-first"] },
 
       { "from": "frame", "to": "contract", "routes": ["skill-first"] },
+      { "from": "contract", "to": "schema-probe", "routes": ["skill-first"], "kind": "branch" },
+      { "from": "schema-probe", "to": "renderer", "routes": ["skill-first"], "kind": "branch" },
       { "from": "contract", "to": "renderer", "routes": ["skill-first"] },
       { "from": "renderer", "to": "validate", "routes": ["skill-first"] },
 
-      { "from": "frame", "to": "wire", "routes": ["ui-first"] },
-      { "from": "wire", "to": "user-check", "routes": ["ui-first"] },
-      { "from": "wire", "to": "motion", "routes": ["ui-first"], "kind": "branch" },
+      { "from": "frame", "to": "wire", "routes": ["ui-first", "telemetry-first"] },
+      { "from": "wire", "to": "shared-ui", "routes": ["ui-first", "telemetry-first"] },
+      { "from": "shared-ui", "to": "user-check", "routes": ["ui-first"] },
+      { "from": "shared-ui", "to": "motion", "routes": ["ui-first"], "kind": "branch" },
       { "from": "motion", "to": "user-check", "routes": ["ui-first"], "kind": "branch" },
       { "from": "user-check", "to": "validate", "routes": ["ui-first"] },
 
-      { "from": "frame", "to": "runtime", "routes": ["telemetry-first"] },
+      { "from": "shared-ui", "to": "runtime", "routes": ["telemetry-first"] },
       { "from": "runtime", "to": "measure", "routes": ["telemetry-first"] },
       { "from": "measure", "to": "validate", "routes": ["telemetry-first"] },
 

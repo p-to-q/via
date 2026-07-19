@@ -17,6 +17,21 @@
       "type": "object",
       "required": ["nodes", "edges"],
       "properties": {
+        "terminals": {
+          "type": "object",
+          "required": ["origins", "destinations"],
+          "properties": {
+            "origins": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "destinations": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          },
+          "additionalProperties": false
+        },
         "nodes": {
           "type": "array",
           "minItems": 5,
