@@ -15,7 +15,15 @@ via requires Node.js 20 or newer and has no runtime dependencies.
 
 ### Codex Skill
 
-Clone the repository, then symlink the Skill into Codex's user Skill directory:
+Install from this GitHub repository with Codex's Skill installer:
+
+```text
+$skill-installer install p-to-q/via skills/via-route
+```
+
+The installer places the Skill under `$CODEX_HOME/skills` and makes it available on the next turn.
+
+You can also clone the repository and symlink the Skill manually:
 
 ```bash
 git clone https://github.com/p-to-q/via.git
@@ -23,7 +31,21 @@ mkdir -p ~/.agents/skills
 ln -s "$(cd via && pwd)/skills/via-route" ~/.agents/skills/via-route
 ```
 
-Invoke it with `$via-route`, or ask Codex to show the routes, architecture options, or token map for a meaningful engineering task. Codex also supports installing a Skill directly from a GitHub repository through `$skill-installer`.
+### Wake it up
+
+Invoke the Skill directly:
+
+```text
+$via-route plan three ways to migrate this auth flow
+```
+
+It also triggers naturally when you ask Codex for route-style planning:
+
+- "show me three routes for this implementation"
+- "make a token map for this task"
+- "compare architecture options before we build"
+- "plan the migration paths and show the tradeoffs"
+- "use /via for this decision"
 
 ### Codex Plugin bundle
 
@@ -31,10 +53,22 @@ The repository contains a validated `.codex-plugin/plugin.json` for plugin packa
 
 ### CLI
 
-Until the npm package is published, install the CLI from GitHub:
+Install the CLI from GitHub:
 
 ```bash
 npm install --global github:p-to-q/via
+```
+
+After the package is published to npm, the equivalent registry install will be:
+
+```bash
+npm install --global @p-to-q/via
+```
+
+Check the installed version:
+
+```bash
+via -v
 ```
 
 Build any RouteSpec:
