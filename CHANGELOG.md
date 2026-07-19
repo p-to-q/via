@@ -2,8 +2,15 @@
 
 ## Unreleased
 
-- Clarify via's design philosophy: avoid unnecessary planning prose, preserve model autonomy, and use RouteSpec as a lightweight display scaffold rather than a reasoning framework.
+## 0.3.7 — 2026-07-19
+
+- Clarify via's design philosophy: preserve model autonomy and its useful written analysis while using RouteSpec as a lightweight scaffold for an additional visual, not a replacement response.
 - Record Google Earth spatial overview alongside Google Maps route choice and Git Tree topology as an interface influence.
+- Remove the two-sentence response ceiling and require the SVG to accompany—not compress—the model's route explanations, recommendation, tradeoffs, and implementation feedback.
+- Update the Skill, RouteSpec guidance, evaluation criteria, product architecture, interface system, and agent-surface notes around the corrected output contract.
+- Explain the three-route default as a familiar model communication pattern, and distinguish ChatGPT/Codex UI context, Claude's on-demand artifacts, and via's RouteSpec fixture.
+- Keep host-native thinking and reasoning-summary surfaces untouched; via governs the additional visual rather than the model's internal reasoning display.
+- Align via with the scale of Plan mode—context, consequential clarification, task-appropriate reasoning, then planning before implementation—while replacing only the text-only interface limitation.
 
 ## 0.3.6 — 2026-07-19
 

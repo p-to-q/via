@@ -1,22 +1,24 @@
 # via interface system
 
-via is shown inside agent interfaces repeatedly. Its shell should therefore feel native to Codex and ChatGPT: quiet neutral surfaces, precise spacing, light separators, system typography, and one controlled elevation around the selector. Route topology remains via's own visual signature.
+via is shown inside AI-native coding interfaces repeatedly. Its shell borrows the quiet UI grammar and conversational setting of ChatGPT and Codex: neutral surfaces, precise spacing, light separators, system typography, and one controlled elevation around the selector. Route topology remains via's own visual signature.
 
 These tokens are inferred from the current Codex desktop interface, ChatGPT's restrained product surfaces, and Codex's public visualization color family, then normalized for a portable 1080 × 660 SVG. They are not an official OpenAI design-system export.
 
 ## Visual identity
 
-via's visual identity should feel close to ChatGPT and Codex because the artifact appears inside coding agents, not beside them. The interface is plain, generalized, and easy to read: neutral shells, compact spacing, restrained radius, quiet borders, and selective color. That makes it natural in other agent products too; it should read as a useful native surface rather than a branded poster.
+via's visual identity should feel natural in the same AI-native coding scenarios as ChatGPT and Codex, without presenting itself as an OpenAI surface. The interface is plain, generalized, and easy to read: neutral shells, compact spacing, restrained radius, quiet borders, and selective color. That makes it natural in other agent products too; it should read as a useful native surface rather than a branded poster.
 
 The wordmark is always lowercase: `via`. In generated SVGs, identity should stay quiet: `via · a [p → q] project` on the left and `ptoq.io` on the right. Do not use all-caps spelling, and do not label the surface with generic route-count marketing copy.
 
-Two outside ideas define the part that is not generic:
+Four outside ideas define the interface:
 
+- ChatGPT and Codex contribute quiet UI grammar and the conversational coding context, not the route-map concept itself.
+- Claude Artifacts contributes the interaction principle of generating an on-demand visual artifact alongside the model's answer. via gives that specific route graphic a RouteSpec fixture so the model knows how to structure it.
 - Google Maps gives the route-choice intuition: a user should understand that several paths lead from a current point to an outcome, with cost and time summarized in cards.
 - Google Earth contributes spatial overview: the whole decision landscape should be graspable before the user inspects an individual node. This is an information principle, not a cue to imitate map textures or geographic chrome.
 - Git Tree gives the engineering topology: shared work, forks, local detours, merges, proofs, and releases are visible as one graph instead of three separate plans.
 
-This interface serves both sides of the human-agent loop. For humans, it turns a planning answer into a scannable decision surface and removes the need to read repeated route prose. For the model, RouteSpec is a programming-native scaffold that structures only the visible answer. The map should improve decision-making and avoid unnecessary output without becoming a heavy planning ritual.
+This interface serves both sides of the human-agent loop. For humans, it adds a scannable decision surface to the model's route explanations and feedback. For the model, RouteSpec is a programming-native scaffold that structures the additional visual. The map should improve decision-making without displacing useful written analysis or becoming a heavy planning ritual.
 
 ## Type
 

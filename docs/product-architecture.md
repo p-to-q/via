@@ -6,11 +6,32 @@ Input: one engineering task.
 
 Output: one Git-tree map showing three paths through that task.
 
-The smallest useful version of via is simple: the model offers useful paths and the user gets a picture instead of a long planning answer. Compact representation can avoid token expenditure on repeated explanation while making the decision easier to scan.
+The smallest useful version of via is simple: the model reasons about useful paths, gives its normal planning answer, and adds a picture. The visual is a second representation of the decision, not a compressed substitute for the model's route explanations, recommendation, or feedback.
 
-Underneath that interface, via is a lightweight scaffold for both the developer and the model. Its ChatGPT-like surface keeps the artifact natural inside coding agents, while the spatial navigation language of Google Maps and Google Earth and the topology of a Git Tree turn the model's existing judgment into structured context that is easier to compare and use in programming work.
+Three paths build on a familiar model interaction pattern: after reasoning about an open question, models often communicate the result as three comparable options, and users already understand how to read that shape. via makes it a default interface contract when three real choices exist. It does not claim every task has three answers or require the model to manufacture one.
 
-The scaffold has a strict boundary. The prompt encourages careful intent reading, first-principles understanding, and model intuition, but does not prescribe a reasoning procedure. RouteSpec organizes the visible answer. Deterministic scripts validate and render it. Stronger models retain room to do what they already do well; less capable models receive a few useful directional cues without a heavy rubric.
+Underneath that interface, via is a lightweight scaffold for both the developer and the model. ChatGPT and Codex inform the quiet UI grammar and the AI-native coding context in which the artifact appears. Claude Artifacts informs the interaction idea: a model can generate a visual artifact on demand alongside its answer to aid understanding. The spatial navigation language of Google Maps and Google Earth and the topology of a Git Tree turn the model's existing judgment into structured context that is easier to compare and use in programming work.
+
+via adds one simple mechanism: each run puts the visible routes into a RouteSpec fixture, then the renderer creates the SVG. The schema reduces uncertainty about how the model should organize and express the engineering structure. The content and topology remain open to the model.
+
+The scaffold has a strict boundary. The prompt encourages careful intent reading, first-principles understanding, and model intuition, but does not prescribe a reasoning procedure. RouteSpec organizes the additional visual. Deterministic scripts validate and render it. Stronger models retain room to do what they already do well; less capable models receive a few useful directional cues without a heavy rubric. Neither is asked to trade away useful written analysis for visual brevity.
+
+Reasoning presentation belongs to the host. via does not suppress a ChatGPT/Codex-style processed panel, progress trace, or host-provided reasoning summary, and it does not demand a private raw chain-of-thought transcript. The model reasons according to its native capabilities and policy; via adds a fixture and visual to the normal result.
+
+## Plan-scale reference
+
+via targets the same product moment as Codex Plan mode: complex or ambiguous work before implementation. OpenAI's current guidance describes Plan mode as gathering context, asking clarifying questions, and building a stronger plan before coding. Codex also permits a separate `plan_mode_reasoning_effort`, while recommending that reasoning effort rise only when a task needs more planning, analysis, or checking.
+
+via adopts the useful scale, not the whole runtime:
+
+- understand relevant context before forming routes;
+- ask only questions whose answers would materially change the plan;
+- let the host and model choose suitable reasoning depth;
+- return the plan before implementation unless implementation was also requested;
+- keep the model's normal explanations and feedback;
+- add RouteSpec and the map as the planning interface.
+
+Permissions, read-only execution, reasoning controls, and thinking panels remain responsibilities of the host. Sources: [Codex best practices](https://learn.chatgpt.com/guides/best-practices), [Codex configuration sample](https://learn.chatgpt.com/docs/config-file/config-sample), and [Codex developer commands](https://learn.chatgpt.com/docs/developer-commands).
 
 ## Atoms
 
@@ -52,4 +73,4 @@ The static SVG is always complete. In compatible viewers, a subtle dotted curren
 
 ## Runtime
 
-The Skill inspects the task, writes only the visible decisions into RouteSpec, validates it, renders it, and presents the SVG. The CLI also writes `route.json` and `route.md`, so the graph documents itself without asking the user or model to repeatedly explain the format.
+The Skill inspects the task, forms and explains the routes, writes their visible engineering structure into RouteSpec, validates it, renders it, and presents the SVG alongside the written answer. The CLI also writes `route.json` and `route.md`, so the graph documents its structure without making the user or model repeatedly explain the rendering format.

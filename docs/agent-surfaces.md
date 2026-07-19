@@ -36,12 +36,22 @@ via is not trying to become a universal command framework. The durable thing is 
 - natural language for capable agents;
 - CLI rendering when the host cannot load Skills.
 
-The Skill body should stay light. The prompt should activate model judgment with a few high-leverage hints—think carefully, understand intent from first principles, use engineering intuition, form three meaningful options when real choices exist, encode the visible result—then rely on validation and rendering scripts for determinism. This avoids spending context on a second reasoning framework and lets the SVG replace repetitive explanatory output.
+The Skill body should stay light. The prompt should activate model judgment with a few high-leverage hints—think carefully, understand intent from first principles, follow model intuition, form three meaningful options when real choices exist, encode the visual—then rely on validation and rendering scripts for determinism. The agent still gives its normal user-facing analysis, route explanations, recommendation, and feedback. The SVG is an added interface, not a replacement response.
+
+Do not override host-native reasoning presentation. A host may show thinking progress, tool activity, a processed panel, or a reasoning summary while the model works. via leaves those surfaces intact and follows the host's policy on private internal reasoning; it neither requires nor disables a raw chain-of-thought transcript.
+
+The three-option default follows a familiar model communication pattern rather than forcing a new reasoning pattern. Claude Artifacts is a useful interaction precedent for generating a visual alongside an answer. via adds a RouteSpec fixture so the model has a clear shape for this particular engineering map.
+
+via is also an alternative interface for the Plan-mode moment. Match Plan mode's useful scale—context gathering, consequential clarification, task-appropriate reasoning, and planning before implementation—then add the route map. Do not claim that the Skill controls host permissions, a read-only runtime, reasoning effort, or thinking UI. When a host supports a planning-specific reasoning setting, leave that choice to the host or user rather than simulating it with a longer prompt.
 
 ## Sources checked
 
 - Codex manual fetched from OpenAI docs on 2026-07-19: `https://developers.openai.com/codex/codex-manual.md`
 - Claude Code Skills: `https://code.claude.com/docs/en/skills`
+- Claude Artifacts overview: `https://www.anthropic.com/news/artifacts`
+- Codex planning best practices: `https://learn.chatgpt.com/guides/best-practices`
+- Codex configuration sample (`plan_mode_reasoning_effort`): `https://learn.chatgpt.com/docs/config-file/config-sample`
+- Codex `/plan` command: `https://learn.chatgpt.com/docs/developer-commands`
 - OpenCode Skills: `https://opencode.ai/docs/skills/`
 - OpenCode Commands: `https://opencode.ai/docs/commands/`
 - Aider in-chat commands: `https://aider.chat/docs/usage/commands.html`

@@ -18,7 +18,9 @@ Passing score: at least 11/14, with no zero in trigger, separation, topology, or
 
 Evaluate the result, not whether the model followed a prescribed reasoning recipe. Strong models may discover useful route distinctions or topology that this guide does not anticipate. Penalize invented options and unusable choices; do not penalize a different but well-supported structure.
 
-For the default surface, fail scan speed if the SVG is followed by more than two sentences.
+Evaluate scan speed on the SVG itself. Do not penalize the accompanying answer for containing useful route explanations, evidence, recommendation, or feedback. Penalize only repetition that adds no decision value.
+
+Do not score host-native thinking panels, progress traces, or reasoning summaries as via output noise. Confirm only that the Skill does not suppress them or demand a private raw chain-of-thought transcript.
 
 ## Fake-route test
 

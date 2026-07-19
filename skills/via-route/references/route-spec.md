@@ -1,6 +1,6 @@
 # RouteSpec 0.3
 
-RouteSpec is the serialization contract for the renderer, not a planning method. Use model judgment to understand and compare the work first, choose a topology that matches the work, then encode the visible result as one graph rather than three prose plans. Validate against [route-spec.schema.json](route-spec.schema.json), then run the bundled structural validator.
+RouteSpec is the serialization contract for the renderer, not a planning method or a replacement for the written answer. Use model judgment to understand and compare the work first, choose a topology that matches the work, then encode the additional visual as one graph. Give the user the useful route explanations, recommendation, and feedback separately. Validate against [route-spec.schema.json](route-spec.schema.json), then run the bundled structural validator.
 
 ## Shape
 
@@ -118,4 +118,4 @@ Use judgment for semantic topology. Show shared nodes where work genuinely overl
 
 Do not force this variety. Use it only when it represents the task better than a simple fork. Mark meaningful proofs with `control: proof`; never change labels merely to satisfy a keyword.
 
-Keep deeper reasoning outside the graph. Visible text must remain short enough to scan.
+Keep detailed user-facing analysis outside the graph and include it in the written response. Visible graph text must remain short enough to scan.

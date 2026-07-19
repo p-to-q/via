@@ -13,11 +13,15 @@ Read https://github.com/p-to-q/via/blob/main/skills/via-route/SKILL.md and follo
 
 Three routes. Real overlap. Local branches. Distinct starts or outcomes when the task calls for them. Token and time ranges.
 
-At its simplest, via asks a model for the useful paths and gives you a picture instead of a wall of planning text. The compact map makes the alternatives easier to scan and can avoid spending tokens on repetitive prose that does not help the decision.
+At its simplest, via works with a familiar model behavior: after reasoning about an open planning question, models often present three comparable ways forward. That format is broadly legible to users. via keeps the explanations, recommendation, and useful feedback, then adds a picture as another way to understand the same decision. Three remains a natural interface default, never a reason to invent a weak option.
 
-via keeps the prompt light. It nudges the model to think carefully, understand the user's real intent, and work from the task itself, then leaves the model room to use its own judgment. RouteSpec constrains the visible result—not the model's reasoning—and the bundled scripts handle validation and SVG rendering.
+via keeps the prompt light. It nudges the model to think carefully, understand the user's real intent, and work from the task itself, then leaves the model room to follow its own intuition and native reasoning behavior. RouteSpec constrains the added visual—not the model's thinking interface or written answer—and the bundled scripts handle validation and SVG rendering.
 
-The interface borrows three ideas without copying any one product: the quiet, readable feel of ChatGPT/Codex; the spatial and route-choice intuition of Google Maps and Google Earth; and the branching/merging topology of a Git tree. The result is a user-friendly planning surface for humans and a small, programming-native scaffold for agents.
+The product combines four influences without copying any one of them. From ChatGPT and Codex, it borrows the quiet UI grammar and the context of an AI-native coding conversation. From Claude Artifacts, it borrows the idea that a model can generate a visual artifact on demand to help a user understand its answer. Google Maps and Google Earth contribute spatial route comparison; Git Tree contributes engineering topology.
+
+via gives this interaction a small engineering fixture: the model puts its routes into RouteSpec and the renderer turns them into the SVG. The schema reduces uncertainty about how to organize the technical structure while the routes, nodes, topology, and recommendation still come from the model's judgment.
+
+via is designed for the same moment as Plan mode. It gathers the context that matters, asks only consequential questions, and lets the model reason at the depth the task needs before implementation. The difference is the interface: the normal plan and feedback remain, with a route map added beside them. via is an alternative to a text-only planning surface, not a replacement for a host's permissions, reasoning controls, or thinking UI.
 
 ## Install
 
@@ -141,18 +145,20 @@ The source is one directed graph:
 - routes normally share a start and finish, but may declare different origins or outcomes when that is true of the task;
 - `START` and `DONE` are fixed endpoint roles attached to their graph nodes, while their captions are generated from the actual origin and achieved state.
 
-The Skill creates the RouteSpec, validates it, renders it, and shows the SVG first. It skips tiny work and tasks without three credible paths.
+The Skill creates the RouteSpec, validates it, renders it, and shows the SVG with the model's normal planning response. It skips tiny work and tasks without three credible paths.
 
-This separation is deliberate: the model decides what the task means and which paths are useful; the schema organizes only what needs to be shown; the renderer turns that compact representation into the interface. via does not ask the model to follow a second reasoning system.
+This separation is deliberate: the model decides what the task means, explains the useful paths, and gives its recommendation and feedback; the schema organizes what the additional visual should show; the renderer turns that representation into the interface. via does not ask the model to follow a second reasoning system or compress its useful analysis into the graph.
+
+via also stays out of the host's thinking UI. If ChatGPT, Codex, Claude, or another agent shows progress or a reasoning summary while it works, that remains available according to the host's own behavior and policy. via governs the added route map, not whether the host exposes a thinking panel or how it labels one.
 
 See the [RouteSpec contract](skills/via-route/references/route-spec.md), [example graph](examples/web-coder-route.json), [product architecture](docs/product-architecture.md), [interface system](docs/design-system.md), and [agent surface notes](docs/agent-surfaces.md).
 
 ## What via does not claim
 
 - Token and time values are estimates, not telemetry.
-- via can reduce unnecessary explanatory output, but it does not promise that every run uses fewer total tokens; difficult tasks may deserve deeper inspection.
+- via avoids unnecessary prompt and formatting overhead, but it does not shorten useful route explanations merely to save tokens.
 - Three routes are useful only when three materially different paths exist.
-- A passing validator proves graph structure, not that a recommendation is correct.
+- A structurally valid map does not make its recommendation automatically correct.
 - via is not a mandatory planning workflow. If the map does not save reading time, skip it.
 
 ## Research and evaluation
@@ -166,6 +172,6 @@ npm install
 npm run check
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.6 release notes](docs/releases/v0.3.6.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.7 release notes](docs/releases/v0.3.7.md).
 
 Apache-2.0 © P-to-Q contributors.
