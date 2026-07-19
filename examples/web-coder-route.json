@@ -32,7 +32,7 @@
   ],
   "graph": {
     "nodes": [
-      { "id": "current-draft", "label": "draft repo", "column": 0, "lane": 2 },
+      { "id": "current-draft", "label": "from scratch", "column": 0, "lane": 2 },
       { "id": "inspect", "label": "inspect task", "column": 1, "lane": 2 },
       { "id": "frame", "label": "frame routes", "column": 2, "lane": 2, "gate": "green", "control": "decision" },
 

@@ -4,7 +4,7 @@
 
 - Tag the post-0.3.1 visual rhythm pass: tighter token/time metric grouping and regenerated README SVG.
 - Keep `START` and `DONE` as fixed endpoint roles while making their captions model-generated origin and achieved-state labels.
-- Replace generic example endpoint labels with concrete `draft repo` and `release ready` captions.
+- Replace generic example endpoint labels with concrete `from scratch` and `release ready` captions.
 - Document the ChatGPT/Codex-inspired interface philosophy: neutral shells, compact spacing, restrained radius, controlled elevation, and selective color.
 - Update Skill and RouteSpec guidance so models choose meaningful origin/destination labels without adding a heavy framework.
 
