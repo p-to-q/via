@@ -4,7 +4,7 @@
 
 ## 0.3.9 — 2026-07-19
 
-- Replace the implementation-led tagline with `See the paths before you build.` and the direct supporting sentence `Explore vibe coding decisions through a Git-tree/Google Map interface.`
+- Replace the implementation-led tagline with `See the paths before you build.` and the supporting sentence `via helps your coding agent reason through the options, then maps 3 potential engineering paths.`
 - Use `A Git-tree/Google Map interface for vibe coding decisions.` for GitHub, npm, Plugin, and Skill product descriptions.
 - Standardize visible organization copy as `[p → q]` while preserving repository URLs, npm scopes, and machine identifiers that use `p-to-q` or `ptoq.io`.
 - Align Skill and Plugin UI metadata with the new product language.

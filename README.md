@@ -5,7 +5,7 @@
 
 See the paths before you build.
 
-Explore vibe coding decisions through a Git-tree/Google Map interface.
+via helps your coding agent reason through the options, then maps 3 potential engineering paths.
 
 ```text
 Read https://github.com/p-to-q/via/blob/main/skills/via-route/SKILL.md and follow the instructions to install and configure via.
@@ -19,7 +19,7 @@ At its simplest, via works with a familiar model behavior: after reasoning about
 
 via keeps the prompt light. It nudges the model to think carefully, understand the user's real intent, and work from the task itself, then leaves the model room to follow its own intuition and native reasoning behavior. RouteSpec constrains the added visual—not the model's thinking interface or written answer—and the bundled scripts handle validation and SVG rendering.
 
-The product has three reference families. AI-native interfaces from model companies—including ChatGPT, Codex, and Claude—show how reasoning, coding work, and on-demand visual artifacts can live naturally in one conversation. Google Maps and Google Earth contribute spatial route comparison. Git Tree contributes engineering topology.
+via studies modern AI-native coding interfaces as one product topic. Claude shows how an interface can render a visual artifact or SVG on demand to help a user understand technical work. ChatGPT and Codex inform the surrounding UI, coding context, and visual-identity details. Inside via's own interface, Google Maps and Google Earth contribute spatial route comparison, while Git Tree contributes engineering topology.
 
 via gives this interaction a small engineering fixture: the model puts its routes into RouteSpec and the renderer turns them into the SVG. The schema reduces uncertainty about how to organize the technical structure while the routes, nodes, topology, and recommendation still come from the model's judgment.
 
