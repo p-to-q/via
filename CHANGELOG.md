@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Align the portable surface, type scale, spacing, radii, and separators with the quiet neutral grammar of the Codex desktop interface.
+- Give the route selector one composer-like soft perimeter and a 20 px parent radius while keeping individual cards flat.
+- Document the static SVG and interactive HTML delivery boundary.
 - Rework the option tray around a calm maps-style information hierarchy without copying a familiar Material selection card.
 - Introduce the balanced Harbor palette and continue each Git-tree route as a short top rail on a neutral option plaque.
 - Replace the `gates` label and RGB capsule with a custom monochrome, two-lamp traffic-light pictogram based on common road-signal geometry.

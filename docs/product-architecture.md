@@ -34,6 +34,8 @@ The window lights are chrome, not data. Petrol, plum, and amber identify routes 
 
 The option tray borrows the calm hierarchy of a maps product without copying its structure. Three plaques sit on a shared route dock. Each uses a neutral 1 px frame and a short route-colored rail embedded in its top edge; the selected route adds a quiet tint and a slightly darker neutral frame. This seam is the visual continuation of the Git tree, not a standard Material selection card. Each plaque has one dominant number, one compact time-and-gate row, and one short status line. The gate count appears before a monochrome two-lamp traffic-light pictogram; the word `gates` is never shown.
 
+Typography, spacing, surfaces, alignment, and static-versus-interactive delivery are defined in [the interface system](design-system.md).
+
 ## Motion
 
 The static SVG is always complete. In compatible viewers, a subtle dotted current moves along links and the window controls respond on hover. Reduced-motion users receive the static state.

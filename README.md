@@ -81,7 +81,7 @@ The source is one directed graph:
 
 The Skill creates the RouteSpec, validates it, renders it, and shows the SVG first. It skips tiny work and tasks without three credible paths.
 
-See the [RouteSpec contract](skills/via-route/references/route-spec.md), [example graph](examples/web-coder-route.json), and [product architecture](docs/product-architecture.md).
+See the [RouteSpec contract](skills/via-route/references/route-spec.md), [example graph](examples/web-coder-route.json), [product architecture](docs/product-architecture.md), and [interface system](docs/design-system.md).
 
 ## What via does not claim
 
