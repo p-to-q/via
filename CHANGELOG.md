@@ -1,10 +1,21 @@
 # Changelog
 
+## 0.3.1 — 2026-07-19
+
+- Restore neutral route names and card shells, color only time labels, and strengthen the lane guides.
+- Remove the repeated choice hint from the SVG surface, swap the traffic-light/check-count order, and make START/DONE read as stronger semantic endpoints.
+- Move the selector up into symmetric 16 px nesting and contain its heavier shadow within the SVG canvas.
+- Treat RouteSpec as a display contract rather than a reasoning recipe; remove forced branches, overlap, checks, English proof keywords, and fixed time anchors from validation and generation guidance.
+- Make open-ended planning the natural trigger for three options while preserving the model's intuition about what genuinely differs.
+- Add a short intent-and-purpose reflection before route formation without introducing another checklist.
+- Synchronize Plugin and package versions for release validation.
+
 ## 0.3.0 — 2026-07-19
 
 - Upgrade RouteSpec to 0.3: replace hand-entered route gate totals with engineering checks derived from decision, proof, boundary, and release nodes.
 - Remove card-top color rails; carry route identity in accessible route-name colors derived from Codex's public visualization family.
 - Expand route identity to a six-color Codex-derived pool; each new map selects three distinct colors and persists them in RouteSpec.
+- Move route color from card names to time labels and route-colored outlines; lengthen and strengthen graph lane guides.
 - Recalculate the selector as a symmetric 16/15 px enclosure around three 320 × 132 cards and strengthen its composer-like shadow.
 - Use `Choose how this gets built` as the runtime prompt and show the user's task as its subtitle.
 - Align the portable surface, type scale, spacing, radii, and separators with the quiet neutral grammar of the Codex desktop interface.

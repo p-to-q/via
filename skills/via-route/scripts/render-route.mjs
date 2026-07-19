@@ -43,12 +43,15 @@ export function renderRouteMap(spec) {
   };
   const routes = new Map(spec.routes.map((route) => [route.id, route]));
   const nodes = new Map(spec.graph.nodes.map((node) => [node.id, node]));
-  const point = (node) => ({ x: 72 + node.column * 132, y: 142 + node.lane * 68 });
+  const maxColumn = Math.max(...spec.graph.nodes.map((node) => node.column), 1);
+  const point = (node) => ({ x: 72 + node.column * (924 / maxColumn), y: 142 + node.lane * 68 });
   const routeColor = (id) => routePalette[routes.get(id).color].line;
+  const originNode = spec.graph.nodes.find((node) => !spec.graph.edges.some((edge) => edge.to === node.id));
+  const destinationNode = spec.graph.nodes.find((node) => !spec.graph.edges.some((edge) => edge.from === node.id));
 
   const grid = [0, 1, 2, 3, 4].map((lane) => {
     const y = point({ column: 0, lane }).y;
-    return `<path d="M48 ${y}H1032" stroke="${palette.grid}" stroke-width="1" stroke-dasharray="2 10"/>`;
+    return `<path d="M36 ${y}H1044" stroke="${palette.grid}" stroke-width="1.35" stroke-dasharray="6 9"/>`;
   }).join("");
 
   const edges = spec.graph.edges.map((edge, index) => {
@@ -73,7 +76,9 @@ export function renderRouteMap(spec) {
     const shared = membership.size > 1;
     const color = shared ? palette.ink : routeColor([...membership][0]);
     const gate = node.gate ? `<g transform="translate(${x + 13} ${y - 17})"><circle r="6" fill="${palette[node.gate]}" stroke="${palette.paper}" stroke-width="3"/></g>` : "";
-    const label = node.id === "intent" || node.id === "ship" ? "" : `<text x="${x}" y="${y + 29}" text-anchor="middle" class="node-label">${xml(node.label)}</text>`;
+    const indegree = spec.graph.edges.filter((edge) => edge.to === node.id).length;
+    const outdegree = spec.graph.edges.filter((edge) => edge.from === node.id).length;
+    const label = indegree === 0 || outdegree === 0 ? "" : `<text x="${x}" y="${y + 29}" text-anchor="middle" class="node-label">${xml(short(node.label, 18))}</text>`;
     return `<g class="node"><circle cx="${x}" cy="${y}" r="11" fill="${palette.paper}" stroke="${color}" stroke-width="3.5"/>${gate}${label}</g>`;
   }).join("");
 
@@ -86,58 +91,69 @@ export function renderRouteMap(spec) {
   const cards = [...spec.routes].sort((a, b) => Number(b.recommended) - Number(a.recommended)).map((route, index) => {
     const x = 48 + index * 332;
     const token = `${num(route.tokens.min)}–${num(route.tokens.max)}`;
-    const routeText = routePalette[route.color].text;
+    const routeBrand = routePalette[route.color];
     const outline = route.recommended ? palette.selectedLine : palette.hairline;
     const fill = route.recommended ? palette.selectedTint : palette.paper;
     const checks = controlStops(spec, route.id);
-    return `<g class="card${route.recommended ? " selected" : ""}" data-route-id="${xml(route.id)}" transform="translate(${x} 491)" aria-label="${xml(route.label)}, ${token} tokens, ${route.minutes.min} to ${route.minutes.max} minutes, ${checks} engineering checks">
+    return `<g class="card${route.recommended ? " selected" : ""}" data-route-id="${xml(route.id)}" transform="translate(${x} 484)" aria-label="${xml(route.label)}, ${token} tokens, ${route.minutes.min} to ${route.minutes.max} minutes, ${checks} engineering checks">
       <rect width="320" height="132" rx="12" fill="${fill}" stroke="${outline}" stroke-width="1"/>
-      <text x="16" y="27" class="card-label" fill="${routeText}">${xml(route.label)}</text>
-      <text x="16" y="62" class="cost">${token}<tspan class="unit"> tok</tspan></text>
-      <text x="16" y="89" class="meta">${route.minutes.min}–${route.minutes.max} min</text>
-      ${trafficLight(297, 84, checks, palette)}
-      <text x="16" y="116" class="summary">${xml(route.summary)}</text>
+      <text x="16" y="32" class="card-label">${xml(route.label)}</text>
+      <text x="16" y="69" class="cost">${token}<tspan class="unit"> tok</tspan></text>
+      <text x="16" y="92" class="meta" fill="${routeBrand.text}">${route.minutes.min}–${route.minutes.max} min</text>
+      ${trafficLight(238, 88, checks, palette)}
+      <text x="16" y="118" class="summary">${xml(short(route.summary, 34))}</text>
     </g>`;
   }).join("");
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${xml(spec.destination)}">
+  const comparison = [...spec.routes].sort((a, b) => Number(b.recommended) - Number(a.recommended)).map((route) => `${route.label}: ${num(route.tokens.min)} to ${num(route.tokens.max)} tokens, ${route.minutes.min} to ${route.minutes.max} minutes, ${controlStops(spec, route.id)} checkpoints${route.recommended ? ", suggested" : ""}`).join(". ");
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="route-title route-desc">
+  <title id="route-title">Three routes for ${xml(spec.destination)}</title>
+  <desc id="route-desc">${xml(comparison)}</desc>
   <defs>
     <filter id="dock-shadow" x="-8%" y="-30%" width="116%" height="170%" color-interpolation-filters="sRGB">
-      <feDropShadow dx="0" dy="7" stdDeviation="12" flood-color="#000000" flood-opacity=".11"/>
-      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity=".08"/>
-      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#000000" flood-opacity=".05"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#000000" flood-opacity=".16"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="3.5" flood-color="#000000" flood-opacity=".09"/>
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#000000" flood-opacity=".06"/>
     </filter>
   </defs>
   <style>
-    text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",Arial,sans-serif;font-variant-numeric:tabular-nums}.title{font-size:22px;font-weight:600;fill:${palette.ink}}.subtitle{font-size:13px;font-weight:400;fill:${palette.muted}}.eyebrow{font-size:11px;font-weight:600;letter-spacing:1.1px;fill:${palette.muted}}.node-label{font-size:12px;font-weight:450;fill:${palette.ink}}.card-label{font-size:14px;font-weight:650}.cost{font-size:24px;font-weight:600;fill:${palette.ink}}.unit{font-size:12px;font-weight:500;fill:${palette.muted}}.meta{font-size:12px;font-weight:500;fill:${palette.muted}}.check-count{font-size:12px;font-weight:500;fill:${palette.muted}}.summary{font-size:12px;font-weight:400;fill:${palette.muted}}.card rect{transition:fill .18s ease,stroke .18s ease}.flow{opacity:.16;stroke-dasharray:2 15;animation:travel 1.25s linear infinite}.window-lights circle{transform-box:fill-box;transform-origin:center}.window-lights:hover circle{animation:light-pop .32s ease both}.window-lights circle:nth-child(2){animation-delay:.04s}.window-lights circle:nth-child(3){animation-delay:.08s}@keyframes travel{to{stroke-dashoffset:-34}}@keyframes light-pop{50%{transform:scale(1.2)}}@media(prefers-reduced-motion:reduce){.flow{animation:none}.window-lights circle{animation:none!important}.card rect{transition:none}}
+    text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",Arial,sans-serif;font-variant-numeric:tabular-nums}.title{font-size:22px;font-weight:600;fill:${palette.ink}}.subtitle{font-size:13px;font-weight:400;fill:${palette.muted}}.eyebrow{font-size:11px;font-weight:700;letter-spacing:1.1px;fill:${palette.ink}}.endpoint-sub{font-size:11px;font-weight:500;fill:${palette.muted}}.node-label{font-size:12px;font-weight:450;fill:${palette.ink}}.card-label{font-size:14px;font-weight:650;fill:${palette.ink}}.cost{font-size:24px;font-weight:600;fill:${palette.ink}}.unit{font-size:12px;font-weight:500;fill:${palette.muted}}.meta{font-size:12px;font-weight:600}.check-count{font-size:12px;font-weight:500;fill:${palette.muted}}.summary{font-size:12px;font-weight:400;fill:${palette.muted}}.card rect{transition:fill .18s ease,stroke .18s ease}.flow{opacity:.16;stroke-dasharray:2 15;animation:travel 1.25s linear infinite}.window-lights circle{transform-box:fill-box;transform-origin:center}.window-lights:hover circle{animation:light-pop .32s ease both}.window-lights circle:nth-child(2){animation-delay:.04s}.window-lights circle:nth-child(3){animation-delay:.08s}@keyframes travel{to{stroke-dashoffset:-34}}@keyframes light-pop{50%{transform:scale(1.2)}}@media(prefers-reduced-motion:reduce){.flow{animation:none}.window-lights circle{animation:none!important}.card rect{transition:none}}
   </style>
   <rect width="${W}" height="${H}" rx="18" fill="${palette.soft}"/>
   <rect x="16" y="12" width="1048" height="636" rx="16" fill="${palette.paper}" stroke="${palette.hairline}"/>
   ${windowLights}
   <text x="100" y="40" class="eyebrow">VIA · 3 ROUTES</text>
-  <text x="48" y="80" class="title">Choose how this gets built</text>
-  <text x="48" y="104" class="subtitle">${xml(spec.destination)}</text>
+  <text x="48" y="80" class="title">${xml(spec.destination)}</text>
+  <text x="48" y="104" class="subtitle">Choose how this gets built</text>
   <g class="map">${grid}${edges}${nodeSvg}</g>
-  <text x="72" y="447" text-anchor="middle" class="eyebrow">START</text>
-  <text x="996" y="447" text-anchor="middle" class="eyebrow">DONE</text>
-  <rect class="route-dock" x="32" y="476" width="1016" height="162" rx="22" fill="${palette.paper}" stroke="#DEDEDE" filter="url(#dock-shadow)"/>
+  ${endpointLabel(point(originNode).x, 439, "START", originNode.label)}
+  ${endpointLabel(point(destinationNode).x, 439, "DONE", destinationNode.label)}
+  <rect class="route-dock" x="32" y="468" width="1016" height="164" rx="22" fill="${palette.paper}" stroke="#DEDEDE" filter="url(#dock-shadow)"/>
   ${cards}
   </svg>\n`;
 }
 
 function num(value) { return value >= 1000 ? `${Math.round(value / 100) / 10}k` : String(value); }
 function xml(value) { return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;"); }
+function short(value, limit) { const chars = [...String(value)]; return chars.length <= limit ? chars.join("") : `${chars.slice(0, limit - 1).join("")}…`; }
 
 function trafficLight(x, y, count, palette) {
   return `<g class="gate-light" transform="translate(${x} ${y})" aria-label="${count} engineering checks">
     <title>${count} engineering checks</title>
-    <text x="-8" y="4" text-anchor="end" class="check-count">${count} checks</text>
-    <g transform="translate(-2 -9)" fill="${palette.ink}">
+    <g transform="translate(0 -9)" fill="${palette.ink}">
       <rect x="5" y="1.5" width="8" height="15" rx="2.4" fill="none" stroke="${palette.ink}" stroke-width="1.8"/>
       <circle cx="9" cy="6" r="1.45"/>
       <circle cx="9" cy="12" r="1.45"/>
       <path d="M5 4.8H2.2c.25 1.45 1.15 2.45 2.8 2.85V4.8Zm8 0h2.8c-.25 1.45-1.15 2.45-2.8 2.85V4.8ZM5 10.8H2.2c.25 1.45 1.15 2.45 2.8 2.85v-2.85Zm8 0h2.8c-.25 1.45-1.15 2.45-2.8 2.85v-2.85Z"/>
     </g>
+    <text x="22" y="4" class="check-count">${count} checks</text>
+  </g>`;
+}
+
+function endpointLabel(x, y, role, label) {
+  return `<g class="endpoint" transform="translate(${x} ${y})">
+    <text y="0" text-anchor="middle" class="eyebrow">${role}</text>
+    <text y="18" text-anchor="middle" class="endpoint-sub">${xml(short(label, 18))}</text>
   </g>`;
 }
 

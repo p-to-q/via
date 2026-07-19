@@ -1,6 +1,6 @@
 # RouteSpec 0.3
 
-RouteSpec is one graph, not three prose plans. Validate against [route-spec.schema.json](route-spec.schema.json), then run the bundled structural validator.
+RouteSpec is the serialization contract for the renderer, not a planning method. Use model judgment to understand and compare the work first, then encode the visible result as one graph rather than three prose plans. Validate against [route-spec.schema.json](route-spec.schema.json), then run the bundled structural validator.
 
 ## Shape
 
@@ -31,7 +31,7 @@ RouteSpec is one graph, not three prose plans. Validate against [route-spec.sche
 }
 ```
 
-The excerpt illustrates fields; a valid spec needs exactly three complete route objects, 5–18 nodes, and 4–28 edges. Use `examples/web-coder-route.json` from the repository as a complete specimen when available.
+The excerpt illustrates fields; a valid spec needs exactly three complete route objects, 5–18 nodes, and 4–28 edges. `destination` is the map's visible title: generate it from the task in the style of a clear PR title, not a fixed slogan. Use `examples/web-coder-route.json` from the repository as a complete specimen when available.
 
 ## Atoms
 
@@ -41,6 +41,8 @@ The excerpt illustrates fields; a valid spec needs exactly three complete route 
 - `gate`: optional local node state: `green`, `yellow`, or `red`
 - `control`: an auditable engineering stop: `decision`, `proof`, `boundary`, or `release`
 - `cost`: non-negative token and minute ranges
+
+The single origin and destination are semantic labels, not decoration. Use the origin node to name where the user is starting from: from scratch, a prototype, a failing build, an existing design round, or whatever stage the context supports. Use the destination node to name the concrete state this run can produce: validated patch, roadmap, migration plan, shipped release, narrowed investigation, and so on.
 
 ## Route
 
@@ -53,11 +55,11 @@ Each route requires:
 - `tokens` and `minutes` objects with `min <= max`
 - `summary` up to 54 characters
 
-The renderer derives the card's `checks` count from unique route nodes with a `control` value. Do not enter a route total by hand. Every route needs at least one control check; never add controls merely to inflate the number.
+The renderer derives the card's `checks` count from unique route nodes with a `control` value. Do not enter a route total by hand, and do not add controls merely to inflate the number. A route may legitimately have zero route-specific controls; shared controls still count when its path passes through them.
 
 Choose any three distinct route colors when creating a new spec. The choice may vary between newly generated maps, but it is written into RouteSpec and must remain stable across every re-render of that map.
 
-Time ranges estimate active agent work, including inspection, edits, and verification. Do not translate conventional human engineering estimates into minutes. A useful default calibration is 5–12 minutes for small bounded work, 10–25 for multi-surface work, and 20–45 for runtime or integration work; widen the range when repositories, external systems, or proofs are unusually uncertain.
+Time ranges compare anticipated active work, including inspection, edits, dependencies, and verification. Widen ranges when repository state, external systems, or proof work is uncertain; do not imply precision unsupported by evidence.
 
 ## Graph
 
@@ -65,13 +67,11 @@ Each node requires `id`, `label`, `column`, and `lane`. No two nodes may occupy 
 
 Each edge requires `from`, `to`, and one to three route IDs. Set `kind: branch` only for a genuine local detour or parallel probe.
 
-The structural validator also requires:
+The structural validator requires:
 
 - one origin and one destination;
-- every route connects origin to destination;
-- at least two edges shared by several routes;
-- at least one unique edge per route;
-- at least one branch edge;
-- at least one visible proof checkpoint whose label includes test, verify, validate, proof, or check.
+- every route to connect the common origin and destination.
+
+Use judgment for semantic topology. Show shared nodes where work genuinely overlaps, unique edges where approaches genuinely differ, and branches only for real detours or parallel probes. Mark meaningful proofs with `control: proof`; never change labels merely to satisfy a keyword.
 
 Keep deeper reasoning outside the graph. Visible text must remain short enough to scan.

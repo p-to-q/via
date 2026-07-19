@@ -43,6 +43,26 @@ test("ranges reject inverted cost", () => {
   assert.match(validateRouteSpec(invalid).join("\n"), /not exceed/);
 });
 
+test("runtime validator matches strict schema-shaped inputs", () => {
+  const invalid = structuredClone(fixture);
+  invalid.extra = true;
+  invalid.routes[1].recommended = "no";
+  invalid.graph.edges[0].routes.push(invalid.graph.edges[0].routes[0]);
+  invalid.graph.edges[0].kind = "magic";
+  const errors = validateRouteSpec(invalid).join("\n");
+  assert.match(errors, /unknown field extra/);
+  assert.match(errors, /recommended must be boolean/);
+  assert.match(errors, /routes must be unique/);
+  assert.match(errors, /kind is invalid/);
+});
+
+test("malformed nodes return errors instead of throwing", () => {
+  const invalid = structuredClone(fixture);
+  invalid.graph.nodes[0] = null;
+  assert.doesNotThrow(() => validateRouteSpec(invalid));
+  assert.match(validateRouteSpec(invalid).join("\n"), /node must be an object/);
+});
+
 test("edges must reference real nodes", () => {
   const invalid = structuredClone(fixture);
   invalid.graph.edges[0].to = "missing";
@@ -55,28 +75,28 @@ test("every route must reach the shared destination", () => {
   assert.match(validateRouteSpec(invalid).join("\n"), /telemetry-first must connect/);
 });
 
-test("graph requires shared overlap", () => {
+test("renderer contract permits routes without shared overlap", () => {
   const invalid = structuredClone(fixture);
   invalid.graph.edges.forEach((edge) => { if (edge.routes.length > 1) edge.routes = [edge.routes[0]]; });
-  assert.match(validateRouteSpec(invalid).join("\n"), /shared edges/);
+  assert.doesNotMatch(validateRouteSpec(invalid).join("\n"), /shared edges/);
 });
 
-test("graph requires a small branch", () => {
+test("renderer contract permits a graph without a decorative branch", () => {
   const invalid = structuredClone(fixture);
   invalid.graph.edges.forEach((edge) => { delete edge.kind; });
-  assert.match(validateRouteSpec(invalid).join("\n"), /small branch/);
+  assert.doesNotMatch(validateRouteSpec(invalid).join("\n"), /branch/);
 });
 
-test("graph requires a visible proof checkpoint", () => {
+test("proof semantics do not depend on English label keywords", () => {
   const invalid = structuredClone(fixture);
   invalid.graph.nodes.forEach((node) => { node.label = node.label.replace(/validate|check/gi, "finish"); });
-  assert.match(validateRouteSpec(invalid).join("\n"), /proof checkpoint/);
+  assert.doesNotMatch(validateRouteSpec(invalid).join("\n"), /proof checkpoint/);
 });
 
-test("every route needs a derived engineering check", () => {
+test("renderer contract permits zero checks when none are meaningful", () => {
   const invalid = structuredClone(fixture);
   invalid.graph.nodes.forEach((node) => { delete node.control; });
-  assert.match(validateRouteSpec(invalid).join("\n"), /engineering control check/);
+  assert.doesNotMatch(validateRouteSpec(invalid).join("\n"), /engineering control check/);
 });
 
 test("renderer emits Git-tree topology, signal window, and terse cards", () => {
@@ -99,23 +119,47 @@ test("renderer emits Git-tree topology, signal window, and terse cards", () => {
   assert.match(svg, /id="dock-shadow"/);
   assert.match(svg, /class="route-dock"[^>]+rx="22"[^>]+filter="url\(#dock-shadow\)"/);
   assert.doesNotMatch(svg, /class="route-rail"/);
-  assert.match(svg, /class="card-label" fill="#247C78"/);
-  assert.match(svg, /class="card-label" fill="#A84177"/);
-  assert.match(svg, /class="card-label" fill="#A95227"/);
-  assert.match(svg, /fill="#F2F5F5" stroke="#AEBFC0"/);
-  assert.match(svg, /stroke="#E5E5E5" stroke-width="1"/);
+  assert.doesNotMatch(svg, /class="card-label" fill=/);
+  assert.match(svg, /class="meta" fill="#247C78"/);
+  assert.match(svg, /class="meta" fill="#A84177"/);
+  assert.match(svg, /class="meta" fill="#A95227"/);
+  assert.match(svg, /fill="#F2F5F5" stroke="#AEBFC0" stroke-width="1"/);
+  assert.equal((svg.match(/fill="#FFFFFF" stroke="#E5E5E5" stroke-width="1"/g) || []).length, 2);
+  assert.match(svg, /M36 142H1044[^>]+stroke-width="1.35"[^>]+stroke-dasharray="6 9"/);
+  assert.match(svg, /class="route-dock" x="32" y="468" width="1016" height="164"/);
+  assert.equal((svg.match(/transform="translate\((?:48|380|712) 484\)"/g) || []).length, 3);
+  assert.match(svg, /dy="6" stdDeviation="7"[^>]+flood-opacity="\.16"/);
   assert.equal((svg.match(/data-route-id=/g) || []).length, 3);
   assert.match(svg, /font-family:-apple-system,BlinkMacSystemFont/);
+  assert.match(svg, /class="endpoint"/);
+  assert.match(svg, /class="endpoint-sub"/);
   assert.match(svg, /<rect x="5" y="1.5" width="8" height="15" rx="2.4"/);
   assert.equal((svg.match(/<circle cx="9" cy="(?:6|12)" r="1.45"/g) || []).length, 6);
+  assert.match(svg, /<text x="22" y="4" class="check-count">4 checks<\/text>/);
+  assert.doesNotMatch(svg, /text x="-8" y="4" text-anchor="end" class="check-count"/);
   assert.doesNotMatch(svg, /fill="#F1F3F4" stroke="#DADCE0"/);
   assert.doesNotMatch(svg, /Recommended ·/);
+  assert.match(svg, />Prepare Via for a first public release</);
   assert.match(svg, />Choose how this gets built</);
-  assert.match(svg, />Shape the first useful roadmap</);
+  assert.doesNotMatch(svg, /Choose, combine, or customize any route/);
+  assert.match(svg, /aria-labelledby="route-title route-desc"/);
+  assert.match(svg, /<desc id="route-desc">/);
+  assert.doesNotMatch(svg, /class="edge-casing"/);
   assert.equal((svg.match(/engineering checks/g) || []).length, 9);
   assert.doesNotMatch(svg, /[123] gate/);
   assert.doesNotMatch(svg, />REC</);
   assert.doesNotMatch(svg, /Recommendation:/);
+});
+
+test("renderer fits column nine and truncates long labels", () => {
+  const wide = structuredClone(fixture);
+  wide.graph.nodes.find((node) => node.column === 7).column = 9;
+  wide.graph.nodes.find((node) => node.id === "renderer").label = "a very long renderer checkpoint";
+  wide.routes[0].summary = "A summary that is deliberately long enough to require safe truncation";
+  const svg = renderRouteMap(wide);
+  assert.doesNotMatch(svg, /cx="(?:1[1-9]\d\d|[2-9]\d{3})"/);
+  assert.match(svg, /a very long rende…/);
+  assert.match(svg, /A summary that is deliberately lo…/);
 });
 
 test("via build writes the map and its own short documentation", () => {
@@ -142,7 +186,7 @@ test("CLI supports help, version, and validate", () => {
   assert.match(help.stdout, /via validate/);
   const version = spawnSync(process.execPath, [cli, "--version"], { encoding: "utf8" });
   assert.equal(version.status, 0);
-  assert.match(version.stdout, /^0\.3\.0/);
+  assert.match(version.stdout, /^0\.3\.1/);
   const validate = spawnSync(process.execPath, [cli, "validate", fixturePath], { encoding: "utf8" });
   assert.equal(validate.status, 0, validate.stderr);
   assert.match(validate.stdout, /valid RouteSpec/);

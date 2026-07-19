@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/p-to-q/via/schemas/route-spec.schema.json",
+  "$id": "https://raw.githubusercontent.com/p-to-q/via/main/skills/via-route/references/route-spec.schema.json",
   "title": "RouteSpec",
   "type": "object",
   "required": ["schemaVersion", "destination", "routes", "graph"],

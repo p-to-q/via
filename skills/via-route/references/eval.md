@@ -7,8 +7,8 @@ Forward-test with fresh agents and raw tasks. Do not provide the expected route 
 | dimension | 0 | 1 | 2 |
 | --- | --- | --- | --- |
 | trigger | intrusive or missed | debatable | appears only when useful |
-| separation | cosmetic variants | one meaningful difference | at least two consequential axes |
-| topology | three independent plans | one shared segment | real overlap, branch, and merge |
+| separation | cosmetic variants | one weak difference | each route gives a consequential reason to choose it |
+| topology | fabricated or misleading | valid path but meaningful structure flattened | topology faithfully matches the actual work |
 | budget honesty | exact guess | range only | range with honest width; no precision claim |
 | proof | absent | generic end node | shared or route-specific proof checkpoint in the graph |
 | scan speed | report-like | understandable | recommendation in 10s, choice in 30s |
@@ -16,11 +16,13 @@ Forward-test with fresh agents and raw tasks. Do not provide the expected route 
 
 Passing score: at least 11/14, with no zero in trigger, separation, topology, or proof.
 
+Evaluate the result, not whether the model followed a prescribed reasoning recipe. Strong models may discover useful route distinctions or topology that this guide does not anticipate. Penalize invented options and unusable choices; do not penalize a different but well-supported structure.
+
 For the default surface, fail scan speed if the SVG is followed by more than two sentences.
 
 ## Fake-route test
 
-Compare every pair. Fail the set when two routes share substantially the same:
+Compare every pair. Fail the set when a pair gives the user no consequential reason to choose differently after considering signals such as:
 
 - change boundary and dependencies;
 - node sequence and action labels;
@@ -28,8 +30,10 @@ Compare every pair. Fail the set when two routes share substantially the same:
 - proof method;
 - best/wrong conditions.
 
+Routes need not differ on every signal. One important, well-supported boundary can create a real choice.
+
 Renaming `quick`, `balanced`, and `robust` does not create routes. Each route must give the user a real reason to choose differently.
 
 ## Task families
 
-Test tiny fixes (expected skip), migrations, UI redesigns, API integrations, performance diagnosis, data cleanup, test strategy, compatibility refactors, and research-heavy product decisions.
+Test tiny fixes (expected skip), open-ended plan questions (expected three-option map when credible), migrations, UI redesigns, API integrations, performance diagnosis, data cleanup, test strategy, compatibility refactors, and research-heavy product decisions.
