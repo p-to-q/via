@@ -6,7 +6,6 @@
 See the paths before you build.
 
 via helps your coding agent reason through the options, then maps 3 potential engineering paths.
-
 Compare tokens, time, and route summaries at a glance.
 
 ```text
