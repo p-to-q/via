@@ -97,11 +97,11 @@ export function renderRouteMap(spec) {
     const checks = controlStops(spec, route.id);
     return `<g class="card${route.recommended ? " selected" : ""}" data-route-id="${xml(route.id)}" transform="translate(${x} 484)" aria-label="${xml(route.label)}, ${token} tokens, ${route.minutes.min} to ${route.minutes.max} minutes, ${checks} engineering checks">
       <rect width="320" height="132" rx="12" fill="${fill}" stroke="${outline}" stroke-width="1"/>
-      <text x="16" y="32" class="card-label">${xml(route.label)}</text>
-      <text x="16" y="69" class="cost">${token}<tspan class="unit"> tok</tspan></text>
-      <text x="16" y="92" class="meta" fill="${routeBrand.text}">${route.minutes.min}–${route.minutes.max} min</text>
-      ${trafficLight(238, 88, checks, palette)}
-      <text x="16" y="118" class="summary">${xml(short(route.summary, 34))}</text>
+      <text x="16" y="33" class="card-label">${xml(route.label)}</text>
+      <text x="16" y="67" class="cost">${token}<tspan class="unit"> tok</tspan></text>
+      <text x="16" y="87" class="meta" fill="${routeBrand.text}">${route.minutes.min}–${route.minutes.max} min</text>
+      ${trafficLight(238, 84, checks, palette)}
+      <text x="16" y="117" class="summary">${xml(short(route.summary, 34))}</text>
     </g>`;
   }).join("");
 

@@ -66,7 +66,7 @@ The outer surface uses an 18 px radius, the paper frame 16 px, the route dock 22
 
 - The header and lane guides share the 48 px content line.
 - All text inside a card shares its 16 px inset.
-- All three card labels, metrics, metadata, and sub lines align on common baselines. Use y=`32`, `69`, `92`, and `118` inside the card so the route label breathes while token and time remain visually paired.
+- All three card labels, metrics, metadata, and sub lines align on common baselines. Use y=`33`, `67`, `87`, and `117` inside the card so the token and time read as one compact metric block with balanced space above and below.
 - Gate count and traffic-light pictogram form one right-aligned inline group on the metadata baseline.
 - Route cards are ordered exactly as their routes are presented. Route names and shells remain neutral; time labels carry the graph's route color. The selected outline is 1 px `#AEBFC0`; alternatives use 1 px `#E5E5E5`.
 - START and DONE align to graph endpoints, not card edges. They use heavier utility type and a one-line caption from the actual origin/destination node labels so the user can tell where this run begins and what it produces.

@@ -33,10 +33,10 @@
   <rect class="route-dock" x="32" y="468" width="1016" height="164" rx="22" fill="#FFFFFF" stroke="#DEDEDE" filter="url(#dock-shadow)"/>
   <g class="card selected" data-route-id="skill-first" transform="translate(48 484)" aria-label="Skill first, 3.5k–9k tokens, 5 to 12 minutes, 4 engineering checks">
       <rect width="320" height="132" rx="12" fill="#F2F5F5" stroke="#AEBFC0" stroke-width="1"/>
-      <text x="16" y="32" class="card-label">Skill first</text>
-      <text x="16" y="69" class="cost">3.5k–9k<tspan class="unit"> tok</tspan></text>
-      <text x="16" y="92" class="meta" fill="#247C78">5–12 min</text>
-      <g class="gate-light" transform="translate(238 88)" aria-label="4 engineering checks">
+      <text x="16" y="33" class="card-label">Skill first</text>
+      <text x="16" y="67" class="cost">3.5k–9k<tspan class="unit"> tok</tspan></text>
+      <text x="16" y="87" class="meta" fill="#247C78">5–12 min</text>
+      <g class="gate-light" transform="translate(238 84)" aria-label="4 engineering checks">
     <title>4 engineering checks</title>
     <g transform="translate(0 -9)" fill="#1F1F1F">
       <rect x="5" y="1.5" width="8" height="15" rx="2.4" fill="none" stroke="#1F1F1F" stroke-width="1.8"/>
@@ -46,13 +46,13 @@
     </g>
     <text x="22" y="4" class="check-count">4 checks</text>
   </g>
-      <text x="16" y="118" class="summary">Small contract, fast proof</text>
+      <text x="16" y="117" class="summary">Small contract, fast proof</text>
     </g><g class="card" data-route-id="ui-first" transform="translate(380 484)" aria-label="Interface first, 6k–14k tokens, 10 to 25 minutes, 5 engineering checks">
       <rect width="320" height="132" rx="12" fill="#FFFFFF" stroke="#E5E5E5" stroke-width="1"/>
-      <text x="16" y="32" class="card-label">Interface first</text>
-      <text x="16" y="69" class="cost">6k–14k<tspan class="unit"> tok</tspan></text>
-      <text x="16" y="92" class="meta" fill="#A84177">10–25 min</text>
-      <g class="gate-light" transform="translate(238 88)" aria-label="5 engineering checks">
+      <text x="16" y="33" class="card-label">Interface first</text>
+      <text x="16" y="67" class="cost">6k–14k<tspan class="unit"> tok</tspan></text>
+      <text x="16" y="87" class="meta" fill="#A84177">10–25 min</text>
+      <g class="gate-light" transform="translate(238 84)" aria-label="5 engineering checks">
     <title>5 engineering checks</title>
     <g transform="translate(0 -9)" fill="#1F1F1F">
       <rect x="5" y="1.5" width="8" height="15" rx="2.4" fill="none" stroke="#1F1F1F" stroke-width="1.8"/>
@@ -62,13 +62,13 @@
     </g>
     <text x="22" y="4" class="check-count">5 checks</text>
   </g>
-      <text x="16" y="118" class="summary">Map before workflow</text>
+      <text x="16" y="117" class="summary">Map before workflow</text>
     </g><g class="card" data-route-id="telemetry-first" transform="translate(712 484)" aria-label="Telemetry first, 9k–22k tokens, 20 to 45 minutes, 5 engineering checks">
       <rect width="320" height="132" rx="12" fill="#FFFFFF" stroke="#E5E5E5" stroke-width="1"/>
-      <text x="16" y="32" class="card-label">Telemetry first</text>
-      <text x="16" y="69" class="cost">9k–22k<tspan class="unit"> tok</tspan></text>
-      <text x="16" y="92" class="meta" fill="#A95227">20–45 min</text>
-      <g class="gate-light" transform="translate(238 88)" aria-label="5 engineering checks">
+      <text x="16" y="33" class="card-label">Telemetry first</text>
+      <text x="16" y="67" class="cost">9k–22k<tspan class="unit"> tok</tspan></text>
+      <text x="16" y="87" class="meta" fill="#A95227">20–45 min</text>
+      <g class="gate-light" transform="translate(238 84)" aria-label="5 engineering checks">
     <title>5 engineering checks</title>
     <g transform="translate(0 -9)" fill="#1F1F1F">
       <rect x="5" y="1.5" width="8" height="15" rx="2.4" fill="none" stroke="#1F1F1F" stroke-width="1.8"/>
@@ -78,6 +78,6 @@
     </g>
     <text x="22" y="4" class="check-count">5 checks</text>
   </g>
-      <text x="16" y="118" class="summary">Measure cost before build</text>
+      <text x="16" y="117" class="summary">Measure cost before build</text>
     </g>
   </svg>

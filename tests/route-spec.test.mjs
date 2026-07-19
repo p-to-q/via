@@ -128,6 +128,10 @@ test("renderer emits Git-tree topology, signal window, and terse cards", () => {
   assert.match(svg, /M36 142H1044[^>]+stroke-width="1.35"[^>]+stroke-dasharray="6 9"/);
   assert.match(svg, /class="route-dock" x="32" y="468" width="1016" height="164"/);
   assert.equal((svg.match(/transform="translate\((?:48|380|712) 484\)"/g) || []).length, 3);
+  assert.match(svg, /<text x="16" y="33" class="card-label">Skill first<\/text>/);
+  assert.match(svg, /<text x="16" y="67" class="cost">3\.5k–9k/);
+  assert.match(svg, /<text x="16" y="87" class="meta" fill="#247C78">5–12 min<\/text>/);
+  assert.match(svg, /<text x="16" y="117" class="summary">Small contract, fast proof<\/text>/);
   assert.match(svg, /dy="6" stdDeviation="7"[^>]+flood-opacity="\.16"/);
   assert.equal((svg.match(/data-route-id=/g) || []).length, 3);
   assert.match(svg, /font-family:-apple-system,BlinkMacSystemFont/);
