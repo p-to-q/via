@@ -5,7 +5,7 @@
 
 See the paths before you build.
 
-via helps your coding agent reason through the options, then maps the engineering paths in a Git-tree/Google Map interface.
+Explore vibe coding decisions through a Git-tree/Google Map interface.
 
 ```text
 Read https://github.com/p-to-q/via/blob/main/skills/via-route/SKILL.md and follow the instructions to install and configure via.
