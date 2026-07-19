@@ -1,6 +1,6 @@
 {
-  "name": "@p-to-q/via",
-  "version": "0.3.4",
+  "name": "@afkv/via",
+  "version": "0.3.5",
   "description": "Turn an engineering task into a Git-tree route map.",
   "type": "module",
   "engines": {
@@ -11,12 +11,16 @@
     "skills/",
     "examples/",
     "assets/",
+    "docs/design-system.md",
+    "docs/product-architecture.md",
+    "docs/skill-landscape.md",
+    "docs/agent-surfaces.md",
     "README.md",
     "LICENSE",
     "NOTICE"
   ],
   "bin": {
-    "via": "./scripts/via.mjs"
+    "via": "scripts/via.mjs"
   },
   "scripts": {
     "render:example": "node skills/via-route/scripts/render-route.mjs examples/web-coder-route.json assets/web-coder-route.svg",

@@ -143,7 +143,7 @@ test("renderer emits Git-tree topology, signal window, and terse cards", () => {
   assert.doesNotMatch(svg, /text x="-8" y="4" text-anchor="end" class="check-count"/);
   assert.doesNotMatch(svg, /fill="#F1F3F4" stroke="#DADCE0"/);
   assert.doesNotMatch(svg, /Recommended ·/);
-  assert.match(svg, />Prepare Via for a first public release</);
+  assert.match(svg, />Prepare via for a first public release</);
   assert.match(svg, />Choose how this gets built</);
   assert.doesNotMatch(svg, /Choose, combine, or customize any route/);
   assert.match(svg, /aria-labelledby="route-title route-desc"/);
@@ -190,7 +190,7 @@ test("CLI supports help, version, and validate", () => {
   assert.match(help.stdout, /via validate/);
   const version = spawnSync(process.execPath, [cli, "--version"], { encoding: "utf8" });
   assert.equal(version.status, 0);
-  assert.match(version.stdout, /^0\.3\.4/);
+  assert.match(version.stdout, /^0\.3\.5/);
   const validate = spawnSync(process.execPath, [cli, "validate", fixturePath], { encoding: "utf8" });
   assert.equal(validate.status, 0, validate.stderr);
   assert.match(validate.stdout, /valid RouteSpec/);

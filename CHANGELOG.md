@@ -1,9 +1,19 @@
 # Changelog
 
+## 0.3.5 — 2026-07-19
+
+- Make the generated SVG identity quieter: lowercase `via`, `a [p → q] project`, and right-aligned `ptoq.io`.
+- Keep `via` lowercase across user-facing documentation and example output.
+- Add internal agent-surface research for Codex, Claude Code, OpenCode, Aider, and unresolved OpenCloud/OpenClaw-like targets.
+- Add a warmer README explanation of what via helps humans and agents do before implementation.
+- Keep README installation compact around the copy-paste agent prompt while moving platform-specific invocation notes to internal docs.
+- Publish the first npm package from the maintainer scope as `@afkv/via` while the `@p-to-q` npm organization is prepared.
+- Publish package contents are trimmed to runtime and core agent docs rather than the whole repository.
+
 ## 0.3.4 — 2026-07-19
 
 - Document `/via` as the explicit chat-box wake-up phrase and `$via-route` as the direct Codex Skill invocation.
-- Clarify that `SKILL.md` is the Skill entrypoint and provide a copy-paste prompt for another model or coding agent to read it and configure Via.
+- Clarify that `SKILL.md` is the Skill entrypoint and provide a copy-paste prompt for another model or coding agent to read it and configure via.
 - Clarify that `via -v` is a CLI version check, not the agent wake-up command.
 - Keep npm install guidance conditional until `@p-to-q/via` is actually published to the registry.
 

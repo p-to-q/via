@@ -1,12 +1,14 @@
-# Via interface system
+# via interface system
 
-Via is shown inside agent interfaces repeatedly. Its shell should therefore feel native to Codex and ChatGPT: quiet neutral surfaces, precise spacing, light separators, system typography, and one controlled elevation around the selector. Route topology remains Via's own visual signature.
+via is shown inside agent interfaces repeatedly. Its shell should therefore feel native to Codex and ChatGPT: quiet neutral surfaces, precise spacing, light separators, system typography, and one controlled elevation around the selector. Route topology remains via's own visual signature.
 
 These tokens are inferred from the current Codex desktop interface, ChatGPT's restrained product surfaces, and Codex's public visualization color family, then normalized for a portable 1080 × 660 SVG. They are not an official OpenAI design-system export.
 
 ## Visual identity
 
-Via's visual identity should feel close to ChatGPT and Codex because the artifact appears inside coding agents, not beside them. The interface is plain, generalized, and easy to read: neutral shells, compact spacing, restrained radius, quiet borders, and selective color. That makes it natural in other agent products too; it should read as a useful native surface rather than a branded poster.
+via's visual identity should feel close to ChatGPT and Codex because the artifact appears inside coding agents, not beside them. The interface is plain, generalized, and easy to read: neutral shells, compact spacing, restrained radius, quiet borders, and selective color. That makes it natural in other agent products too; it should read as a useful native surface rather than a branded poster.
+
+The wordmark is always lowercase: `via`. In generated SVGs, identity should stay quiet: `via · a [p → q] project` on the left and `ptoq.io` on the right. Do not use all-caps spelling, and do not label the surface with generic route-count marketing copy.
 
 Two outside ideas define the part that is not generic:
 
@@ -71,7 +73,7 @@ Do not add blank text lines to create space. Use fixed line height and geometric
 
 The base UI philosophy is ChatGPT-like restraint: white paper, soft gray surround, black text, muted secondary copy, compact information groups, and restrained radius. Color is reserved for route identity and should not spread into every shell. The result should feel like a native agent artifact, not a decorative dashboard.
 
-Route identity draws any three distinct colors from the [public Codex visualization family](https://github.com/openai/codex/blob/0fb559f0f6e231a88ac02ea002d3ecd248e2b515/codex-rs/tui/src/inline_visualization/assets/visualize.css): Blue `#339CFF`, Orange `#F3883B`, Green `#5DC977`, Pink `#EB77B1`, Purple `#9B79EC`, and Cyan `#3AB9B1`. Bright values form the graph stroke. Darker Via companions (`#246FA6`, `#A95227`, `#267A43`, `#A84177`, `#674BA8`, `#247C78`) provide time-label contrast. A newly generated map may choose a different trio, but RouteSpec stores the result; re-rendering never randomizes it.
+Route identity draws any three distinct colors from the [public Codex visualization family](https://github.com/openai/codex/blob/0fb559f0f6e231a88ac02ea002d3ecd248e2b515/codex-rs/tui/src/inline_visualization/assets/visualize.css): Blue `#339CFF`, Orange `#F3883B`, Green `#5DC977`, Pink `#EB77B1`, Purple `#9B79EC`, and Cyan `#3AB9B1`. Bright values form the graph stroke. Darker via companions (`#246FA6`, `#A95227`, `#267A43`, `#A84177`, `#674BA8`, `#247C78`) provide time-label contrast. A newly generated map may choose a different trio, but RouteSpec stores the result; re-rendering never randomizes it.
 
 The outer surface uses an 18 px radius, the paper frame 16 px, the route dock 22 px, and cards 12 px. The dock is `1016 × 164` at `(32, 468)`; three `320 × 132` cards sit at x=`48, 380, 712`, y=`484`. This produces a 16 px enclosure on every dock edge and 16 px between the dock and the inner frame bottom. Use 1 px separators. Individual cards never cast shadows; the route dock is the single elevation exception, echoing the Codex composer with a deliberately visible but fully contained three-layer neutral shadow (`0 6 14 / 16%`, `0 2 7 / 9%`, `0 1 2 / 6%`). Selection is expressed through a subtle surface shift and border contrast, never elevation or glow.
 

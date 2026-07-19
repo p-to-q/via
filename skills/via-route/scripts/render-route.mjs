@@ -107,7 +107,7 @@ export function renderRouteMap(spec) {
 
   const comparison = [...spec.routes].sort((a, b) => Number(b.recommended) - Number(a.recommended)).map((route) => `${route.label}: ${num(route.tokens.min)} to ${num(route.tokens.max)} tokens, ${route.minutes.min} to ${route.minutes.max} minutes, ${controlStops(spec, route.id)} checkpoints${route.recommended ? ", suggested" : ""}`).join(". ");
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="route-title route-desc">
-  <title id="route-title">Three routes for ${xml(spec.destination)}</title>
+  <title id="route-title">route map for ${xml(spec.destination)}</title>
   <desc id="route-desc">${xml(comparison)}</desc>
   <defs>
     <filter id="dock-shadow" x="-8%" y="-30%" width="116%" height="170%" color-interpolation-filters="sRGB">
@@ -122,7 +122,8 @@ export function renderRouteMap(spec) {
   <rect width="${W}" height="${H}" rx="18" fill="${palette.soft}"/>
   <rect x="16" y="12" width="1048" height="636" rx="16" fill="${palette.paper}" stroke="${palette.hairline}"/>
   ${windowLights}
-  <text x="100" y="40" class="eyebrow">VIA · 3 ROUTES</text>
+  <text x="100" y="40" class="eyebrow">via · a [p → q] project</text>
+  <text x="1032" y="40" text-anchor="end" class="eyebrow subtle">ptoq.io</text>
   <text x="48" y="80" class="title">${xml(spec.destination)}</text>
   <text x="48" y="104" class="subtitle">Choose how this gets built</text>
   <g class="map">${grid}${edges}${nodeSvg}</g>

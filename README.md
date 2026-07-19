@@ -5,9 +5,17 @@
 
 Turn an engineering task into a Git-tree map.
 
+```text
+Read https://github.com/p-to-q/via/blob/main/skills/via-route/SKILL.md and follow the instructions to install and configure via.
+```
+
 ![via route map](assets/web-coder-route.svg)
 
 Three routes. Shared checkpoints. Local branches. Merge points. Token and time ranges.
+
+via is for the moment before you build, when a model would usually answer with a wall of planning text. It asks the agent to understand the user's intent, form three useful ways forward when real choices exist, and render those choices as one compact route map.
+
+The interface borrows three ideas without copying any one product: the quiet, readable feel of ChatGPT/Codex; the route-choice intuition of Google Maps; and the branching/merging topology of a Git tree. The result is a planning surface that humans can scan quickly and agents can use as structured context.
 
 ## Install
 
@@ -15,9 +23,9 @@ via requires Node.js 20 or newer and has no runtime dependencies.
 
 ### Skill entrypoint
 
-Via is loaded through [`skills/via-route/SKILL.md`](skills/via-route/SKILL.md). That file is the Skill entrypoint: it tells the agent when to use Via and links to the RouteSpec contract, JSON Schema, evaluator, and renderer scripts.
+via is loaded through [`skills/via-route/SKILL.md`](skills/via-route/SKILL.md). That file is the Skill entrypoint: it tells the agent when to use via and links to the RouteSpec contract, JSON Schema, evaluator, and renderer scripts.
 
-To install and configure Via inside another coding agent, paste this prompt into that agent:
+To install and configure via inside another coding agent, paste this prompt into that agent:
 
 ```text
 Read https://github.com/p-to-q/via/blob/main/skills/via-route/SKILL.md and follow the instructions to install and configure via.
@@ -41,7 +49,7 @@ ln -s "$(cd via && pwd)/skills/via-route" ~/.agents/skills/via-route
 
 ### Wake it up
 
-In a chat box, type `/via` to wake Via explicitly:
+In a chat box, type `/via` to wake via explicitly:
 
 ```text
 /via plan three ways to migrate this auth flow
@@ -53,7 +61,7 @@ In Codex Skill contexts, you can also name the installed Skill directly:
 $via-route plan three ways to migrate this auth flow
 ```
 
-Advanced agents can also trigger Via from natural language when the request is clearly route-style planning:
+Advanced agents can also trigger via from natural language when the request is clearly route-style planning:
 
 - "show me three routes for this implementation"
 - "make a token map for this task"
@@ -67,16 +75,18 @@ The repository contains a validated `.codex-plugin/plugin.json` for plugin packa
 
 ### CLI
 
-Install the CLI from GitHub:
+Install the CLI from npm:
+
+```bash
+npm install --global @afkv/via
+```
+
+The source repository remains [`p-to-q/via`](https://github.com/p-to-q/via). The npm package is published from the maintainer scope while the `@p-to-q` npm organization is being prepared.
+
+Or install directly from GitHub:
 
 ```bash
 npm install --global github:p-to-q/via
-```
-
-After the package is published to npm, the equivalent registry install will be:
-
-```bash
-npm install --global @p-to-q/via
 ```
 
 Check the installed version:
@@ -130,7 +140,7 @@ The source is one directed graph:
 
 The Skill creates the RouteSpec, validates it, renders it, and shows the SVG first. It skips tiny work and tasks without three credible paths.
 
-See the [RouteSpec contract](skills/via-route/references/route-spec.md), [example graph](examples/web-coder-route.json), [product architecture](docs/product-architecture.md), and [interface system](docs/design-system.md).
+See the [RouteSpec contract](skills/via-route/references/route-spec.md), [example graph](examples/web-coder-route.json), [product architecture](docs/product-architecture.md), [interface system](docs/design-system.md), and [agent surface notes](docs/agent-surfaces.md).
 
 ## What via does not claim
 
@@ -150,6 +160,6 @@ npm install
 npm run check
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.4 release notes](docs/releases/v0.3.4.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.5 release notes](docs/releases/v0.3.5.md).
 
 Apache-2.0 © P-to-Q contributors.

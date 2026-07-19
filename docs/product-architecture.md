@@ -6,7 +6,7 @@ Input: one engineering task.
 
 Output: one Git-tree map showing three paths through that task.
 
-Via is a decision interface for both the developer and the model. Its ChatGPT-like surface keeps the artifact natural inside coding agents, while the Google Maps route metaphor and Git Tree topology turn model planning into structured context that is easier to scan, compare, and control.
+via is a decision interface for both the developer and the model. Its ChatGPT-like surface keeps the artifact natural inside coding agents, while the Google Maps route metaphor and Git Tree topology turn model planning into structured context that is easier to scan, compare, and control.
 
 ## Atoms
 
@@ -22,7 +22,7 @@ Everything visible must represent one of these atoms.
 ## Screen
 
 ```text
-┌ ● ● ● ── VIA / ROUTE ──────────────────────┐
+┌ ● ● ● ── via · a [p → q] project ── ptoq.io ┐
 │ destination                                  │
 │                                              │
 │      ○──○━━━━○━━━━━━━━○                      │

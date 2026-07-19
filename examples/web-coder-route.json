@@ -1,6 +1,6 @@
 {
   "schemaVersion": "0.3",
-  "destination": "Prepare Via for a first public release",
+  "destination": "Prepare via for a first public release",
   "routes": [
     {
       "id": "skill-first",
