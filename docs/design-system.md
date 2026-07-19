@@ -35,7 +35,7 @@ Use a 4 px atom and an 8 px primary rhythm. Preferred values are `4, 8, 12, 16, 
 - header to graph: 32 px minimum
 - graph to route dock: 24 px minimum
 - dock inset: 12 px
-- card gap: 11–12 px
+- card gap: 12 px
 - card inset: 16 px
 - label → metric: 8 px optical gap
 - metric → metadata: 8 px
@@ -57,7 +57,9 @@ Do not add blank text lines to create space. Use fixed line height and geometric
 | hairline | `#E5E5E5` |
 | grid | `#E8E8E8` |
 
-The outer surface uses an 18 px radius, the paper frame 16 px, the route dock 20 px, and cards 12 px. Use 1 px separators. Individual cards never cast shadows; the route dock is the single elevation exception, echoing the Codex composer with a soft two-layer neutral shadow (`0 5 22 / 7.5%` plus `0 1 4 / 4.5%`). Selection is expressed through a subtle surface shift and border contrast, never elevation or glow.
+Route identity draws any three distinct colors from the [public Codex visualization family](https://github.com/openai/codex/blob/0fb559f0f6e231a88ac02ea002d3ecd248e2b515/codex-rs/tui/src/inline_visualization/assets/visualize.css): Blue `#339CFF`, Orange `#F3883B`, Green `#5DC977`, Pink `#EB77B1`, Purple `#9B79EC`, and Cyan `#3AB9B1`. These bright values belong on graph lines. Route-name text uses darker Via companions (`#246FA6`, `#A95227`, `#267A43`, `#A84177`, `#674BA8`, `#247C78`) for white-background readability. A newly generated map may choose a different trio, but RouteSpec stores the result; re-rendering never randomizes it.
+
+The outer surface uses an 18 px radius, the paper frame 16 px, the route dock 22 px, and cards 12 px. The dock is `1016 × 162` at `(32, 476)`; three `320 × 132` cards sit at x=`48, 380, 712`, y=`491`, creating symmetric 16 px horizontal and 15 px vertical insets. Use 1 px separators. Individual cards never cast shadows; the route dock is the single elevation exception, echoing the Codex composer with a deliberately visible three-layer neutral shadow (`0 7 24 / 11%`, `0 2 8 / 8%`, `0 1 2 / 5%`). Selection is expressed through a subtle surface shift and border contrast, never elevation or glow.
 
 ## Alignment
 
@@ -65,7 +67,7 @@ The outer surface uses an 18 px radius, the paper frame 16 px, the route dock 20
 - All text inside a card shares its 16 px inset.
 - All three card metrics, metadata, and sub lines align on common baselines.
 - Gate count and traffic-light pictogram form one right-aligned inline group on the metadata baseline.
-- Route cards are ordered exactly as their routes are presented and use the same short colored rail as the graph.
+- Route cards are ordered exactly as their routes are presented. Their names carry the graph's route color; metrics, summaries, frames, and surfaces remain neutral.
 - START and DONE align to graph endpoints, not card edges.
 
 ## Guides

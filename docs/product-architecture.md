@@ -1,4 +1,4 @@
-# via 0.2
+# via 0.3
 
 ## The product
 
@@ -11,7 +11,8 @@ Output: one Git-tree map showing three paths through that task.
 - point: an action
 - link: a dependency
 - route: links forming a viable path
-- gate: a condition attached to a point
+- gate: a local red/yellow/green condition attached to a point
+- check: a decision, proof, boundary, or release control derived from route nodes
 - cost: token and time ranges along a route
 
 Everything visible must represent one of these atoms.
@@ -30,9 +31,9 @@ Everything visible must represent one of these atoms.
 └──────────────────────────────────────────────┘
 ```
 
-The window lights are chrome, not data. Petrol, plum, and amber identify routes in the tree. Gate dots are local conditions. Copy stays inside node labels and three cards.
+The window lights are chrome, not data. Three distinct colors drawn from the six-color route pool identify routes in the tree. Gate dots are local conditions. Copy stays inside node labels and three cards.
 
-The option tray borrows the calm hierarchy of a maps product without copying its structure. Three plaques sit on a shared route dock. Each uses a neutral 1 px frame and a short route-colored rail embedded in its top edge; the selected route adds a quiet tint and a slightly darker neutral frame. This seam is the visual continuation of the Git tree, not a standard Material selection card. Each plaque has one dominant number, one compact time-and-gate row, and one short status line. The gate count appears before a monochrome two-lamp traffic-light pictogram; the word `gates` is never shown.
+The option tray borrows the calm hierarchy of a maps product without copying its structure. Three plaques sit on a shared route dock. Each uses a neutral 1 px frame; its route name carries the same color as the Git tree. The selected route adds a quiet tint and a slightly darker neutral frame. Each plaque has one dominant number, one compact time-and-check row, and one short status line. The renderer derives checks from route nodes marked as decisions, proofs, boundaries, or releases, then places the count and label before a monochrome two-lamp traffic-light pictogram.
 
 Typography, spacing, surfaces, alignment, and static-versus-interactive delivery are defined in [the interface system](design-system.md).
 

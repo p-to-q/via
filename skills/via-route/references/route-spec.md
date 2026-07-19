@@ -1,4 +1,4 @@
-# RouteSpec 0.2
+# RouteSpec 0.3
 
 RouteSpec is one graph, not three prose plans. Validate against [route-spec.schema.json](route-spec.schema.json), then run the bundled structural validator.
 
@@ -6,24 +6,23 @@ RouteSpec is one graph, not three prose plans. Validate against [route-spec.sche
 
 ```json
 {
-  "schemaVersion": "0.2",
+  "schemaVersion": "0.3",
   "destination": "Ship passkeys without breaking mobile",
   "routes": [
     {
       "id": "dual-session",
       "label": "Dual session",
-      "color": "lime",
+      "color": "cyan",
       "recommended": true,
       "tokens": { "min": 5000, "max": 9000 },
       "minutes": { "min": 35, "max": 70 },
-      "gates": 1,
       "summary": "Add passkeys behind the current session contract"
     }
   ],
   "graph": {
     "nodes": [
       { "id": "audit", "label": "audit clients", "column": 0, "lane": 2 },
-      { "id": "contract", "label": "lock contract", "column": 1, "lane": 2, "gate": "yellow" }
+      { "id": "contract", "label": "lock contract", "column": 1, "lane": 2, "gate": "yellow", "control": "boundary" }
     ],
     "edges": [
       { "from": "audit", "to": "contract", "routes": ["dual-session", "gateway", "cutover"] }
@@ -40,6 +39,7 @@ The excerpt illustrates fields; a valid spec needs exactly three complete route 
 - `edge`: a forward dependency between node IDs
 - `route`: an identity carried by edges
 - `gate`: optional local node state: `green`, `yellow`, or `red`
+- `control`: an auditable engineering stop: `decision`, `proof`, `boundary`, or `release`
 - `cost`: non-negative token and minute ranges
 
 ## Route
@@ -48,11 +48,14 @@ Each route requires:
 
 - lowercase kebab-case `id`
 - `label` up to 22 characters
-- unique `color`: `lime`, `violet`, or `amber`
+- unique `color` chosen from `blue`, `orange`, `green`, `pink`, `purple`, and `cyan`
 - exactly one route with `recommended: true`
 - `tokens` and `minutes` objects with `min <= max`
-- integer `gates` from 0–9
 - `summary` up to 54 characters
+
+The renderer derives the card's `checks` count from unique route nodes with a `control` value. Do not enter a route total by hand. Every route needs at least one control check; never add controls merely to inflate the number.
+
+Choose any three distinct route colors when creating a new spec. The choice may vary between newly generated maps, but it is written into RouteSpec and must remain stable across every re-render of that map.
 
 Time ranges estimate active agent work, including inspection, edits, and verification. Do not translate conventional human engineering estimates into minutes. A useful default calibration is 5–12 minutes for small bounded work, 10–25 for multi-surface work, and 20–45 for runtime or integration work; widen the range when repositories, external systems, or proofs are unusually uncertain.
 

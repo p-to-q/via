@@ -1,7 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 — 2026-07-19
 
+- Upgrade RouteSpec to 0.3: replace hand-entered route gate totals with engineering checks derived from decision, proof, boundary, and release nodes.
+- Remove card-top color rails; carry route identity in accessible route-name colors derived from Codex's public visualization family.
+- Expand route identity to a six-color Codex-derived pool; each new map selects three distinct colors and persists them in RouteSpec.
+- Recalculate the selector as a symmetric 16/15 px enclosure around three 320 × 132 cards and strengthen its composer-like shadow.
+- Use `Choose how this gets built` as the runtime prompt and show the user's task as its subtitle.
 - Align the portable surface, type scale, spacing, radii, and separators with the quiet neutral grammar of the Codex desktop interface.
 - Give the route selector one composer-like soft perimeter and a 20 px parent radius while keeping individual cards flat.
 - Document the static SVG and interactive HTML delivery boundary.

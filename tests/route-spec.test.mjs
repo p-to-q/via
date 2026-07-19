@@ -24,6 +24,19 @@ test("graph requires one recommended route", () => {
   assert.match(validateRouteSpec(invalid).join("\n"), /exactly one route/);
 });
 
+test("route colors come from the six-color pool and stay distinct", () => {
+  const validColors = ["blue", "orange", "green", "pink", "purple", "cyan"];
+  for (const color of validColors) {
+    const candidate = structuredClone(fixture);
+    candidate.routes[0].color = color;
+    if (candidate.routes.slice(1).some((route) => route.color === color)) continue;
+    assert.doesNotMatch(validateRouteSpec(candidate).join("\n"), /color is invalid/);
+  }
+  const duplicate = structuredClone(fixture);
+  duplicate.routes[1].color = duplicate.routes[0].color;
+  assert.match(validateRouteSpec(duplicate).join("\n"), /colors must be distinct/);
+});
+
 test("ranges reject inverted cost", () => {
   const invalid = structuredClone(fixture);
   invalid.routes[0].tokens = { min: 9000, max: 1000 };
@@ -60,6 +73,12 @@ test("graph requires a visible proof checkpoint", () => {
   assert.match(validateRouteSpec(invalid).join("\n"), /proof checkpoint/);
 });
 
+test("every route needs a derived engineering check", () => {
+  const invalid = structuredClone(fixture);
+  invalid.graph.nodes.forEach((node) => { delete node.control; });
+  assert.match(validateRouteSpec(invalid).join("\n"), /engineering control check/);
+});
+
 test("renderer emits Git-tree topology, signal window, and terse cards", () => {
   const svg = renderRouteMap(fixture);
   assert.match(svg, /^<svg /);
@@ -72,14 +91,17 @@ test("renderer emits Git-tree topology, signal window, and terse cards", () => {
   assert.equal((svg.match(/class="gate-light"/g) || []).length, 3);
   assert.doesNotMatch(svg, / gate(?:s)?</);
   assert.doesNotMatch(svg, /<circle cx="22" cy="25"/);
-  assert.match(svg, /stroke="#39737B"/);
-  assert.match(svg, /stroke="#766B7D"/);
-  assert.match(svg, /stroke="#A87943"/);
+  assert.match(svg, /stroke="#3AB9B1"/);
+  assert.match(svg, /stroke="#EB77B1"/);
+  assert.match(svg, /stroke="#F3883B"/);
   assert.equal((svg.match(/class="card selected"/g) || []).length, 1);
   assert.match(svg, /class="route-dock"/);
   assert.match(svg, /id="dock-shadow"/);
-  assert.match(svg, /class="route-dock"[^>]+rx="20"[^>]+filter="url\(#dock-shadow\)"/);
-  assert.equal((svg.match(/class="route-rail"/g) || []).length, 3);
+  assert.match(svg, /class="route-dock"[^>]+rx="22"[^>]+filter="url\(#dock-shadow\)"/);
+  assert.doesNotMatch(svg, /class="route-rail"/);
+  assert.match(svg, /class="card-label" fill="#247C78"/);
+  assert.match(svg, /class="card-label" fill="#A84177"/);
+  assert.match(svg, /class="card-label" fill="#A95227"/);
   assert.match(svg, /fill="#F2F5F5" stroke="#AEBFC0"/);
   assert.match(svg, /stroke="#E5E5E5" stroke-width="1"/);
   assert.equal((svg.match(/data-route-id=/g) || []).length, 3);
@@ -88,6 +110,10 @@ test("renderer emits Git-tree topology, signal window, and terse cards", () => {
   assert.equal((svg.match(/<circle cx="9" cy="(?:6|12)" r="1.45"/g) || []).length, 6);
   assert.doesNotMatch(svg, /fill="#F1F3F4" stroke="#DADCE0"/);
   assert.doesNotMatch(svg, /Recommended ·/);
+  assert.match(svg, />Choose how this gets built</);
+  assert.match(svg, />Shape the first useful roadmap</);
+  assert.equal((svg.match(/engineering checks/g) || []).length, 9);
+  assert.doesNotMatch(svg, /[123] gate/);
   assert.doesNotMatch(svg, />REC</);
   assert.doesNotMatch(svg, /Recommendation:/);
 });
@@ -116,7 +142,7 @@ test("CLI supports help, version, and validate", () => {
   assert.match(help.stdout, /via validate/);
   const version = spawnSync(process.execPath, [cli, "--version"], { encoding: "utf8" });
   assert.equal(version.status, 0);
-  assert.match(version.stdout, /^0\.2\.0/);
+  assert.match(version.stdout, /^0\.3\.0/);
   const validate = spawnSync(process.execPath, [cli, "validate", fixturePath], { encoding: "utf8" });
   assert.equal(validate.status, 0, validate.stderr);
   assert.match(validate.stdout, /valid RouteSpec/);

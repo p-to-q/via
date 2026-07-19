@@ -20,7 +20,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
 export function validateRouteSpec(spec) {
   const errors = [];
   if (!object(spec)) return ["RouteSpec must be an object."];
-  if (spec.schemaVersion !== "0.2") errors.push("schemaVersion must be 0.2.");
+  if (spec.schemaVersion !== "0.3") errors.push("schemaVersion must be 0.3.");
   if (!text(spec.destination) || spec.destination.length > 72) errors.push("destination must be 1-72 characters.");
   const routes = Array.isArray(spec.routes) ? spec.routes : [];
   if (routes.length !== 3) errors.push("routes must contain exactly three routes.");
@@ -34,13 +34,12 @@ export function validateRouteSpec(spec) {
     routeIds.add(route.id);
     if (!text(route.label) || route.label.length > 22) errors.push(`${route.id}.label must be 1-22 characters.`);
     if (!text(route.summary) || route.summary.length > 54) errors.push(`${route.id}.summary must be 1-54 characters.`);
-    if (!["lime", "amber", "violet"].includes(route.color)) errors.push(`${route.id}.color is invalid.`);
+    if (!["blue", "orange", "green", "pink", "purple", "cyan"].includes(route.color)) errors.push(`${route.id}.color is invalid.`);
     if (routeColors.has(route.color)) errors.push("route colors must be distinct.");
     routeColors.add(route.color);
     if (route.recommended === true) recommended += 1;
     checkRange(errors, `${route.id}.tokens`, route.tokens);
     checkRange(errors, `${route.id}.minutes`, route.minutes);
-    if (!Number.isInteger(route.gates) || route.gates < 0 || route.gates > 9) errors.push(`${route.id}.gates must be an integer from 0-9.`);
   }
   if (recommended !== 1) errors.push("exactly one route must be recommended.");
 
@@ -63,6 +62,7 @@ export function validateRouteSpec(spec) {
     if (positions.has(position)) errors.push(`two nodes occupy ${position}.`);
     positions.add(position);
     if (node.gate && !["green", "yellow", "red"].includes(node.gate)) errors.push(`${node.id}.gate is invalid.`);
+    if (node.control && !["decision", "proof", "boundary", "release"].includes(node.control)) errors.push(`${node.id}.control is invalid.`);
   }
 
   const adjacency = new Map(nodes.map((node) => [node.id, []]));
@@ -107,6 +107,10 @@ export function validateRouteSpec(spec) {
     if (!edges.some((edge) => edge.routes?.length === 1 && edge.routes[0] === routeId)) {
       errors.push(`${routeId} needs at least one unique edge.`);
     }
+  }
+  for (const routeId of routeIds) {
+    const routeNodeIds = new Set(edges.filter((edge) => edge.routes?.includes(routeId)).flatMap((edge) => [edge.from, edge.to]));
+    if (!nodes.some((node) => routeNodeIds.has(node.id) && node.control)) errors.push(`${routeId} needs at least one engineering control check.`);
   }
   return errors;
 }

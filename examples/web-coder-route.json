@@ -1,35 +1,32 @@
 {
-  "schemaVersion": "0.2",
-  "destination": "Ship the first useful route map",
+  "schemaVersion": "0.3",
+  "destination": "Shape the first useful roadmap",
   "routes": [
     {
       "id": "skill-first",
       "label": "Skill first",
-      "color": "lime",
+      "color": "cyan",
       "recommended": true,
       "tokens": { "min": 3500, "max": 9000 },
       "minutes": { "min": 5, "max": 12 },
-      "gates": 1,
       "summary": "Small contract, fast proof"
     },
     {
       "id": "ui-first",
       "label": "Interface first",
-      "color": "violet",
+      "color": "pink",
       "recommended": false,
       "tokens": { "min": 6000, "max": 14000 },
       "minutes": { "min": 10, "max": 25 },
-      "gates": 2,
       "summary": "Map before workflow"
     },
     {
       "id": "telemetry-first",
       "label": "Telemetry first",
-      "color": "amber",
+      "color": "orange",
       "recommended": false,
       "tokens": { "min": 9000, "max": 22000 },
       "minutes": { "min": 20, "max": 45 },
-      "gates": 3,
       "summary": "Measure cost before build"
     }
   ],
@@ -37,20 +34,20 @@
     "nodes": [
       { "id": "intent", "label": "intent", "column": 0, "lane": 2 },
       { "id": "inspect", "label": "inspect task", "column": 1, "lane": 2 },
-      { "id": "frame", "label": "frame routes", "column": 2, "lane": 2, "gate": "green" },
+      { "id": "frame", "label": "frame routes", "column": 2, "lane": 2, "gate": "green", "control": "decision" },
 
-      { "id": "contract", "label": "lock contract", "column": 3, "lane": 0 },
+      { "id": "contract", "label": "lock contract", "column": 3, "lane": 0, "control": "boundary" },
       { "id": "renderer", "label": "render map", "column": 5, "lane": 0 },
 
       { "id": "wire", "label": "wire graph", "column": 3, "lane": 2 },
-      { "id": "motion", "label": "motion pass", "column": 4, "lane": 3 },
-      { "id": "user-check", "label": "5 user check", "column": 5, "lane": 2, "gate": "yellow" },
+      { "id": "motion", "label": "motion pass", "column": 4, "lane": 3, "control": "proof" },
+      { "id": "user-check", "label": "5 user check", "column": 5, "lane": 2, "gate": "yellow", "control": "proof" },
 
-      { "id": "runtime", "label": "runtime hooks", "column": 3, "lane": 4 },
-      { "id": "measure", "label": "measure run", "column": 5, "lane": 4, "gate": "red" },
+      { "id": "runtime", "label": "runtime hooks", "column": 3, "lane": 4, "control": "boundary" },
+      { "id": "measure", "label": "measure run", "column": 5, "lane": 4, "gate": "red", "control": "proof" },
 
-      { "id": "validate", "label": "validate", "column": 6, "lane": 2 },
-      { "id": "ship", "label": "ship", "column": 7, "lane": 2 }
+      { "id": "validate", "label": "validate", "column": 6, "lane": 2, "control": "proof" },
+      { "id": "ship", "label": "ship", "column": 7, "lane": 2, "control": "release" }
     ],
     "edges": [
       { "from": "intent", "to": "inspect", "routes": ["skill-first", "ui-first", "telemetry-first"] },
