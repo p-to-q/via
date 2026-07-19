@@ -2,9 +2,9 @@
 
 ## Unreleased
 
-- Rework the option tray around Google Maps' familiar blue, neutral borders, 10px radii, and three-level information hierarchy.
-- Keep route identity in the Git tree while using a blue selected card and quiet gray alternatives; remove decorative card dots and the duplicate `REC` badge.
-- Replace the `gates` label with a compact traffic-light icon.
+- Rework the option tray around a calm maps-style information hierarchy without copying a familiar Material selection card.
+- Introduce the balanced Harbor palette and continue each Git-tree route as a short top rail on a neutral option plaque.
+- Replace the `gates` label and RGB capsule with a custom monochrome, two-lamp traffic-light pictogram based on common road-signal geometry.
 - Recalibrate example time ranges to active agent work.
 
 ## 0.2.0 — 2026-07-19

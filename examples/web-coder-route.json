@@ -10,7 +10,7 @@
       "tokens": { "min": 3500, "max": 9000 },
       "minutes": { "min": 5, "max": 12 },
       "gates": 1,
-      "summary": "Small contract, real map, fastest proof"
+      "summary": "Small contract, fast proof"
     },
     {
       "id": "ui-first",
@@ -20,7 +20,7 @@
       "tokens": { "min": 6000, "max": 14000 },
       "minutes": { "min": 10, "max": 25 },
       "gates": 2,
-      "summary": "Test the map before the workflow"
+      "summary": "Map before workflow"
     },
     {
       "id": "telemetry-first",
@@ -30,7 +30,7 @@
       "tokens": { "min": 9000, "max": 22000 },
       "minutes": { "min": 20, "max": 45 },
       "gates": 3,
-      "summary": "Measure actual cost before prediction"
+      "summary": "Measure cost before build"
     }
   ],
   "graph": {

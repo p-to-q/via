@@ -30,9 +30,9 @@ Everything visible must represent one of these atoms.
 └──────────────────────────────────────────────┘
 ```
 
-The window lights are chrome, not data. Blue, plum, and amber identify routes in the tree. Gate dots are local conditions. Copy stays inside node labels and three cards.
+The window lights are chrome, not data. Petrol, plum, and amber identify routes in the tree. Gate dots are local conditions. Copy stays inside node labels and three cards.
 
-The option tray borrows the calm hierarchy of a maps product without copying its structure. The selected card uses Google blue (`#1A73E8`), a 2.25 px outline, a 4% blue tint, and a 10 px radius. Alternatives use 1.25 px neutral outlines. Each card has one dominant number, one compact time-and-gate row, and one short status line. The gate count appears before a traffic-light icon; the word `gates` is never shown.
+The option tray borrows the calm hierarchy of a maps product without copying its structure. Three plaques sit on a shared route dock. Each uses a neutral 1 px frame and a short route-colored rail embedded in its top edge; the selected route adds a quiet tint and a slightly darker neutral frame. This seam is the visual continuation of the Git tree, not a standard Material selection card. Each plaque has one dominant number, one compact time-and-gate row, and one short status line. The gate count appears before a monochrome two-lamp traffic-light pictogram; the word `gates` is never shown.
 
 ## Motion
 
