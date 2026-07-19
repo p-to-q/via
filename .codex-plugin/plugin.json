@@ -1,9 +1,9 @@
 {
   "name": "via",
-  "version": "0.3.8",
-  "description": "Add a compact Git-tree map to an engineering planning response.",
+  "version": "0.3.9",
+  "description": "A Git-tree/Google Map interface for vibe coding decisions.",
   "author": {
-    "name": "P-to-Q",
+    "name": "[p → q]",
     "url": "https://github.com/p-to-q"
   },
   "homepage": "https://github.com/p-to-q/via",
@@ -19,16 +19,16 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "[via]",
-    "shortDescription": "Add a Git-tree map to an engineering plan.",
-    "longDescription": "[via] helps the model explain useful engineering paths, then adds a Git-tree map with shared checkpoints, branches, outcomes, and token/time ranges.",
-    "developerName": "P-to-Q",
+    "shortDescription": "A Git-tree/Google Map interface for vibe coding decisions.",
+    "longDescription": "[via] maps engineering paths in a Git-tree/Google Map interface with shared checkpoints, branches, outcomes, and token/time ranges.",
+    "developerName": "[p → q]",
     "category": "Developer Tools",
     "capabilities": [
       "Interactive",
       "Write"
     ],
     "defaultPrompt": [
-      "Use via to reason about this task and add a Git-tree route map.",
+      "Use via to reason about this task and add a Git-tree/Google Map interface.",
       "Show the shared steps and branches for three paths.",
       "Map the token cost before implementation."
     ],

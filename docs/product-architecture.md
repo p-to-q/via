@@ -4,7 +4,7 @@
 
 Input: one engineering task.
 
-Output: one Git-tree map showing three paths through that task.
+Output: one Git-tree/Google Map interface showing three paths through that task.
 
 The smallest useful version of via is simple: the model reasons about useful paths, gives its normal planning answer, and adds a picture. The visual is a second representation of the decision, not a compressed substitute for the model's route explanations, recommendation, or feedback.
 

@@ -1,6 +1,6 @@
 # Contributing
 
-via has one job: turn an engineering task into a Git-tree map. Changes should make that map faster to understand, easier to generate, or more reliable to render.
+via has one job: provide a Git-tree/Google Map interface for vibe coding decisions. Changes should make that interface faster to understand, easier to generate, or more reliable to render.
 
 ## Development
 

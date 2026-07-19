@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.3.9 — 2026-07-19
+
+- Replace the implementation-led tagline with `See the paths before you build.` and a supporting sentence.
+- Use `A Git-tree/Google Map interface for vibe coding decisions.` for GitHub, npm, Plugin, and Skill product descriptions.
+- Standardize visible organization copy as `[p → q]` while preserving repository URLs, npm scopes, and machine identifiers that use `p-to-q` or `ptoq.io`.
+- Align Skill and Plugin UI metadata with the new product language.
+
 ## 0.3.8 — 2026-07-19
 
 - Add a lightweight conversation lifecycle: enter on open decisions, continue normally after route selection, redraw only after material change, and exit when work becomes straightforward.

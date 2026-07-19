@@ -1,6 +1,6 @@
 ---
 name: via-route
-description: Generate and render a compact Git-tree comparison for open-ended planning questions. Use when the user asks how to approach, plan, architect, redesign, migrate, investigate, or choose a path, or explicitly asks for options, routes, a token map, or visual planning. Default to three useful options when the task genuinely permits choice. Skip factual questions, tiny edits, and tasks whose path is already fixed.
+description: Generate and render a compact Git-tree/Google Map comparison for open-ended planning questions. Use when the user asks how to approach, plan, architect, redesign, migrate, investigate, or choose a path, or explicitly asks for options, routes, a token map, or visual planning. Default to three useful options when the task genuinely permits choice. Skip factual questions, tiny edits, and tasks whose path is already fixed.
 ---
 
 # via route

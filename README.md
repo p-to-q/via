@@ -3,7 +3,9 @@
 [![CI](https://github.com/p-to-q/via/actions/workflows/ci.yml/badge.svg)](https://github.com/p-to-q/via/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-17181d.svg)](LICENSE)
 
-Turn an engineering task into a Git-tree map.
+See the paths before you build.
+
+via helps your coding agent reason through the options, then maps the engineering paths in a Git-tree/Google Map interface.
 
 ```text
 Read https://github.com/p-to-q/via/blob/main/skills/via-route/SKILL.md and follow the instructions to install and configure via.
@@ -176,6 +178,6 @@ npm install
 npm run check
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.8 release notes](docs/releases/v0.3.8.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.9 release notes](docs/releases/v0.3.9.md).
 
-Apache-2.0 © P-to-Q contributors.
+Apache-2.0 © [p → q] contributors.

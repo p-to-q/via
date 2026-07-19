@@ -47,7 +47,7 @@ Public X search did not reliably expose original post text and interaction count
 
 ## What via adopts
 
-1. one sentence: turn a task into a Git-tree map;
+1. one sentence: a Git-tree/Google Map interface for vibe coding decisions;
 2. visible result on first use;
 3. short trigger/control Skill;
 4. deterministic scripts;

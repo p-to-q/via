@@ -1,7 +1,7 @@
 {
   "name": "@afkv/via",
-  "version": "0.3.8",
-  "description": "Turn an engineering task into a Git-tree route map.",
+  "version": "0.3.9",
+  "description": "A Git-tree/Google Map interface for vibe coding decisions.",
   "type": "module",
   "engines": {
     "node": ">=20"
@@ -44,7 +44,7 @@
   "bugs": {
     "url": "https://github.com/p-to-q/via/issues"
   },
-  "author": "P-to-Q",
+  "author": "[p → q]",
   "publishConfig": {
     "access": "public"
   },

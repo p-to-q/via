@@ -31,7 +31,7 @@ npm ERR! code E401
 npm ERR! 401 Unauthorized - GET https://registry.npmjs.org/-/whoami
 ```
 
-That meant the machine did not have a valid npm login for publishing at the time. Do not change the package name to work around auth; authenticate the intended P-to-Q npm account or configure a scoped automation token.
+That meant the machine did not have a valid npm login for publishing at the time. Do not change the package name to work around auth; authenticate the intended [p → q] npm account or configure a scoped automation token.
 
 A real `npm publish --access public` attempt for the next candidate package also failed before any version was published:
 
