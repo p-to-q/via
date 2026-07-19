@@ -8,7 +8,7 @@ Output: one Git-tree/Google Map interface showing three paths through that task.
 
 The smallest useful version of via is simple: the model reasons about useful paths, gives its normal planning answer, and adds a picture. The visual is a second representation of the decision, not a compressed substitute for the model's route explanations, recommendation, or feedback.
 
-Each path surfaces three compact decision signals: estimated tokens, anticipated time, and a concise route prompt that captures what makes the path useful. These signals help the user compare paths without replacing the fuller explanation below the map.
+Each path surfaces three compact decision signals: estimated tokens, anticipated time, and a concise route summary that captures what makes the path useful. These signals help the user compare paths without replacing the fuller explanation below the map.
 
 Three paths build on a familiar model interaction pattern: after reasoning about an open question, models often communicate the result as three comparable options, and users already understand how to read that shape. via makes it a default interface contract when three real choices exist. It does not claim every task has three answers or require the model to manufacture one.
 

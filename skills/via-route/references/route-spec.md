@@ -66,7 +66,7 @@ Each route requires:
 - unique `color` chosen from `blue`, `orange`, `green`, `pink`, `purple`, and `cyan`
 - exactly one route with `recommended: true`
 - `tokens` and `minutes` objects with `min <= max`
-- `summary` up to 54 characters; this is the card's concise route prompt, naming what makes the path useful
+- `summary` up to 54 characters; this is the card's concise route summary, naming what makes the path useful
 
 The renderer derives the card's `checks` count from unique route nodes with a `control` value. Do not enter a route total by hand, and do not add controls merely to inflate the number. A route may legitimately have zero route-specific controls; shared controls still count when its path passes through them.
 
