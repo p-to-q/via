@@ -21,6 +21,12 @@ Before proposing routes, think deeply and from first principles about the user's
 8. Present the SVG prominently, then give the normal user-facing planning response the task deserves. Explain the three routes, why they differ, your recommendation, and useful feedback at a depth set by the task and the user—not by the size of the SVG. The map supplements this answer; it does not replace or compress it. Do not repeat generic instructions like choosing, combining, or customizing routes after every render.
 9. Stop after the planning response and route map unless the user also asked you to implement a route.
 
+## Continue naturally
+
+- After the user chooses a route, continue the work normally from that choice. Use the existing map as context; do not force later answers back into three options.
+- Redraw only when the user's goal, constraints, evidence, or available paths change enough to alter the map. Otherwise answer or implement without invoking via again.
+- Let via fall away when the work becomes a fixed execution path, a small edit, or a factual question. Decide from the current turn; do not ask the user to manage via state or predict whether the next turn will need it.
+
 ## Map what matters
 
 - A node is a concrete action or checkpoint, not hidden reasoning.

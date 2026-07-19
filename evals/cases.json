@@ -18,6 +18,18 @@
     "reason": "The user already fixed the implementation boundary."
   },
   {
+    "id": "route-followup",
+    "prompt": "Let's take the recommended adapter route from the map. Start with its first checkpoint.",
+    "shouldTrigger": false,
+    "reason": "The user selected a route; continue from the existing map without creating another three-way decision."
+  },
+  {
+    "id": "material-route-change",
+    "prompt": "The route map assumed we could add a service, but policy now forbids new infrastructure. Reconsider the available paths.",
+    "shouldTrigger": true,
+    "routeAxes": ["changed constraint", "remaining boundaries", "feasibility", "new topology"]
+  },
+  {
     "id": "auth-migration",
     "prompt": "Plan our migration from session cookies to passkeys without breaking existing mobile clients.",
     "shouldTrigger": true,

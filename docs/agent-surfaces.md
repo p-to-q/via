@@ -40,9 +40,11 @@ The Skill body should stay light. The prompt should activate model judgment with
 
 Do not override host-native reasoning presentation. A host may show thinking progress, tool activity, a processed panel, or a reasoning summary while the model works. via leaves those surfaces intact and follows the host's policy on private internal reasoning; it neither requires nor disables a raw chain-of-thought transcript.
 
-The three-option default follows a familiar model communication pattern rather than forcing a new reasoning pattern. Claude Artifacts is a useful interaction precedent for generating a visual alongside an answer. via adds a RouteSpec fixture so the model has a clear shape for this particular engineering map.
+The three-option default follows a familiar model communication pattern rather than forcing a new reasoning pattern. ChatGPT, Codex, and Claude belong to one reference family of AI-native model-company interfaces: conversational reasoning, coding work, and generated visuals in the same surface. via adds a RouteSpec fixture so the model has a clear shape for this particular engineering map.
 
 via is also an alternative interface for the Plan-mode moment. Match Plan mode's useful scale—context gathering, consequential clarification, task-appropriate reasoning, and planning before implementation—then add the route map. Do not claim that the Skill controls host permissions, a read-only runtime, reasoning effort, or thinking UI. When a host supports a planning-specific reasoning setting, leave that choice to the host or user rather than simulating it with a longer prompt.
+
+Continuation is contextual rather than configured. Once a user selects a route, follow it normally and do not keep producing three-option maps. Redraw only after a material change to goals, constraints, evidence, or available paths. Let the Skill become inactive when the task is straightforward. Do not persist a via flag or ask the model to predict future invocation.
 
 ## Sources checked
 

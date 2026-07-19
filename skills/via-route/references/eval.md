@@ -39,3 +39,7 @@ Renaming `quick`, `balanced`, and `robust` does not create routes. Each route mu
 ## Task families
 
 Test tiny fixes (expected skip), open-ended plan questions (expected three-option map when credible), migrations, UI redesigns, API integrations, performance diagnosis, data cleanup, test strategy, compatibility refactors, and research-heavy product decisions.
+
+## Continuation test
+
+Run a short multi-turn sequence: open decision → route selection → implementation follow-up → material constraint change. Expect one map on the open decision, no new map for selection or straightforward implementation, and a redraw only if the changed constraint genuinely changes the available paths or topology.

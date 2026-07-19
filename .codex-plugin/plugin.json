@@ -1,7 +1,7 @@
 {
   "name": "via",
-  "version": "0.3.7",
-  "description": "Turn an engineering task into a compact Git-tree map with shared steps, branches, and three route costs.",
+  "version": "0.3.8",
+  "description": "Add a compact Git-tree map to an engineering planning response.",
   "author": {
     "name": "P-to-Q",
     "url": "https://github.com/p-to-q"
@@ -19,8 +19,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "[via]",
-    "shortDescription": "See an engineering task as a Git-tree map.",
-    "longDescription": "[via] draws three engineering paths with shared checkpoints, local branches, merge points, and token/time ranges.",
+    "shortDescription": "Add a Git-tree map to an engineering plan.",
+    "longDescription": "[via] helps the model explain useful engineering paths, then adds a Git-tree map with shared checkpoints, branches, outcomes, and token/time ranges.",
     "developerName": "P-to-Q",
     "category": "Developer Tools",
     "capabilities": [
@@ -28,7 +28,7 @@
       "Write"
     ],
     "defaultPrompt": [
-      "Use via to draw this task as a Git-tree route map.",
+      "Use via to reason about this task and add a Git-tree route map.",
       "Show the shared steps and branches for three paths.",
       "Map the token cost before implementation."
     ],

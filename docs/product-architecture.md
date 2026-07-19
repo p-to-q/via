@@ -10,11 +10,17 @@ The smallest useful version of via is simple: the model reasons about useful pat
 
 Three paths build on a familiar model interaction pattern: after reasoning about an open question, models often communicate the result as three comparable options, and users already understand how to read that shape. via makes it a default interface contract when three real choices exist. It does not claim every task has three answers or require the model to manufacture one.
 
-Underneath that interface, via is a lightweight scaffold for both the developer and the model. ChatGPT and Codex inform the quiet UI grammar and the AI-native coding context in which the artifact appears. Claude Artifacts informs the interaction idea: a model can generate a visual artifact on demand alongside its answer to aid understanding. The spatial navigation language of Google Maps and Google Earth and the topology of a Git Tree turn the model's existing judgment into structured context that is easier to compare and use in programming work.
+Underneath that interface, via is a lightweight scaffold for both the developer and the model. AI-native interfaces from model companies—including ChatGPT, Codex, and Claude—form one reference family: quiet conversational UI, visible coding work, native reasoning surfaces, and on-demand visual artifacts. Google Maps and Google Earth contribute spatial navigation; Git Tree contributes engineering topology.
 
 via adds one simple mechanism: each run puts the visible routes into a RouteSpec fixture, then the renderer creates the SVG. The schema reduces uncertainty about how the model should organize and express the engineering structure. The content and topology remain open to the model.
 
-The scaffold has a strict boundary. The prompt encourages careful intent reading, first-principles understanding, and model intuition, but does not prescribe a reasoning procedure. RouteSpec organizes the additional visual. Deterministic scripts validate and render it. Stronger models retain room to do what they already do well; less capable models receive a few useful directional cues without a heavy rubric. Neither is asked to trade away useful written analysis for visual brevity.
+## Schema hypothesis
+
+The product hypothesis is that a light output schema can improve the work before rendering. Expressing a plan as nodes, dependencies, shared segments, branches, checks, origins, and outcomes may encourage the model to resolve technical relationships more clearly and form a more principled topology. This is a direction for product evaluation, not a claim that the schema replaces reasoning or always improves it.
+
+The prompt therefore provides only the schema and a few high-leverage cues. The model remains free to use its own intuition, reasoning depth, evidence, and vocabulary. The human receives both the normal explanation and the graphical interface.
+
+The scaffold has a strict boundary. The prompt encourages careful intent reading, first-principles understanding, and model intuition, but does not prescribe a reasoning procedure. RouteSpec organizes the additional visual. Stronger models retain room to do what they already do well; less capable models receive a few useful directional cues without a heavy rubric. Neither is asked to trade away useful written analysis for visual brevity.
 
 Reasoning presentation belongs to the host. via does not suppress a ChatGPT/Codex-style processed panel, progress trace, or host-provided reasoning summary, and it does not demand a private raw chain-of-thought transcript. The model reasons according to its native capabilities and policy; via adds a fixture and visual to the normal result.
 
@@ -32,6 +38,17 @@ via adopts the useful scale, not the whole runtime:
 - add RouteSpec and the map as the planning interface.
 
 Permissions, read-only execution, reasoning controls, and thinking panels remain responsibilities of the host. Sources: [Codex best practices](https://learn.chatgpt.com/guides/best-practices), [Codex configuration sample](https://learn.chatgpt.com/docs/config-file/config-sample), and [Codex developer commands](https://learn.chatgpt.com/docs/developer-commands).
+
+## Conversation lifecycle
+
+via is event-like, not a mode that captures the rest of the conversation:
+
+- **Enter:** use it when the current turn contains a real open planning decision.
+- **Continue:** after the user chooses a route, follow that route normally and treat the existing map as context.
+- **Redraw:** generate a new map only when changed goals, constraints, evidence, or options materially alter the topology.
+- **Exit:** stop applying the route framework when the work narrows to implementation, a small edit, or a factual answer.
+
+The model decides this from each current turn and the conversation context. Do not store via state, ask the user to switch it off, or decide in advance whether a future turn must use it.
 
 ## Atoms
 

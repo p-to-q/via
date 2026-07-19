@@ -17,9 +17,11 @@ At its simplest, via works with a familiar model behavior: after reasoning about
 
 via keeps the prompt light. It nudges the model to think carefully, understand the user's real intent, and work from the task itself, then leaves the model room to follow its own intuition and native reasoning behavior. RouteSpec constrains the added visual—not the model's thinking interface or written answer—and the bundled scripts handle validation and SVG rendering.
 
-The product combines four influences without copying any one of them. From ChatGPT and Codex, it borrows the quiet UI grammar and the context of an AI-native coding conversation. From Claude Artifacts, it borrows the idea that a model can generate a visual artifact on demand to help a user understand its answer. Google Maps and Google Earth contribute spatial route comparison; Git Tree contributes engineering topology.
+The product has three reference families. AI-native interfaces from model companies—including ChatGPT, Codex, and Claude—show how reasoning, coding work, and on-demand visual artifacts can live naturally in one conversation. Google Maps and Google Earth contribute spatial route comparison. Git Tree contributes engineering topology.
 
 via gives this interaction a small engineering fixture: the model puts its routes into RouteSpec and the renderer turns them into the SVG. The schema reduces uncertainty about how to organize the technical structure while the routes, nodes, topology, and recommendation still come from the model's judgment.
+
+Our hypothesis is that this light schema can also help the model think more clearly. Expressing technical work as nodes, dependencies, shared segments, branches, and outcomes may encourage a more principled topology during reasoning. It remains a nudge, not a required reasoning procedure.
 
 via is designed for the same moment as Plan mode. It gathers the context that matters, asks only consequential questions, and lets the model reason at the depth the task needs before implementation. The difference is the interface: the normal plan and feedback remain, with a route map added beside them. via is an alternative to a text-only planning surface, not a replacement for a host's permissions, reasoning controls, or thinking UI.
 
@@ -151,6 +153,8 @@ This separation is deliberate: the model decides what the task means, explains t
 
 via also stays out of the host's thinking UI. If ChatGPT, Codex, Claude, or another agent shows progress or a reasoning summary while it works, that remains available according to the host's own behavior and policy. via governs the added route map, not whether the host exposes a thinking panel or how it labels one.
 
+via has no persistent mode for the user to manage. It appears when the current turn contains a real route decision. After a route is chosen, the model continues normally from that context. The map is redrawn only when the goal, constraints, evidence, or available paths materially change; once the task becomes straightforward execution, via naturally falls away.
+
 See the [RouteSpec contract](skills/via-route/references/route-spec.md), [example graph](examples/web-coder-route.json), [product architecture](docs/product-architecture.md), [interface system](docs/design-system.md), and [agent surface notes](docs/agent-surfaces.md).
 
 ## What via does not claim
@@ -163,7 +167,7 @@ See the [RouteSpec contract](skills/via-route/references/route-spec.md), [exampl
 
 ## Research and evaluation
 
-The [Skill landscape](docs/skill-landscape.md) records the repository and community research behind the design, with sources and measurement caveats. The [evaluation set](evals/README.md) covers trigger precision, fake-route cases, topology, proof checkpoints, and scan speed.
+The bundled [Skill landscape](docs/skill-landscape.md) records the community research behind the design. The repository's [evaluation set](https://github.com/p-to-q/via/tree/main/evals) covers trigger precision, fake-route cases, topology, proof checkpoints, scan speed, and conversation continuation.
 
 ## Development
 
@@ -172,6 +176,6 @@ npm install
 npm run check
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.7 release notes](docs/releases/v0.3.7.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.8 release notes](docs/releases/v0.3.8.md).
 
 Apache-2.0 © P-to-Q contributors.

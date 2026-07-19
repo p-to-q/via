@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.3.8 — 2026-07-19
+
+- Add a lightweight conversation lifecycle: enter on open decisions, continue normally after route selection, redraw only after material change, and exit when work becomes straightforward.
+- State the schema effect as a product hypothesis: technical topology may become clearer while the model reasons, without prescribing its reasoning process.
+- Combine ChatGPT, Codex, and Claude under one model-company / AI-native interface reference family.
+- Keep adjacent design, architecture, agent-surface, and Skill-research documents in the npm package while relying on progressive disclosure to keep normal turns light.
+
 ## 0.3.7 — 2026-07-19
 
 - Clarify via's design philosophy: preserve model autonomy and its useful written analysis while using RouteSpec as a lightweight scaffold for an additional visual, not a replacement response.

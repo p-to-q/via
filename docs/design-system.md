@@ -10,10 +10,9 @@ via's visual identity should feel natural in the same AI-native coding scenarios
 
 The wordmark is always lowercase: `via`. In generated SVGs, identity should stay quiet: `via · a [p → q] project` on the left and `ptoq.io` on the right. Do not use all-caps spelling, and do not label the surface with generic route-count marketing copy.
 
-Four outside ideas define the interface:
+Three reference families define the interface:
 
-- ChatGPT and Codex contribute quiet UI grammar and the conversational coding context, not the route-map concept itself.
-- Claude Artifacts contributes the interaction principle of generating an on-demand visual artifact alongside the model's answer. via gives that specific route graphic a RouteSpec fixture so the model knows how to structure it.
+- AI-native interfaces from model companies—including ChatGPT, Codex, and Claude—contribute quiet conversational UI, native coding context, reasoning surfaces, and on-demand visual artifacts. They form one interface reference, not separate product layers inside via.
 - Google Maps gives the route-choice intuition: a user should understand that several paths lead from a current point to an outcome, with cost and time summarized in cards.
 - Google Earth contributes spatial overview: the whole decision landscape should be graspable before the user inspects an individual node. This is an information principle, not a cue to imitate map textures or geographic chrome.
 - Git Tree gives the engineering topology: shared work, forks, local detours, merges, proofs, and releases are visible as one graph instead of three separate plans.

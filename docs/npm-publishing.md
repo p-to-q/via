@@ -8,11 +8,11 @@ Source repository: `p-to-q/via`
 
 ## Current status
 
-`@afkv/via@0.3.5` is published on npm with public access. The first registry read had a short consistency delay, then verification succeeded:
+`@afkv/via@0.3.7` is the current published npm release with public access. `0.3.8` is the next candidate in this repository.
 
 ```bash
-npm view @afkv/via@0.3.5 version
-NPM_CONFIG_USERCONFIG=/tmp/via-empty-npmrc npm install --global @afkv/via@0.3.5 --dry-run
+npm view @afkv/via@0.3.7 version
+NPM_CONFIG_USERCONFIG=/tmp/via-empty-npmrc npm install --global @afkv/via@0.3.7 --dry-run
 ```
 
 The package is configured for public npm publishing:
@@ -86,7 +86,7 @@ The npm package should be much smaller than the GitHub repository. It should inc
 - `skills/via-route`;
 - the default example spec and SVG;
 - README, LICENSE, NOTICE;
-- core docs needed for agent implementation decisions: design system, product architecture, skill landscape, and agent surface notes.
+- supporting docs that help agents and builders understand the product: design system, product architecture, Skill landscape, and agent surface notes.
 
 It should exclude:
 
@@ -96,7 +96,7 @@ It should exclude:
 - generated output folders;
 - repository-only contribution and governance files unless a registry user needs them at runtime.
 
-The 2026-07-19 dry run for the candidate package was about 28 kB packed and 90 kB unpacked, which is a healthy target.
+The 0.3.8 release audit intentionally includes the small set of adjacent design and research documents. They are available when an agent or builder needs deeper context but are not loaded by the Skill on normal turns. Evaluation corpora, tests, release history, and contributor administration remain in GitHub.
 
 ## Release gate
 
