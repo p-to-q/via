@@ -23,17 +23,25 @@ A good via host can usually:
 
 If these abilities are missing, the schema becomes overhead. Typical failure signs are three renamed copies of one idea, confident but unsupported estimates, decorative topology, repeated JSON repair, or a map that says less than the normal answer.
 
-## Current model guidance
+## Practical threshold
 
-This list is a maintained snapshot rather than an allowlist.
+Treat the model-agent combination as ready when it can inspect a repository, form three materially distinct routes from an ambiguous engineering task, and emit valid RouteSpec with at most one small repair. This is deliberately a behavioral threshold: parameter count, release date, and a single benchmark score are weak substitutes for running the actual interaction.
 
-| provider | quality-first | balanced starting point | note |
-| --- | --- | --- | --- |
-| OpenAI | GPT-5.6 Sol | GPT-5.6 Terra | Start around medium reasoning for ordinary planning and raise it only when the decision benefits. Codex may select a suitable configuration automatically when model and effort are not pinned. |
-| Anthropic | Claude Opus 5 | Claude Sonnet 5 | Anthropic positions these for complex agentic coding, with Opus as the higher-capability choice and Sonnet as the practical default. |
-| Google | Gemini 3.1 Pro | Gemini 3.6 Flash | Prefer Pro for ambiguous, multi-system decisions; test Flash on bounded tasks where latency matters. |
+## Models to evaluate
 
-Other models are welcome when they demonstrate the required behavior. Avoid maintaining a long brand leaderboard in the public README; model catalogs change faster than via's interface contract.
+The following are representative current candidates, not a ranking, minimum tier, or claim of completed via certification. Prefer the balanced coding model already native to the user's agent before paying for the largest model.
+
+| ecosystem | representative candidates | why they belong in the test set |
+| --- | --- | --- |
+| OpenAI | GPT-5.6 Terra; Sol for unusually difficult decisions | Current Codex guidance can balance model and reasoning effort automatically; Terra is the capability/cost starting point rather than the maximum tier. |
+| Anthropic | Claude Sonnet 5; Opus only when the task warrants it | Sonnet is the practical coding baseline, while Opus is a quality-first comparison point. |
+| Google | Gemini 3.6 Flash; Gemini 3.1 Pro for harder topology | Flash provides a latency-oriented test and Pro a complex-reasoning comparison. |
+| Moonshot AI | Kimi K2.7 Code; Kimi K3 | Moonshot positions these for coding and long-horizon coding, making them relevant Chinese-developed candidates. |
+| DeepSeek | DeepSeek V4 Flash; V4 Pro | The current API exposes both speed-oriented and stronger reasoning variants that should be tested separately in the same harness. |
+| Alibaba Qwen | Qwen3.7 Max and current Qwen coding variants | Qwen's current catalog includes general reasoning and coding-focused models suitable for Chinese and bilingual repository work. |
+| Z.ai / Zhipu | GLM-5 or GLM-5.2 | Current GLM releases include coding-oriented agent use and belong in a cross-provider compatibility pass. |
+
+Do not infer certification from inclusion in this table. Record a model as a proven fit only after the small compatibility check below, including the exact model, reasoning setting, agent harness, and date. Avoid maintaining a brand leaderboard in the public README; model catalogs change faster than via's interface contract.
 
 ## Benchmarks as weak signals
 
@@ -63,5 +71,9 @@ Keep model selection outside the runtime Skill. The Skill should continue to ass
 - [Codex manual](https://developers.openai.com/codex/codex-manual.md)
 - [Anthropic: Models overview](https://docs.anthropic.com/en/docs/about-claude/models/overview)
 - [Google: Gemini models](https://ai.google.dev/gemini-api/docs/models)
+- [Moonshot AI: Kimi thinking and coding models](https://platform.moonshot.ai/docs/guide/use-kimi-k2-thinking-model)
+- [DeepSeek API models](https://api-docs.deepseek.com/quick_start/pricing)
+- [Alibaba Model Studio model catalog](https://help.aliyun.com/zh/model-studio/getting-started/models)
+- [Z.ai model documentation](https://docs.z.ai/guides/llm/glm-4.5)
 - [SWE-bench](https://github.com/SWE-bench/SWE-bench)
 - [Terminal-Bench](https://github.com/laude-institute/terminal-bench)

@@ -30,9 +30,7 @@ via is designed for the same moment as Plan mode. It gathers the context that ma
 
 ## Model fit
 
-via works best with capable, tool-using coding or reasoning models that can understand an ambiguous goal, form genuinely different routes, inspect a repository, and produce reliable structured output. Current strong fits include GPT-5.6 Sol or Terra, Claude Opus 5 or Sonnet 5, and Gemini 3.1 Pro; use a normal or higher reasoning setting when the decision is consequential. These are a current snapshot, not a compatibility lock.
-
-Smaller or latency-first models can still work, but the Skill is not meant to compensate for weak planning. If a model repeats one idea three times, invents topology, or repeatedly fails RouteSpec validation, skip via and use a normal text response. Repository and terminal benchmarks are useful signals, but via has no fixed benchmark cutoff because results depend on the model, agent harness, tools, and context together. See [Model fit and evaluation](docs/model-fit.md).
+via works best with capable tool-using coding or reasoning models. A practical threshold is a model-agent setup that can inspect a repository, form three materially distinct routes from an ambiguous engineering task, and emit valid RouteSpec with at most one small repair. Smaller models may spend more context following the Skill than they recover from its structure. If the model cannot form distinct routes or reliably produce RouteSpec, use a normal text response instead. See [Model fit and evaluation](docs/model-fit.md).
 
 ## Install
 
