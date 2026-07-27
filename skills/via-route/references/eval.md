@@ -50,4 +50,4 @@ Ask what work each estimate covers. Pass only when all cards use route selection
 
 ## Terminal test
 
-Test both shapes: three approaches from the same current system to the same shipped state, and three approaches that begin from different available assets or intentionally produce different outcomes. The first may infer shared endpoints. The second should declare `graph.terminals`; do not reward fake shared p or q nodes.
+Test a normal shared-endpoint task and a task that naturally has partial sharing, such as two origins leading to one outcome or one origin leading to several outcomes. The first should stay simple. The second should declare `graph.terminals` without forcing all three routes to differ.

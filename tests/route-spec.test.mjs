@@ -133,20 +133,43 @@ test("graph.terminals permits distinct route origins and destinations", () => {
 });
 
 test("graph.terminals permits a mix of shared and distinct endpoints", () => {
-  const candidate = structuredClone(fixture);
-  candidate.graph.terminals = {
-    origins: {
-      "skill-first": "current-draft",
-      "ui-first": "current-draft",
-      "telemetry-first": "current-draft"
-    },
-    destinations: {
-      "skill-first": "release-ready",
-      "ui-first": "release-ready",
-      "telemetry-first": "release-ready"
+  const candidate = {
+    ...structuredClone(fixture),
+    graph: {
+      terminals: {
+        origins: {
+          "skill-first": "from-scratch",
+          "ui-first": "prototype",
+          "telemetry-first": "prototype"
+        },
+        destinations: {
+          "skill-first": "release-ready",
+          "ui-first": "release-ready",
+          "telemetry-first": "release-ready"
+        }
+      },
+      nodes: [
+        { id: "from-scratch", label: "from scratch", column: 0, lane: 1 },
+        { id: "prototype", label: "prototype", column: 0, lane: 3 },
+        { id: "skill-path", label: "shape skill", column: 2, lane: 1 },
+        { id: "ui-path", label: "shape interface", column: 2, lane: 2 },
+        { id: "measure-path", label: "measure runtime", column: 2, lane: 3 },
+        { id: "release-ready", label: "release ready", column: 4, lane: 2, control: "release" }
+      ],
+      edges: [
+        { from: "from-scratch", to: "skill-path", routes: ["skill-first"] },
+        { from: "skill-path", to: "release-ready", routes: ["skill-first"] },
+        { from: "prototype", to: "ui-path", routes: ["ui-first"] },
+        { from: "ui-path", to: "release-ready", routes: ["ui-first"] },
+        { from: "prototype", to: "measure-path", routes: ["telemetry-first"] },
+        { from: "measure-path", to: "release-ready", routes: ["telemetry-first"] }
+      ]
     }
   };
   assert.deepEqual(validateRouteSpec(candidate), []);
+  const svg = renderRouteMap(candidate);
+  assert.equal((svg.match(/>START</g) || []).length, 2);
+  assert.equal((svg.match(/>DONE</g) || []).length, 1);
 });
 
 test("graph.terminals must name reachable route-specific endpoints", () => {

@@ -43,7 +43,7 @@ RouteSpec is the serialization contract for the renderer, not a planning method 
 }
 ```
 
-The excerpt illustrates fields; a valid spec needs exactly three complete route objects, 5–18 nodes, and 4–28 edges. `destination` is the map's visible title: generate it from the task in the style of a clear PR title, not a fixed slogan. Decide each route's origin and destination before deciding whether to omit `graph.terminals`. Omit it only when every route genuinely shares both endpoints; add it when any route starts from a different available state or leads to a different useful outcome. Use `examples/web-coder-route.json` from the repository as a complete specimen when available.
+The excerpt illustrates fields; a valid spec needs exactly three complete route objects, 5–18 nodes, and 4–28 edges. `destination` is the map's visible title: generate it from the task in the style of a clear PR title, not a fixed slogan. Most maps can omit `graph.terminals` and use their naturally shared endpoints. Add it when the task itself presents more than one available origin or useful outcome; it also supports partial sharing, such as two origins leading to one destination or one origin leading to three destinations. Use `examples/web-coder-route.json` from the repository as a complete specimen when available.
 
 ## Atoms
 
@@ -92,7 +92,7 @@ Without `graph.terminals`, the structural validator requires:
 - one origin and one destination;
 - every route to connect the common origin and destination.
 
-Before choosing either form, assess p and q for each route independently. A singular user request does not prove that all routes start from the same usable state or finish with the same deliverable. With `graph.terminals`, declare every route's visible start and finish:
+Use the simple shared form unless understanding the task naturally reveals different p or q points. With `graph.terminals`, declare every route's visible start and finish:
 
 ```json
 "terminals": {
@@ -109,7 +109,7 @@ Before choosing either form, assess p and q for each route independently. A sing
 }
 ```
 
-Each terminal value must be a node ID. A route's origin must have no incoming edge for that route, and its destination must have no outgoing edge for that route. Different routes may still share the same origin or destination by pointing to the same node ID.
+Each terminal value must be a node ID. A route's origin must have no incoming edge for that route, and its destination must have no outgoing edge for that route. Any subset of routes may share an origin or destination by pointing to the same node ID, so one-to-many, many-to-one, and partially shared shapes need no special mode.
 
 Every visible node must participate in an edge, each route must move between two different terminal nodes, and one `from → to` connection appears only once. When routes share that connection, put all relevant route IDs on the same edge.
 

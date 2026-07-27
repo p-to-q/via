@@ -30,10 +30,10 @@
     "routeAxes": ["changed constraint", "remaining boundaries", "feasibility", "new topology"]
   },
   {
-    "id": "distinct-terminals",
-    "prompt": "Compare three useful next moves: turn our blank repo into a runnable MVP, turn the existing prototype into a tested design handoff, or turn the current production incident into a narrowed root cause.",
+    "id": "partially-shared-terminals",
+    "prompt": "We have a clean service template and an existing prototype. Compare building the beta from the template, hardening the prototype in place, or moving the prototype UI onto the clean core. All three should end at the same release-ready beta.",
     "shouldTrigger": true,
-    "routeAxes": ["different available origins", "different useful outcomes", "route-specific proof", "terminal topology"]
+    "routeAxes": ["two available origins", "one shared outcome", "route-specific proof", "partial terminal sharing"]
   },
   {
     "id": "auth-migration",
