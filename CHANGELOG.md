@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.3.10 — 2026-07-27
+
+- Calibrate token estimates as incremental model workload and time estimates as active agent wall-clock, both measured from route selection to the next useful engineering deliverable.
+- Keep endpoint topology natural: shared p and q remain the common case while RouteSpec supports partial sharing, including many-to-one and one-to-many shapes.
+- Reduce topology instructions in the runtime Skill while preserving the more expressive graph contract and renderer behavior.
+- Add a concise Model fit threshold to README and maintain provider-neutral compatibility research, including Chinese-developed model candidates, outside the runtime Skill.
+- Add forward evaluation coverage for estimate boundaries and partially shared terminals.
+
 ## 0.3.9 — 2026-07-19
 
 - Replace the implementation-led tagline with `See the paths before you build.` and the supporting sentence `via helps your coding agent reason through the options, then maps 3 potential engineering paths.`

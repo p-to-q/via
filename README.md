@@ -183,6 +183,6 @@ npm install
 npm run check
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.9 release notes](docs/releases/v0.3.9.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md), and the [0.3.10 release notes](docs/releases/v0.3.10.md).
 
 Apache-2.0 © [p → q] contributors.
