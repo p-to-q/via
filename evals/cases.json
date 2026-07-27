@@ -30,6 +30,12 @@
     "routeAxes": ["changed constraint", "remaining boundaries", "feasibility", "new topology"]
   },
   {
+    "id": "distinct-terminals",
+    "prompt": "Compare three useful next moves: turn our blank repo into a runnable MVP, turn the existing prototype into a tested design handoff, or turn the current production incident into a narrowed root cause.",
+    "shouldTrigger": true,
+    "routeAxes": ["different available origins", "different useful outcomes", "route-specific proof", "terminal topology"]
+  },
+  {
     "id": "auth-migration",
     "prompt": "Plan our migration from session cookies to passkeys without breaking existing mobile clients.",
     "shouldTrigger": true,

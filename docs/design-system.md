@@ -21,6 +21,8 @@ This interface serves both sides of the human-agent loop. For humans, it adds a 
 
 Estimated tokens, anticipated time, and one concise route summary are primary decision signals. Keep them visible and comparable across all three options; they are not decorative metadata.
 
+Token and time ranges must use the same scope across every card: route selection to the next useful engineering deliverable. Never mix implementation tokens with full-rollout time, or active agent minutes with human waiting time.
+
 ## Type
 
 The portable SVG uses the host system UI stack:

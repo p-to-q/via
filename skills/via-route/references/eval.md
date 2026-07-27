@@ -9,7 +9,7 @@ Forward-test with fresh agents and raw tasks. Do not provide the expected route 
 | trigger | intrusive or missed | debatable | appears only when useful |
 | separation | cosmetic variants | one weak difference | each route gives a consequential reason to choose it |
 | topology | fabricated or misleading | valid path but meaningful structure flattened | topology faithfully matches the actual work |
-| budget honesty | exact guess | range only | range with honest width; no precision claim |
+| budget honesty | wrong boundary or exact guess | range only | same next-deliverable boundary; honest width |
 | proof | absent | generic end node | shared or route-specific proof checkpoint in the graph |
 | scan speed | report-like | understandable | recommendation in 10s, choice in 30s |
 | startability | another plan needed | partial | selected route can start immediately |
@@ -43,3 +43,11 @@ Test tiny fixes (expected skip), open-ended plan questions (expected three-optio
 ## Continuation test
 
 Run a short multi-turn sequence: open decision → route selection → implementation follow-up → material constraint change. Expect one map on the open decision, no new map for selection or straightforward implementation, and a redraw only if the changed constraint genuinely changes the available paths or topology.
+
+## Estimate test
+
+Ask what work each estimate covers. Pass only when all cards use route selection → next useful engineering deliverable, token ranges include model/tool context workload, and time excludes human or deployment waiting. Prefer current telemetry when present; do not require model-specific multiplier tables.
+
+## Terminal test
+
+Test both shapes: three approaches from the same current system to the same shipped state, and three approaches that begin from different available assets or intentionally produce different outcomes. The first may infer shared endpoints. The second should declare `graph.terminals`; do not reward fake shared p or q nodes.

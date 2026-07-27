@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1080" height="660" viewBox="0 0 1080 660" role="img" aria-labelledby="route-title route-desc">
   <title id="route-title">route map for Prepare via for a first public release</title>
-  <desc id="route-desc">Skill first: 3.5k to 9k tokens, 5 to 12 minutes, 5 checkpoints, suggested. Interface first: 6k to 14k tokens, 10 to 25 minutes, 5 checkpoints. Telemetry first: 9k to 22k tokens, 20 to 45 minutes, 5 checkpoints</desc>
+  <desc id="route-desc">Skill first: 60k to 140k tokens, 6 to 14 minutes, 5 checkpoints, suggested. Interface first: 100k to 240k tokens, 10 to 24 minutes, 5 checkpoints. Telemetry first: 160k to 380k tokens, 18 to 40 minutes, 5 checkpoints</desc>
   <defs>
     <filter id="dock-shadow" x="-8%" y="-30%" width="116%" height="170%" color-interpolation-filters="sRGB">
       <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#000000" flood-opacity=".16"/>
@@ -31,11 +31,11 @@
     <text y="29" text-anchor="middle" class="endpoint-sub">release ready</text>
   </g>
   <rect class="route-dock" x="32" y="468" width="1016" height="164" rx="22" fill="#FFFFFF" stroke="#DEDEDE" filter="url(#dock-shadow)"/>
-  <g class="card selected" data-route-id="skill-first" transform="translate(48 484)" aria-label="Skill first, 3.5k–9k tokens, 5 to 12 minutes, 5 engineering checks">
+  <g class="card selected" data-route-id="skill-first" transform="translate(48 484)" aria-label="Skill first, 60k–140k tokens, 6 to 14 minutes, 5 engineering checks">
       <rect width="320" height="132" rx="12" fill="#F2F5F5" stroke="#AEBFC0" stroke-width="1"/>
       <text x="16" y="33" class="card-label">Skill first</text>
-      <text x="16" y="67" class="cost">3.5k–9k<tspan class="unit"> tok</tspan></text>
-      <text x="16" y="87" class="meta" fill="#247C78">5–12 min</text>
+      <text x="16" y="67" class="cost">60k–140k<tspan class="unit"> tok</tspan></text>
+      <text x="16" y="87" class="meta" fill="#247C78">6–14 min</text>
       <g class="gate-light" transform="translate(238 84)" aria-label="5 engineering checks">
     <title>5 engineering checks</title>
     <g transform="translate(0 -9)" fill="#1F1F1F">
@@ -47,11 +47,11 @@
     <text x="22" y="4" class="check-count">5 checks</text>
   </g>
       <text x="16" y="117" class="summary">Small contract, fast proof</text>
-    </g><g class="card" data-route-id="ui-first" transform="translate(380 484)" aria-label="Interface first, 6k–14k tokens, 10 to 25 minutes, 5 engineering checks">
+    </g><g class="card" data-route-id="ui-first" transform="translate(380 484)" aria-label="Interface first, 100k–240k tokens, 10 to 24 minutes, 5 engineering checks">
       <rect width="320" height="132" rx="12" fill="#FFFFFF" stroke="#E5E5E5" stroke-width="1"/>
       <text x="16" y="33" class="card-label">Interface first</text>
-      <text x="16" y="67" class="cost">6k–14k<tspan class="unit"> tok</tspan></text>
-      <text x="16" y="87" class="meta" fill="#A84177">10–25 min</text>
+      <text x="16" y="67" class="cost">100k–240k<tspan class="unit"> tok</tspan></text>
+      <text x="16" y="87" class="meta" fill="#A84177">10–24 min</text>
       <g class="gate-light" transform="translate(238 84)" aria-label="5 engineering checks">
     <title>5 engineering checks</title>
     <g transform="translate(0 -9)" fill="#1F1F1F">
@@ -63,11 +63,11 @@
     <text x="22" y="4" class="check-count">5 checks</text>
   </g>
       <text x="16" y="117" class="summary">Map before workflow</text>
-    </g><g class="card" data-route-id="telemetry-first" transform="translate(712 484)" aria-label="Telemetry first, 9k–22k tokens, 20 to 45 minutes, 5 engineering checks">
+    </g><g class="card" data-route-id="telemetry-first" transform="translate(712 484)" aria-label="Telemetry first, 160k–380k tokens, 18 to 40 minutes, 5 engineering checks">
       <rect width="320" height="132" rx="12" fill="#FFFFFF" stroke="#E5E5E5" stroke-width="1"/>
       <text x="16" y="33" class="card-label">Telemetry first</text>
-      <text x="16" y="67" class="cost">9k–22k<tspan class="unit"> tok</tspan></text>
-      <text x="16" y="87" class="meta" fill="#A95227">20–45 min</text>
+      <text x="16" y="67" class="cost">160k–380k<tspan class="unit"> tok</tspan></text>
+      <text x="16" y="87" class="meta" fill="#A95227">18–40 min</text>
       <g class="gate-light" transform="translate(238 84)" aria-label="5 engineering checks">
     <title>5 engineering checks</title>
     <g transform="translate(0 -9)" fill="#1F1F1F">

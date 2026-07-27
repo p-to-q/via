@@ -14,8 +14,8 @@ RouteSpec is the serialization contract for the renderer, not a planning method 
       "label": "Dual session",
       "color": "cyan",
       "recommended": true,
-      "tokens": { "min": 5000, "max": 9000 },
-      "minutes": { "min": 35, "max": 70 },
+      "tokens": { "min": 60000, "max": 140000 },
+      "minutes": { "min": 6, "max": 14 },
       "summary": "Add passkeys behind the current session contract"
     }
   ],
@@ -43,7 +43,7 @@ RouteSpec is the serialization contract for the renderer, not a planning method 
 }
 ```
 
-The excerpt illustrates fields; a valid spec needs exactly three complete route objects, 5–18 nodes, and 4–28 edges. `destination` is the map's visible title: generate it from the task in the style of a clear PR title, not a fixed slogan. Omit `graph.terminals` for the common case where all routes share one origin and one destination. Add it only when routes genuinely start from different current states or lead to different outcomes. Use `examples/web-coder-route.json` from the repository as a complete specimen when available.
+The excerpt illustrates fields; a valid spec needs exactly three complete route objects, 5–18 nodes, and 4–28 edges. `destination` is the map's visible title: generate it from the task in the style of a clear PR title, not a fixed slogan. Decide each route's origin and destination before deciding whether to omit `graph.terminals`. Omit it only when every route genuinely shares both endpoints; add it when any route starts from a different available state or leads to a different useful outcome. Use `examples/web-coder-route.json` from the repository as a complete specimen when available.
 
 ## Atoms
 
@@ -72,7 +72,14 @@ The renderer derives the card's `checks` count from unique route nodes with a `c
 
 Choose any three distinct route colors when creating a new spec. The choice may vary between newly generated maps, but it is written into RouteSpec and must remain stable across every re-render of that map.
 
-Time ranges compare anticipated active work, including inspection, edits, dependencies, and verification. Widen ranges when repository state, external systems, or proof work is uncertain; do not imply precision unsupported by evidence.
+## Estimate boundary
+
+Estimate both ranges over the same boundary: from route selection to the next useful engineering deliverable.
+
+- `tokens` estimates incremental model workload, including context reads, tool results returned to the model, generated output, and reasoning. Do not include tokens already spent before route selection. The number compares workload, not exact price: model tokenization, caching, context reuse, and provider accounting vary.
+- `minutes` estimates active agent wall-clock over inspection, edits, tool execution, and verification. Exclude human approval time, deployment queues, observation windows, and team calendar time. Mention those separately when they affect the decision.
+
+Use telemetry from the current host or similar recent work when available. Otherwise reason from context breadth, files and systems touched, expected tool loops, and verification depth. As loose reality anchors rather than fixed buckets, focused repository work is often tens of thousands to low hundreds of thousands of tokens and several active minutes; broad multi-file or multi-system work can reach several hundred thousand tokens and tens of minutes. Do not translate a human engineering estimate directly into agent minutes. Round generously and widen ranges when the model, repository state, cache behavior, or external systems are unknown. Do not maintain a model multiplier table.
 
 ## Graph
 
@@ -85,7 +92,7 @@ Without `graph.terminals`, the structural validator requires:
 - one origin and one destination;
 - every route to connect the common origin and destination.
 
-With `graph.terminals`, declare every route's visible start and finish:
+Before choosing either form, assess p and q for each route independently. A singular user request does not prove that all routes start from the same usable state or finish with the same deliverable. With `graph.terminals`, declare every route's visible start and finish:
 
 ```json
 "terminals": {

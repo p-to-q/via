@@ -7,8 +7,8 @@
       "label": "Skill first",
       "color": "cyan",
       "recommended": true,
-      "tokens": { "min": 3500, "max": 9000 },
-      "minutes": { "min": 5, "max": 12 },
+      "tokens": { "min": 60000, "max": 140000 },
+      "minutes": { "min": 6, "max": 14 },
       "summary": "Small contract, fast proof"
     },
     {
@@ -16,8 +16,8 @@
       "label": "Interface first",
       "color": "pink",
       "recommended": false,
-      "tokens": { "min": 6000, "max": 14000 },
-      "minutes": { "min": 10, "max": 25 },
+      "tokens": { "min": 100000, "max": 240000 },
+      "minutes": { "min": 10, "max": 24 },
       "summary": "Map before workflow"
     },
     {
@@ -25,8 +25,8 @@
       "label": "Telemetry first",
       "color": "orange",
       "recommended": false,
-      "tokens": { "min": 9000, "max": 22000 },
-      "minutes": { "min": 20, "max": 45 },
+      "tokens": { "min": 160000, "max": 380000 },
+      "minutes": { "min": 18, "max": 40 },
       "summary": "Measure cost before build"
     }
   ],

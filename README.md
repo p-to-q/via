@@ -162,7 +162,7 @@ See the [RouteSpec contract](skills/via-route/references/route-spec.md), [exampl
 
 ## What via does not claim
 
-- Token and time values are estimates, not telemetry.
+- Token ranges compare incremental model workload; time ranges compare active agent time to the next useful engineering deliverable. Both are estimates, not telemetry.
 - via avoids unnecessary prompt and formatting overhead, but it does not shorten useful route explanations merely to save tokens.
 - Three routes are useful only when three materially different paths exist.
 - A structurally valid map does not make its recommendation automatically correct.
