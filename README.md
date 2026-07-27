@@ -28,6 +28,12 @@ Our hypothesis is that this light schema can also help the model think more clea
 
 via is designed for the same moment as Plan mode. It gathers the context that matters, asks only consequential questions, and lets the model reason at the depth the task needs before implementation. The difference is the interface: the normal plan and feedback remain, with a route map added beside them. via is an alternative to a text-only planning surface, not a replacement for a host's permissions, reasoning controls, or thinking UI.
 
+## Model fit
+
+via works best with capable, tool-using coding or reasoning models that can understand an ambiguous goal, form genuinely different routes, inspect a repository, and produce reliable structured output. Current strong fits include GPT-5.6 Sol or Terra, Claude Opus 5 or Sonnet 5, and Gemini 3.1 Pro; use a normal or higher reasoning setting when the decision is consequential. These are a current snapshot, not a compatibility lock.
+
+Smaller or latency-first models can still work, but the Skill is not meant to compensate for weak planning. If a model repeats one idea three times, invents topology, or repeatedly fails RouteSpec validation, skip via and use a normal text response. Repository and terminal benchmarks are useful signals, but via has no fixed benchmark cutoff because results depend on the model, agent harness, tools, and context together. See [Model fit and evaluation](docs/model-fit.md).
+
 ## Install
 
 via requires Node.js 20 or newer and has no runtime dependencies.
@@ -158,7 +164,7 @@ via also stays out of the host's thinking UI. If ChatGPT, Codex, Claude, or anot
 
 via has no persistent mode for the user to manage. It appears when the current turn contains a real route decision. After a route is chosen, the model continues normally from that context. The map is redrawn only when the goal, constraints, evidence, or available paths materially change; once the task becomes straightforward execution, via naturally falls away.
 
-See the [RouteSpec contract](skills/via-route/references/route-spec.md), [example graph](examples/web-coder-route.json), [product architecture](docs/product-architecture.md), [interface system](docs/design-system.md), and [agent surface notes](docs/agent-surfaces.md).
+See the [RouteSpec contract](skills/via-route/references/route-spec.md), [example graph](examples/web-coder-route.json), [product architecture](docs/product-architecture.md), [interface system](docs/design-system.md), [model fit notes](docs/model-fit.md), and [agent surface notes](docs/agent-surfaces.md).
 
 ## What via does not claim
 
