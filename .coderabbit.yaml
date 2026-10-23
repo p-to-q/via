@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+reviews:
+  high_level_summary: false
+  in_progress_fortune: false
+  poem: false
+  auto_review:
+    drafts: false
+    auto_incremental_review: true
+    auto_pause_after_reviewed_commits: 8
+    ignore_title_keywords:
+      - "WIP"
+      - "[skip review]"
+    ignore_usernames:
+      - "dependabot[bot]"
+      - "github-actions[bot]"
+  path_filters:
+    - "!**/package-lock.json"
+    - "!assets/**"
+    - "!**/*.svg"
+  path_instructions:
+    - path: "skills/via-route/scripts/**"
+      instructions: |
+        These scripts are the deterministic core: validation and rendering must stay
+        pure, dependency-free, and byte-stable. Flag non-determinism, any added runtime
+        dependency, or error messages that overstate what the code actually checks.
+    - path: "skills/via-route/references/**"
+      instructions: |
+        Treat the RouteSpec contract as a contract change when the schema, the
+        validator, and the reference doc drift apart. Check that the three stay in
+        sync and that the stated limits match the code.
+    - path: "**/*.md"
+      instructions: |
+        Prefer factual drift checks over prose polish. Flag claims that overstate
+        placeholder, future, or partially-landed behavior, and wording that breaks the
+        repository's terse house style.
+  pre_merge_checks:
+    docstrings:
+      mode: "off"
