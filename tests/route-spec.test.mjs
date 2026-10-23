@@ -369,6 +369,15 @@ test("node-label budget follows the column step once it tightens below the fixed
   assert.ok(emWidth(label) * size <= step);
 });
 
+test("wide Latin glyphs are measured conservatively, not as narrow ASCII", () => {
+  // Arial's W is ~0.944 em; treating it as 0.55 em let a "WWW…" label pass a budget it
+  // actually overflows, so adjacent node labels could overlap.
+  assert.ok(emWidth("W") >= 0.9, "a wide Latin glyph is measured near one em");
+  const result = fit("W".repeat(12), 104, 12);
+  assert.ok(emWidth(result.text) * result.fontSize <= 104, "wide Latin text stays within budget");
+  assert.ok(result.text.length < 12 || result.fontSize < 12, "wide Latin text shrinks or elides");
+});
+
 test("English example renders byte-identically to the committed asset", () => {
   const asset = fs.readFileSync(new URL("../assets/web-coder-route.svg", import.meta.url), "utf8");
   assert.equal(renderRouteMap(fixture), asset);

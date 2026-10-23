@@ -155,14 +155,20 @@ export function renderRouteMap(spec) {
 function num(value) { return value >= 1000 ? `${Math.round(value / 100) / 10}k` : String(value); }
 function xml(value) { return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;"); }
 
-// East-Asian-Width heuristic: full-width/CJK ≈ 1 em, ASCII ≈ 0.55, other ≈ 0.6.
+// Width heuristic: full-width/CJK ≈ 1 em, wide Latin (W M w m) ≈ 1 em, narrow ASCII ≈ 0.55,
+// other ≈ 0.6. Arial's W is ~0.944 em, so measuring wide glyphs as narrow would let a
+// W-heavy label exceed its budget and overlap a neighbour.
 export function emWidth(value) {
   let width = 0;
   for (const char of String(value)) {
     const code = char.codePointAt(0);
-    width += isFullWidth(code) ? 1 : code <= 0x7e ? 0.55 : 0.6;
+    width += isFullWidth(code) || isWideLatin(code) ? 1 : code <= 0x7e ? 0.55 : 0.6;
   }
   return width;
+}
+
+function isWideLatin(code) {
+  return code === 0x4d || code === 0x57 || code === 0x6d || code === 0x77; // M W m w
 }
 
 export function fit(value, budgetPx, baseFontPx) {
