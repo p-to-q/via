@@ -9,11 +9,12 @@ import { validateRouteSpec } from "./validate-route.mjs";
 // an ellipsis only when even the floor size would overflow. Budgets are calibrated so
 // the committed Latin example renders byte-identically.
 const FLOOR = 9;
-const FIT_BUDGET = { title: 900, nodeLabel: 104, endpoint: 104, summary: 272 };
+const FIT_BUDGET = { title: 900, nodeLabel: 104, endpoint: 104, summary: 272, cardLabel: 288 };
 const TITLE_FONT = 22;
 const NODE_LABEL_FONT = 12;
 const ENDPOINT_FONT = 11;
 const SUMMARY_FONT = 12;
+const CARD_LABEL_FONT = 14;
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const [input, output] = process.argv.slice(2);
@@ -56,7 +57,11 @@ export function renderRouteMap(spec) {
   const routes = new Map(spec.routes.map((route) => [route.id, route]));
   const nodes = new Map(spec.graph.nodes.map((node) => [node.id, node]));
   const maxColumn = Math.max(...spec.graph.nodes.map((node) => node.column), 1);
-  const point = (node) => ({ x: 72 + node.column * (924 / maxColumn), y: 142 + node.lane * 68 });
+  const columnStep = 924 / maxColumn;
+  const point = (node) => ({ x: 72 + node.column * columnStep, y: 142 + node.lane * 68 });
+  // A node label must not be wider than the column it sits in, so the fixed cap only
+  // binds when the grid is dense enough (columnStep < the cap) to risk neighbours touching.
+  const nodeLabelBudget = Math.min(FIT_BUDGET.nodeLabel, columnStep);
   const routeColor = (id) => routePalette[routes.get(id).color].line;
   const terminals = terminalNodes(spec);
 
@@ -88,7 +93,7 @@ export function renderRouteMap(spec) {
     const color = shared ? palette.ink : routeColor([...membership][0]);
     const gate = node.gate ? `<g transform="translate(${x + 13} ${y - 17})"><circle r="6" fill="${palette[node.gate]}" stroke="${palette.paper}" stroke-width="3"/></g>` : "";
     const isTerminal = terminals.origins.some((terminal) => terminal.id === node.id) || terminals.destinations.some((terminal) => terminal.id === node.id);
-    const fitted = fit(node.label, FIT_BUDGET.nodeLabel, NODE_LABEL_FONT);
+    const fitted = fit(node.label, nodeLabelBudget, NODE_LABEL_FONT);
     const label = isTerminal ? "" : `<text x="${x}" y="${y + 29}" text-anchor="middle" class="node-label"${fontSizeAttr(fitted, NODE_LABEL_FONT)}>${xml(fitted.text)}</text>`;
     return `<g class="node"><circle cx="${x}" cy="${y}" r="11" fill="${palette.paper}" stroke="${color}" stroke-width="3.5"/>${gate}${label}</g>`;
   }).join("");
@@ -107,9 +112,10 @@ export function renderRouteMap(spec) {
     const fill = route.recommended ? palette.selectedTint : palette.paper;
     const checks = controlStops(spec, route.id);
     const fitted = fit(route.summary, FIT_BUDGET.summary, SUMMARY_FONT);
+    const fittedLabel = fit(route.label, FIT_BUDGET.cardLabel, CARD_LABEL_FONT);
     return `<g class="card${route.recommended ? " selected" : ""}" data-route-id="${xml(route.id)}" transform="translate(${x} 484)" aria-label="${xml(route.label)}, ${token} tokens, ${route.minutes.min} to ${route.minutes.max} minutes, ${checks} engineering checks">
       <rect width="320" height="132" rx="12" fill="${fill}" stroke="${outline}" stroke-width="1"/>
-      <text x="16" y="33" class="card-label">${xml(route.label)}</text>
+      <text x="16" y="33" class="card-label"${fontSizeAttr(fittedLabel, CARD_LABEL_FONT)}>${xml(fittedLabel.text)}</text>
       <text x="16" y="67" class="cost">${token}<tspan class="unit"> tok</tspan></text>
       <text x="16" y="87" class="meta" fill="${routeBrand.text}">${route.minutes.min}–${route.minutes.max} min</text>
       ${trafficLight(238, 84, checks, palette)}

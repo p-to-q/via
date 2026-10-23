@@ -337,6 +337,38 @@ test("renderer shrinks a wide-script label instead of cutting at a code-point co
   assert.ok(emWidth(match[2]) * size <= 104);
 });
 
+test("card label is width-fitted to the card, shrinking wide scripts", () => {
+  const cjk = structuredClone(fixture);
+  cjk.routes[0].label = "路".repeat(22);
+  const svg = renderRouteMap(cjk);
+  const match = svg.match(/<text x="16" y="33" class="card-label" style="font-size:([\d.]+)px">([^<]*)<\/text>/);
+  assert.ok(match, "a wide card label should carry a fitted font-size");
+  assert.equal(match[2], "路".repeat(22));
+  const size = Number(match[1]);
+  assert.ok(size < 14 && size >= 9);
+  // The card is 320 wide with a 16 px inset on each side.
+  assert.ok(emWidth(match[2]) * size <= 288);
+});
+
+test("node-label budget follows the column step once it tightens below the fixed cap", () => {
+  // A Latin+CJK label that fits the fixed 104 px budget but not the nine-column step.
+  const label = "路径规划检查点abc";
+  const step = 924 / 9;
+  const fixed = 104;
+  assert.ok(emWidth(label) * 12 <= fixed, "label fits the fixed budget");
+  assert.ok(emWidth(label) * 12 > step, "label overflows the nine-column step");
+
+  const wide = structuredClone(fixture);
+  wide.graph.nodes.find((node) => node.column === 7).column = 9; // maxColumn 8 -> 9
+  wide.graph.nodes.find((node) => node.id === "renderer").label = label;
+  const svg = renderRouteMap(wide);
+  const match = svg.match(new RegExp(`<text[^>]*class="node-label" style="font-size:([\\d.]+)px">${label}</text>`));
+  assert.ok(match, "the tightened budget should shrink the label");
+  const size = Number(match[1]);
+  assert.ok(size < 12 && size >= 9);
+  assert.ok(emWidth(label) * size <= step);
+});
+
 test("English example renders byte-identically to the committed asset", () => {
   const asset = fs.readFileSync(new URL("../assets/web-coder-route.svg", import.meta.url), "utf8");
   assert.equal(renderRouteMap(fixture), asset);
