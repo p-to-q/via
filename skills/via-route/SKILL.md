@@ -18,7 +18,11 @@ Before proposing routes, think deeply and from first principles about the user's
 5. Encode the result as RouteSpec 0.3 using [the contract](references/route-spec.md) and bundled [JSON Schema](references/route-spec.schema.json). Write `destination` as a short model-generated title for what this map is about, similar to a clear PR title. Share, split, branch, and merge nodes only where the real work does.
 6. Let the task determine the endpoints. Most routes will naturally share a start and finish, so let the renderer infer them. If the useful options naturally begin from more than one available state or end in more than one outcome, declare `graph.terminals`; routes may still share either endpoint. The renderer fixes their roles as `START` and `DONE`, while your node labels provide the changing captions underneath.
 7. Resolve `SKILL_DIR` to this Skill directory. Validate with `node "$SKILL_DIR/scripts/validate-route.mjs" <spec.json>`, repair structural errors, then render with `node "$SKILL_DIR/scripts/render-route.mjs" <spec.json> <map.svg>`.
-8. Present the SVG prominently, then give the normal user-facing planning response the task deserves. Explain the three routes, why they differ, your recommendation, and useful feedback at a depth set by the task and the user—not by the size of the SVG. The map supplements this answer; it does not replace or compress it. Do not repeat generic instructions like choosing, combining, or customizing routes after every render.
+8. Present the SVG prominently, then give the normal user-facing planning response the task deserves. Show the map the strongest way the current surface allows:
+   - inline, where the chat renders images;
+   - through the host's own preview, where it has one;
+   - otherwise by its file path, or a local `localhost` URL opened in the browser.
+   Do not claim the map is visible where it is not. Explain the three routes, why they differ, your recommendation, and useful feedback at a depth set by the task and the user—not by the size of the SVG. The map supplements this answer; it does not replace or compress it. Do not repeat generic instructions like choosing, combining, or customizing routes after every render.
 9. Stop after the planning response and route map unless the user also asked you to implement a route.
 
 ## Continue naturally

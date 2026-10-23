@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Describe how the rendered map reaches the user across surfaces (inline, host preview, or its path / a local `localhost` URL); keep the SVG script-free and stop claiming visibility where the map is not shown.
+
 ## 0.3.10 — 2026-07-27
 
 - Calibrate token estimates as incremental model workload and time estimates as active agent wall-clock, both measured from route selection to the next useful engineering deliverable.

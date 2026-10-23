@@ -100,7 +100,7 @@ Do not put repeated choice instructions inside the portable SVG. The user can in
 
 ## Static and interactive delivery
 
-`route.svg` is the portable snapshot for Codex, GitHub, Markdown, and documents. Keep it script-free. It may carry `data-route-id` and accessible labels, but when embedded through `<img>` its internal cards are not interactive.
+`route.svg` is the portable snapshot for Codex, GitHub, Markdown, and documents. Keep it script-free. It may carry `data-route-id` and accessible labels, but when embedded through `<img>` its internal cards are not interactive. This holds for browser, document, and Markdown destinations; a text-only surface shows the path, not the image.
 
 For the product UI, read the same RouteSpec into an HTML view:
 
