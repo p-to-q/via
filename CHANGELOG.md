@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add an optional `chrome` overlay that lets the model translate the map's fixed interface words—`subtitle`, `start`, `done`, `checks`—into the user's language; English stays the default and the committed SVG renders byte-identical.
+- Add one Skill rule: write visible text in the user's language, and add `chrome` only when it is not English.
+- Add an assertion that locks the eval seed counts at 10 triggers and 5 skips, with the README prose left as-is.
+
 ## 0.3.10 — 2026-07-27
 
 - Calibrate token estimates as incremental model workload and time estimates as active agent wall-clock, both measured from route selection to the next useful engineering deliverable.

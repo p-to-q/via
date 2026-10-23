@@ -7,6 +7,16 @@
   "properties": {
     "schemaVersion": { "const": "0.3" },
     "destination": { "type": "string", "minLength": 1, "maxLength": 72 },
+    "chrome": {
+      "type": "object",
+      "properties": {
+        "subtitle": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "start": { "type": "string", "minLength": 1, "maxLength": 16 },
+        "done": { "type": "string", "minLength": 1, "maxLength": 16 },
+        "checks": { "type": "string", "minLength": 1, "maxLength": 16 }
+      },
+      "additionalProperties": false
+    },
     "routes": {
       "type": "array",
       "minItems": 3,
