@@ -144,13 +144,8 @@ export function validateRouteSpec(spec) {
         if (!hasRoutePath(origin, destination, routeEdges.get(routeId) || [])) {
           errors.push(`${routeId} must connect its origin to destination.`);
         }
-        const reachable = reachableFrom(origin, routeEdges.get(routeId) || []);
-        const canReachDestination = canReach(destination, routeEdges.get(routeId) || []);
-        for (const edge of routeEdges.get(routeId) || []) {
-          if (!reachable.has(edge.from) || !canReachDestination.has(edge.to)) {
-            errors.push(`${routeId} has an edge outside its origin-to-destination path.`);
-            break;
-          }
+        if (firstOffCorridorEdge(routeEdges.get(routeId) || [], origin, destination)) {
+          errors.push(`${routeId} has an edge outside its origin-to-destination path.`);
         }
       }
     }
@@ -160,9 +155,14 @@ export function validateRouteSpec(spec) {
     if (origins.length !== 1) errors.push("graph must have exactly one origin node, or graph.terminals must declare route origins.");
     if (destinations.length !== 1) errors.push("graph must have exactly one destination node, or graph.terminals must declare route destinations.");
     if (origins.length === 1 && destinations.length === 1) {
+      const [originId, destinationId] = [origins[0].id, destinations[0].id];
       for (const routeId of routeIds) {
-        if (!hasRoutePath(origins[0].id, destinations[0].id, routeEdges.get(routeId) || [])) {
+        if (!hasRoutePath(originId, destinationId, routeEdges.get(routeId) || [])) {
           errors.push(`${routeId} must connect origin to destination.`);
+        }
+        // Same predicate as the terminals branch, so a stray edge is rejected in both modes.
+        if (firstOffCorridorEdge(routeEdges.get(routeId) || [], originId, destinationId)) {
+          errors.push(`${routeId} has an edge outside its origin-to-destination path.`);
         }
       }
     }
@@ -184,6 +184,19 @@ function hasRoutePath(origin, destination, edges) {
     stack.push(...(next.get(node) || []));
   }
   return false;
+}
+
+// A route edge lies on the origin-to-destination corridor when its tail is
+// reachable from the origin and its head can still reach the destination.
+// Returns the first off-corridor edge, or null when every edge is on it.
+function firstOffCorridorEdge(edges, originId, destId) {
+  if (!originId || !destId) return null;
+  const reachable = reachableFrom(originId, edges);
+  const canReachDestination = canReach(destId, edges);
+  for (const edge of edges) {
+    if (!reachable.has(edge.from) || !canReachDestination.has(edge.to)) return edge;
+  }
+  return null;
 }
 
 function reachableFrom(origin, edges) {

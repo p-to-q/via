@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { validateRouteSpec } from "../skills/via-route/scripts/validate-route.mjs";
-import { renderRouteMap } from "../skills/via-route/scripts/render-route.mjs";
+import { renderRouteMap, fit, emWidth } from "../skills/via-route/scripts/render-route.mjs";
 import { spawnSync } from "node:child_process";
 import os from "node:os";
 import path from "node:path";
@@ -288,15 +288,77 @@ test("renderer emits Git-tree topology, signal window, and terse cards", () => {
   assert.doesNotMatch(svg, /Recommendation:/);
 });
 
-test("renderer fits column nine and truncates long labels", () => {
+test("renderer keeps column nine inside the frame under long labels", () => {
   const wide = structuredClone(fixture);
   wide.graph.nodes.find((node) => node.column === 7).column = 9;
   wide.graph.nodes.find((node) => node.id === "renderer").label = "a very long renderer checkpoint";
   wide.routes[0].summary = "A summary that is deliberately long enough to require safe truncation";
   const svg = renderRouteMap(wide);
   assert.doesNotMatch(svg, /cx="(?:1[1-9]\d\d|[2-9]\d{3})"/);
-  assert.match(svg, /a very long rende…/);
-  assert.match(svg, /A summary that is deliberately lo…/);
+  // Overlong strings are width-fitted: shrunk to the floor and ellipsized, never overflowing the column.
+  const nodeLabel = svg.match(/class="node-label" style="font-size:9px">([^<]*)<\/text>/);
+  assert.ok(nodeLabel, "long Latin node label should shrink to the floor");
+  assert.ok(nodeLabel[1].endsWith("…"));
+  const summary = svg.match(/class="summary" style="font-size:9px">([^<]*)<\/text>/);
+  assert.ok(summary, "long summary should shrink to the floor");
+  assert.ok(summary[1].endsWith("…"));
+});
+
+test("fit shrinks by width and only ellipsizes past the floor", () => {
+  // One budget where Latin-24 and CJK-12 fit but CJK-18 must shrink, proving width, not code-points, governs.
+  const budget = 180;
+  const base = 12;
+  for (const item of [
+    { label: "latin 24ch", text: "x".repeat(24), shrunk: false },
+    { label: "cjk 12ch", text: "路".repeat(12), shrunk: false },
+    { label: "cjk 18ch", text: "路".repeat(18), shrunk: true }
+  ]) {
+    const result = fit(item.text, budget, base);
+    assert.equal(result.text, item.text, `${item.label} keeps its full text`);
+    assert.equal(result.fontSize !== base, item.shrunk, `${item.label} shrink state`);
+    assert.ok(emWidth(result.text) * result.fontSize <= budget, `${item.label} fits its budget`);
+  }
+  const overFloor = fit("路".repeat(40), budget, base);
+  assert.equal(overFloor.fontSize, 9);
+  assert.ok(overFloor.text.endsWith("…"));
+  assert.ok(emWidth(overFloor.text) * overFloor.fontSize <= budget);
+});
+
+test("renderer shrinks a wide-script label instead of cutting at a code-point count", () => {
+  const cjk = structuredClone(fixture);
+  cjk.graph.nodes.find((node) => node.id === "renderer").label = "渲染地图生成管线检查点";
+  assert.deepEqual(validateRouteSpec(cjk), []);
+  const svg = renderRouteMap(cjk);
+  const match = svg.match(/class="node-label" style="font-size:([\d.]+)px">([^<]*)<\/text>/);
+  assert.ok(match, "a wide-script label should carry a fitted font-size");
+  assert.equal(match[2], "渲染地图生成管线检查点");
+  const size = Number(match[1]);
+  assert.ok(size >= 9 && size < 12);
+  assert.ok(emWidth(match[2]) * size <= 104);
+});
+
+test("English example renders byte-identically to the committed asset", () => {
+  const asset = fs.readFileSync(new URL("../assets/web-coder-route.svg", import.meta.url), "utf8");
+  assert.equal(renderRouteMap(fixture), asset);
+});
+
+test("corridor check reaches the same verdict with and without graph.terminals", () => {
+  // A stray skill-first edge leaves its corridor; both modes must reject it identically.
+  const withoutTerminals = structuredClone(fixture);
+  withoutTerminals.graph.edges.push({ from: "frame", to: "user-check", routes: ["skill-first"] });
+  const plainErrors = validateRouteSpec(withoutTerminals);
+
+  const withTerminals = structuredClone(withoutTerminals);
+  withTerminals.graph.terminals = {
+    origins: { "skill-first": "current-draft", "ui-first": "current-draft", "telemetry-first": "current-draft" },
+    destinations: { "skill-first": "release-ready", "ui-first": "release-ready", "telemetry-first": "release-ready" }
+  };
+  const terminalErrors = validateRouteSpec(withTerminals);
+
+  const message = "skill-first has an edge outside its origin-to-destination path.";
+  assert.ok(plainErrors.includes(message), "no-terminals mode must reject the stray edge");
+  assert.ok(terminalErrors.includes(message), "terminals mode must reject the stray edge");
+  assert.deepEqual(plainErrors, terminalErrors);
 });
 
 test("via build writes the map and its own short documentation", () => {

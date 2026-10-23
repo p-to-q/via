@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Unify the corridor check: a stray route edge is now rejected whether or not `graph.terminals` is declared, sharing one predicate across both validator modes.
+- Fit renderer text by measured width instead of code points: shrink type to a floor, then elide, so wide scripts (CJK/full-width) stay inside their columns; the committed English example renders byte-identically.
+
 ## 0.3.10 — 2026-07-27
 
 - Calibrate token estimates as incremental model workload and time estimates as active agent wall-clock, both measured from route selection to the next useful engineering deliverable.
