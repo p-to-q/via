@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Describe how the rendered map reaches the user across surfaces (inline, host preview, or its path / a local `localhost` URL); keep the SVG script-free and stop claiming visibility where the map is not shown.
+- Describe how the rendered map reaches the user across surfaces (inline, host preview, or its path, with a local `localhost` URL only when the host serves the file); keep the SVG script-free and stop claiming visibility where the map is not shown.
 
 ## 0.3.10 — 2026-07-27
 

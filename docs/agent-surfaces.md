@@ -29,7 +29,7 @@ Use `/via` as the short chat-box wake phrase in surfaces that support slash-styl
 
 ## How the map is presented
 
-via renders one portable `route.svg`. The surface decides how it reaches the user: inline where the chat renders images; through the host's own preview where it has one; otherwise by its file path, or a local `localhost` URL opened in the browser. A text-only surface shows the path, not the image. Keep the SVG script-free so it survives any renderer, and never claim the map is visible where it is not.
+via renders one portable `route.svg`. The surface decides how it reaches the user: inline where the chat renders images; through the host's own preview where it has one; otherwise by its file path; a local `localhost` URL applies only when the host serves the file. A text-only surface shows the path, not the image. Keep the SVG script-free so it survives any renderer, and never claim the map is visible where it is not.
 
 ## Why this shape
 

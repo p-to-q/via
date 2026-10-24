@@ -21,7 +21,7 @@ Before proposing routes, think deeply and from first principles about the user's
 8. Present the SVG prominently, then give the normal user-facing planning response the task deserves. Show the map the strongest way the current surface allows:
    - inline, where the chat renders images;
    - through the host's own preview, where it has one;
-   - otherwise by its file path, or a local `localhost` URL opened in the browser.
+   - otherwise by its file path; use a local `localhost` URL only when the host serves the file.
    Do not claim the map is visible where it is not. Explain the three routes, why they differ, your recommendation, and useful feedback at a depth set by the task and the user—not by the size of the SVG. The map supplements this answer; it does not replace or compress it. Do not repeat generic instructions like choosing, combining, or customizing routes after every render.
 9. Stop after the planning response and route map unless the user also asked you to implement a route.
 
