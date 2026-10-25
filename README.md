@@ -154,7 +154,7 @@ The source is one directed graph:
 - routes normally share a start and finish, but may declare different origins or outcomes when that is true of the task;
 - `START` and `DONE` are fixed endpoint roles attached to their graph nodes, while their captions are generated from the actual origin and achieved state.
 
-The Skill creates the RouteSpec, validates it, renders it, and shows the SVG with the model's normal planning response. It skips tiny work and tasks without three credible paths.
+The Skill creates the RouteSpec, validates it, renders it, and presents the SVG with the model's normal planning response: inline or in a host preview where the surface supports it, and by file path on text-only surfaces. It skips tiny work and tasks without three credible paths.
 
 This separation is deliberate: the model decides what the task means, explains the useful paths, and gives its recommendation and feedback; the schema organizes what the additional visual should show; the renderer turns that representation into the interface. via does not ask the model to follow a second reasoning system or compress its useful analysis into the graph.
 

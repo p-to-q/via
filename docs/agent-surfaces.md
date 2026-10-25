@@ -27,6 +27,10 @@ Use `/via` as the short chat-box wake phrase in surfaces that support slash-styl
 | Aider | Aider documents built-in in-chat slash commands, but not a first-class Skill folder contract like Claude Code/OpenCode. | Treat via as a CLI plus prompt convention here: install `via`, then ask the agent to use the copied Skill prompt or natural language. |
 | OpenCloud / OpenClaw-like names | No stable official source was found during this pass for a broadly adopted coding-agent Skill contract under these names. | Do not ship README claims for them. Add an adapter only after a concrete official surface is identified. |
 
+## How the map is presented
+
+via renders one portable `route.svg`. The surface decides how it reaches the user: inline where the chat renders images; through the host's own preview where it has one; otherwise by its file path; a local `localhost` URL applies only when the host serves the file. A text-only surface shows the path, not the image. Keep the SVG script-free so it survives any renderer, and never claim the map is visible where it is not.
+
 ## Why this shape
 
 via is not trying to become a universal command framework. The durable thing is the RouteSpec contract plus the renderer. Each host can decide how the user invokes it:

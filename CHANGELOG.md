@@ -8,6 +8,7 @@
 - Unify the corridor check: a stray route edge is now rejected whether or not `graph.terminals` is declared, sharing one predicate across both validator modes.
 - Fit renderer text by measured width instead of code points: shrink type to a floor, then elide, so wide scripts (CJK/full-width) stay inside their columns; the committed English example renders byte-identically.
 - Fit card labels to the card's inner width and make the node-label budget follow the column step, so a dense grid never lets a label touch its neighbour; the English example stays byte-identical.
+- Describe how the rendered map reaches the user across surfaces (inline, host preview, or its path, with a local `localhost` URL only when the host serves the file); keep the SVG script-free and stop claiming visibility where the map is not shown.
 
 ## 0.3.10 — 2026-07-27
 
