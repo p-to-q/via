@@ -1,6 +1,7 @@
 # via
 
 [![CI](https://github.com/p-to-q/via/actions/workflows/ci.yml/badge.svg)](https://github.com/p-to-q/via/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/@afkv/via?color=339CFF)](https://www.npmjs.com/package/@afkv/via)
 [![License](https://img.shields.io/badge/license-Apache--2.0-17181d.svg)](LICENSE)
 
 See the paths before you build.
