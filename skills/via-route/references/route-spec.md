@@ -82,6 +82,8 @@ Each route requires:
 - `tokens` and `minutes` objects with `min <= max`
 - `summary` up to 54 characters; this is the card's concise route summary, naming what makes the path useful
 
+The character caps (`destination` 72, `label` 22, `summary` 54, node `label` 24) are **calibrated for Latin width**. The renderer fits text by measured em width, shrinking type to a floor and eliding only as a last resort, so wider writing systems stay inside their columns without changing the contract.
+
 The renderer derives the card's `checks` count from unique route nodes with a `control` value. Do not enter a route total by hand, and do not add controls merely to inflate the number. A route may legitimately have zero route-specific controls; shared controls still count when its path passes through them.
 
 Choose any three distinct route colors when creating a new spec. The choice may vary between newly generated maps, but it is written into RouteSpec and must remain stable across every re-render of that map.
@@ -104,7 +106,8 @@ Each edge requires `from`, `to`, and one to three route IDs. Set `kind: branch` 
 Without `graph.terminals`, the structural validator requires:
 
 - one origin and one destination;
-- every route to connect the common origin and destination.
+- every route to connect the common origin and destination;
+- every route's edges to stay **on** that common origin-to-destination corridor, not merely to connect the two ends.
 
 Use the simple shared form unless understanding the task naturally reveals different p or q points. With `graph.terminals`, declare every route's visible start and finish:
 
