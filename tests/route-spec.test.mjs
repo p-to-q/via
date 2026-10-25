@@ -426,7 +426,8 @@ test("CLI supports help, version, and validate", () => {
   assert.match(help.stdout, /via validate/);
   const version = spawnSync(process.execPath, [cli, "--version"], { encoding: "utf8" });
   assert.equal(version.status, 0);
-  assert.match(version.stdout, /^0\.3\.10/);
+  const pkg = JSON.parse(fs.readFileSync(new URL("../package.json", import.meta.url), "utf8"));
+  assert.equal(version.stdout.trim(), pkg.version);
   const validate = spawnSync(process.execPath, [cli, "validate", fixturePath], { encoding: "utf8" });
   assert.equal(validate.status, 0, validate.stderr);
   assert.match(validate.stdout, /valid RouteSpec/);
