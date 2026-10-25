@@ -442,3 +442,65 @@ test("CLI errors are concise and omit Node stacks", () => {
   assert.equal(noOut.status, 1);
   assert.match(noOut.stderr, /--out requires a directory/);
 });
+
+test("chrome overlay is optional and validates each fixed word", () => {
+  const localized = structuredClone(fixture);
+  localized.chrome = { subtitle: "选择构建方式", start: "开始", done: "完成", checks: "检查点" };
+  assert.deepEqual(validateRouteSpec(localized), []);
+
+  const partial = structuredClone(fixture);
+  partial.chrome = { subtitle: "Only one key" };
+  assert.deepEqual(validateRouteSpec(partial), []);
+
+  const unknown = structuredClone(fixture);
+  unknown.chrome = { title: "nope" };
+  assert.match(validateRouteSpec(unknown).join("\n"), /chrome has unknown field title/);
+
+  const wrongType = structuredClone(fixture);
+  wrongType.chrome = "English";
+  assert.match(validateRouteSpec(wrongType).join("\n"), /chrome must be an object/);
+
+  const empty = structuredClone(fixture);
+  empty.chrome = { done: "" };
+  assert.match(validateRouteSpec(empty).join("\n"), /chrome\.done must be 1-16 characters/);
+
+  const tooLong = structuredClone(fixture);
+  tooLong.chrome = { checks: "x".repeat(17) };
+  assert.match(validateRouteSpec(tooLong).join("\n"), /chrome\.checks must be 1-16 characters/);
+});
+
+test("renderer reads the chrome dictionary and defaults to English", () => {
+  const localized = structuredClone(fixture);
+  localized.chrome = { subtitle: "选择构建方式", start: "开始", done: "完成", checks: "检查点" };
+  const svg = renderRouteMap(localized);
+  assert.match(svg, /class="subtitle">选择构建方式</);
+  assert.match(svg, /class="eyebrow">开始</);
+  assert.match(svg, /class="eyebrow">完成</);
+  assert.match(svg, /class="check-count">5 检查点</);
+  assert.match(svg, /5 engineering 检查点/);
+  assert.doesNotMatch(svg, /Choose how this gets built/);
+  // Brand copy stays English by design.
+  assert.match(svg, /via · a \[p → q\] project/);
+  assert.match(svg, /ptoq\.io/);
+
+  const partial = structuredClone(fixture);
+  partial.chrome = { start: "GO" };
+  const partialSvg = renderRouteMap(partial);
+  assert.match(partialSvg, /class="eyebrow">GO</);
+  assert.match(partialSvg, /class="subtitle">Choose how this gets built</);
+});
+
+test("example renders the committed English asset byte for byte", () => {
+  const asset = fs.readFileSync(new URL("../assets/web-coder-route.svg", import.meta.url), "utf8");
+  assert.equal(renderRouteMap(fixture), asset);
+});
+
+test("eval seed counts stay at ten triggers and five skips", () => {
+  // evals/README.md still describes the earlier seed intent ("eight expected triggers with four
+  // expected skips"); the shipped cases.json is 10 trigger / 5 skip = 15. The README prose is left
+  // untouched on purpose, so this test locks the data instead of the sentence.
+  const cases = JSON.parse(fs.readFileSync(new URL("../evals/cases.json", import.meta.url), "utf8"));
+  assert.equal(cases.length, 15);
+  assert.equal(cases.filter((item) => item.shouldTrigger === true).length, 10);
+  assert.equal(cases.filter((item) => item.shouldTrigger === false).length, 5);
+});

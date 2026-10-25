@@ -25,9 +25,19 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
 export function validateRouteSpec(spec) {
   const errors = [];
   if (!object(spec)) return ["RouteSpec must be an object."];
-  checkKeys(errors, "RouteSpec", spec, ["schemaVersion", "destination", "routes", "graph"]);
+  checkKeys(errors, "RouteSpec", spec, ["schemaVersion", "destination", "chrome", "routes", "graph"]);
   if (spec.schemaVersion !== "0.3") errors.push("schemaVersion must be 0.3.");
   if (!text(spec.destination) || spec.destination.length > 72) errors.push("destination must be 1-72 characters.");
+  const chrome = object(spec.chrome) ? spec.chrome : null;
+  if (spec.chrome !== undefined && !object(spec.chrome)) errors.push("chrome must be an object.");
+  if (chrome) {
+    checkKeys(errors, "chrome", chrome, ["subtitle", "start", "done", "checks"]);
+    const caps = { subtitle: 60, start: 16, done: 16, checks: 16 };
+    for (const [key, cap] of Object.entries(caps)) {
+      if (chrome[key] === undefined) continue;
+      if (!text(chrome[key]) || chrome[key].length > cap) errors.push(`chrome.${key} must be 1-${cap} characters.`);
+    }
+  }
   const routes = Array.isArray(spec.routes) ? spec.routes : [];
   if (routes.length !== 3) errors.push("routes must contain exactly three routes.");
   const routeIds = new Set();

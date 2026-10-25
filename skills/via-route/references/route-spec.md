@@ -57,6 +57,20 @@ The excerpt illustrates fields; a valid spec needs exactly three complete route 
 
 The renderer displays the origin role as `START` and the destination role as `DONE`; those role labels are fixed. The node labels underneath are not fixed. Use the origin node label to name where the user is starting from: from scratch, a prototype, a failing build, an existing design round, a draft repo, or whatever stage the context supports. Use the destination node label to name the concrete state this run can produce: validated patch, roadmap, migration plan, release ready, narrowed investigation, and so on. Avoid generic labels like `intent` and `ship` unless they are genuinely the most specific available terms.
 
+## Chrome
+
+Write the map's visible text in the user's language. When that language is not English, add an optional top-level `chrome` object to translate the fixed interface words; otherwise omit it and the renderer uses English.
+
+```json
+"chrome": { "subtitle": "…", "start": "…", "done": "…", "checks": "…" }
+```
+
+- `subtitle`: the caption under the title (English default `Choose how this gets built`)
+- `start`, `done`: the endpoint role labels (English defaults `START` and `DONE`)
+- `checks`: the noun beside the control count and in its `aria`/`title` (English default `checks`)
+
+Every key is optional and independently falls back to English. Keep each value a short word or phrase. Brand copy (`via · a [p → q] project`, `ptoq.io`) stays English by design.
+
 ## Route
 
 Each route requires:

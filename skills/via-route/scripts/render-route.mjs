@@ -3,6 +3,26 @@ import fs from "node:fs";
 import { pathToFileURL } from "node:url";
 import { validateRouteSpec } from "./validate-route.mjs";
 
+// Fixed interface words the renderer prints. Brand copy (via · …, ptoq.io) stays English by design.
+const CHROME_EN = {
+  subtitle: "Choose how this gets built",
+  start: "START",
+  done: "DONE",
+  checks: "checks"
+};
+
+// Accept only non-empty string overrides. Well-formedness is the validator's gate, but the
+// renderer may be called directly, so unknown or malformed keys are ignored rather than trusted.
+function chromeOverrides(chrome) {
+  if (!chrome || typeof chrome !== "object" || Array.isArray(chrome)) return {};
+  const clean = {};
+  for (const key of Object.keys(CHROME_EN)) {
+    const value = chrome[key];
+    if (typeof value === "string" && value.trim()) clean[key] = value;
+  }
+  return clean;
+}
+
 // Width-fitting: RouteSpec caps characters, but wide scripts (CJK/full-width) cover
 // about one em per glyph, so a legal label can overflow its column. The renderer has
 // no font metrics, so it approximates em width and shrinks type first, falling back to
@@ -32,6 +52,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
 export function renderRouteMap(spec) {
   const W = 1080;
   const H = 660;
+  const t = { ...CHROME_EN, ...chromeOverrides(spec.chrome) };
   const palette = {
     green: "#32A05F",
     yellow: "#E6A700",
@@ -113,12 +134,12 @@ export function renderRouteMap(spec) {
     const checks = controlStops(spec, route.id);
     const fitted = fit(route.summary, FIT_BUDGET.summary, SUMMARY_FONT);
     const fittedLabel = fit(route.label, FIT_BUDGET.cardLabel, CARD_LABEL_FONT);
-    return `<g class="card${route.recommended ? " selected" : ""}" data-route-id="${xml(route.id)}" transform="translate(${x} 484)" aria-label="${xml(route.label)}, ${token} tokens, ${route.minutes.min} to ${route.minutes.max} minutes, ${checks} engineering checks">
+    return `<g class="card${route.recommended ? " selected" : ""}" data-route-id="${xml(route.id)}" transform="translate(${x} 484)" aria-label="${xml(route.label)}, ${token} tokens, ${route.minutes.min} to ${route.minutes.max} minutes, ${checks} engineering ${xml(t.checks)}">
       <rect width="320" height="132" rx="12" fill="${fill}" stroke="${outline}" stroke-width="1"/>
       <text x="16" y="33" class="card-label"${fontSizeAttr(fittedLabel, CARD_LABEL_FONT)}>${xml(fittedLabel.text)}</text>
       <text x="16" y="67" class="cost">${token}<tspan class="unit"> tok</tspan></text>
       <text x="16" y="87" class="meta" fill="${routeBrand.text}">${route.minutes.min}–${route.minutes.max} min</text>
-      ${trafficLight(238, 84, checks, palette)}
+      ${trafficLight(238, 84, checks, palette, t)}
       <text x="16" y="117" class="summary"${fontSizeAttr(fitted, SUMMARY_FONT)}>${xml(fitted.text)}</text>
     </g>`;
   }).join("");
@@ -144,9 +165,9 @@ export function renderRouteMap(spec) {
   <text x="100" y="40" class="eyebrow">via · a [p → q] project</text>
   <text x="1032" y="40" text-anchor="end" class="eyebrow subtle">ptoq.io</text>
   <text x="48" y="80" class="title"${fontSizeAttr(title, TITLE_FONT)}>${xml(title.text)}</text>
-  <text x="48" y="104" class="subtitle">Choose how this gets built</text>
+  <text x="48" y="104" class="subtitle">${xml(t.subtitle)}</text>
   <g class="map">${grid}${edges}${nodeSvg}</g>
-  ${endpointLabels(terminals, point)}
+  ${endpointLabels(terminals, point, t)}
   <rect class="route-dock" x="32" y="468" width="1016" height="164" rx="22" fill="${palette.paper}" stroke="#DEDEDE" filter="url(#dock-shadow)"/>
   ${cards}
   </svg>\n`;
@@ -212,16 +233,16 @@ function isFullWidth(code) {
   );
 }
 
-function trafficLight(x, y, count, palette) {
-  return `<g class="gate-light" transform="translate(${x} ${y})" aria-label="${count} engineering checks">
-    <title>${count} engineering checks</title>
+function trafficLight(x, y, count, palette, t) {
+  return `<g class="gate-light" transform="translate(${x} ${y})" aria-label="${count} engineering ${xml(t.checks)}">
+    <title>${count} engineering ${xml(t.checks)}</title>
     <g transform="translate(0 -9)" fill="${palette.ink}">
       <rect x="5" y="1.5" width="8" height="15" rx="2.4" fill="none" stroke="${palette.ink}" stroke-width="1.8"/>
       <circle cx="9" cy="6" r="1.45"/>
       <circle cx="9" cy="12" r="1.45"/>
       <path d="M5 4.8H2.2c.25 1.45 1.15 2.45 2.8 2.85V4.8Zm8 0h2.8c-.25 1.45-1.15 2.45-2.8 2.85V4.8ZM5 10.8H2.2c.25 1.45 1.15 2.45 2.8 2.85v-2.85Zm8 0h2.8c-.25 1.45-1.15 2.45-2.8 2.85v-2.85Z"/>
     </g>
-    <text x="22" y="4" class="check-count">${count} checks</text>
+    <text x="22" y="4" class="check-count">${count} ${xml(t.checks)}</text>
   </g>`;
 }
 
@@ -229,16 +250,16 @@ function endpointLabel(node, point, role) {
   const { x, y } = point(node);
   const fitted = fit(node.label, FIT_BUDGET.endpoint, ENDPOINT_FONT);
   return `<g class="endpoint" transform="translate(${x} ${y})">
-    <text y="-24" text-anchor="middle" class="eyebrow">${role}</text>
+    <text y="-24" text-anchor="middle" class="eyebrow">${xml(role)}</text>
     <text y="29" text-anchor="middle" class="endpoint-sub"${fontSizeAttr(fitted, ENDPOINT_FONT)}>${xml(fitted.text)}</text>
   </g>`;
 }
 
-function endpointLabels(terminals, point) {
+function endpointLabels(terminals, point, t) {
   const roles = new Map();
-  for (const node of terminals.origins) roles.set(node.id, "START");
+  for (const node of terminals.origins) roles.set(node.id, t.start);
   for (const node of terminals.destinations) {
-    roles.set(node.id, roles.has(node.id) ? "START · DONE" : "DONE");
+    roles.set(node.id, roles.has(node.id) ? `${t.start} · ${t.done}` : t.done);
   }
   const nodes = new Map([...terminals.origins, ...terminals.destinations].map((node) => [node.id, node]));
   return [...nodes.values()]
