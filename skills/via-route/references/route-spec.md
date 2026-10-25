@@ -57,6 +57,20 @@ The excerpt illustrates fields; a valid spec needs exactly three complete route 
 
 The renderer displays the origin role as `START` and the destination role as `DONE`; those role labels are fixed. The node labels underneath are not fixed. Use the origin node label to name where the user is starting from: from scratch, a prototype, a failing build, an existing design round, a draft repo, or whatever stage the context supports. Use the destination node label to name the concrete state this run can produce: validated patch, roadmap, migration plan, release ready, narrowed investigation, and so on. Avoid generic labels like `intent` and `ship` unless they are genuinely the most specific available terms.
 
+## Chrome
+
+Write the map's visible text in the user's language. When that language is not English, add an optional top-level `chrome` object to translate the fixed interface words; otherwise omit it and the renderer uses English.
+
+```json
+"chrome": { "subtitle": "…", "start": "…", "done": "…", "checks": "…" }
+```
+
+- `subtitle`: the caption under the title (English default `Choose how this gets built`)
+- `start`, `done`: the endpoint role labels (English defaults `START` and `DONE`)
+- `checks`: the noun beside the control count and in its `aria`/`title` (English default `checks`)
+
+Every key is optional and independently falls back to English. Keep each value a short word or phrase. Brand copy (`via · a [p → q] project`, `ptoq.io`) stays English by design.
+
 ## Route
 
 Each route requires:
@@ -67,6 +81,8 @@ Each route requires:
 - exactly one route with `recommended: true`
 - `tokens` and `minutes` objects with `min <= max`
 - `summary` up to 54 characters; this is the card's concise route summary, naming what makes the path useful
+
+The character caps (`destination` 72, `label` 22, `summary` 54, node `label` 24) are **calibrated for Latin width**. The renderer fits text by measured em width, shrinking type to a floor and eliding only as a last resort, so wider writing systems stay inside their columns without changing the contract.
 
 The renderer derives the card's `checks` count from unique route nodes with a `control` value. Do not enter a route total by hand, and do not add controls merely to inflate the number. A route may legitimately have zero route-specific controls; shared controls still count when its path passes through them.
 
@@ -90,7 +106,8 @@ Each edge requires `from`, `to`, and one to three route IDs. Set `kind: branch` 
 Without `graph.terminals`, the structural validator requires:
 
 - one origin and one destination;
-- every route to connect the common origin and destination.
+- every route to connect the common origin and destination;
+- every route's edges to stay **on** that common origin-to-destination corridor, not merely to connect the two ends.
 
 Use the simple shared form unless understanding the task naturally reveals different p or q points. With `graph.terminals`, declare every route's visible start and finish:
 

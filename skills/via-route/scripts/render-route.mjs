@@ -3,6 +3,39 @@ import fs from "node:fs";
 import { pathToFileURL } from "node:url";
 import { validateRouteSpec } from "./validate-route.mjs";
 
+// Fixed interface words the renderer prints. Brand copy (via · …, ptoq.io) stays English by design.
+const CHROME_EN = {
+  subtitle: "Choose how this gets built",
+  start: "START",
+  done: "DONE",
+  checks: "checks"
+};
+
+// Accept only non-empty string overrides. Well-formedness is the validator's gate, but the
+// renderer may be called directly, so unknown or malformed keys are ignored rather than trusted.
+function chromeOverrides(chrome) {
+  if (!chrome || typeof chrome !== "object" || Array.isArray(chrome)) return {};
+  const clean = {};
+  for (const key of Object.keys(CHROME_EN)) {
+    const value = chrome[key];
+    if (typeof value === "string" && value.trim()) clean[key] = value;
+  }
+  return clean;
+}
+
+// Width-fitting: RouteSpec caps characters, but wide scripts (CJK/full-width) cover
+// about one em per glyph, so a legal label can overflow its column. The renderer has
+// no font metrics, so it approximates em width and shrinks type first, falling back to
+// an ellipsis only when even the floor size would overflow. Budgets are calibrated so
+// the committed Latin example renders byte-identically.
+const FLOOR = 9;
+const FIT_BUDGET = { title: 900, nodeLabel: 104, endpoint: 104, summary: 272, cardLabel: 288 };
+const TITLE_FONT = 22;
+const NODE_LABEL_FONT = 12;
+const ENDPOINT_FONT = 11;
+const SUMMARY_FONT = 12;
+const CARD_LABEL_FONT = 14;
+
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const [input, output] = process.argv.slice(2);
   if (!input || !output) {
@@ -19,6 +52,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
 export function renderRouteMap(spec) {
   const W = 1080;
   const H = 660;
+  const t = { ...CHROME_EN, ...chromeOverrides(spec.chrome) };
   const palette = {
     green: "#32A05F",
     yellow: "#E6A700",
@@ -44,7 +78,11 @@ export function renderRouteMap(spec) {
   const routes = new Map(spec.routes.map((route) => [route.id, route]));
   const nodes = new Map(spec.graph.nodes.map((node) => [node.id, node]));
   const maxColumn = Math.max(...spec.graph.nodes.map((node) => node.column), 1);
-  const point = (node) => ({ x: 72 + node.column * (924 / maxColumn), y: 142 + node.lane * 68 });
+  const columnStep = 924 / maxColumn;
+  const point = (node) => ({ x: 72 + node.column * columnStep, y: 142 + node.lane * 68 });
+  // A node label must not be wider than the column it sits in, so the fixed cap only
+  // binds when the grid is dense enough (columnStep < the cap) to risk neighbours touching.
+  const nodeLabelBudget = Math.min(FIT_BUDGET.nodeLabel, columnStep);
   const routeColor = (id) => routePalette[routes.get(id).color].line;
   const terminals = terminalNodes(spec);
 
@@ -76,7 +114,8 @@ export function renderRouteMap(spec) {
     const color = shared ? palette.ink : routeColor([...membership][0]);
     const gate = node.gate ? `<g transform="translate(${x + 13} ${y - 17})"><circle r="6" fill="${palette[node.gate]}" stroke="${palette.paper}" stroke-width="3"/></g>` : "";
     const isTerminal = terminals.origins.some((terminal) => terminal.id === node.id) || terminals.destinations.some((terminal) => terminal.id === node.id);
-    const label = isTerminal ? "" : `<text x="${x}" y="${y + 29}" text-anchor="middle" class="node-label">${xml(short(node.label, 18))}</text>`;
+    const fitted = fit(node.label, nodeLabelBudget, NODE_LABEL_FONT);
+    const label = isTerminal ? "" : `<text x="${x}" y="${y + 29}" text-anchor="middle" class="node-label"${fontSizeAttr(fitted, NODE_LABEL_FONT)}>${xml(fitted.text)}</text>`;
     return `<g class="node"><circle cx="${x}" cy="${y}" r="11" fill="${palette.paper}" stroke="${color}" stroke-width="3.5"/>${gate}${label}</g>`;
   }).join("");
 
@@ -93,17 +132,20 @@ export function renderRouteMap(spec) {
     const outline = route.recommended ? palette.selectedLine : palette.hairline;
     const fill = route.recommended ? palette.selectedTint : palette.paper;
     const checks = controlStops(spec, route.id);
-    return `<g class="card${route.recommended ? " selected" : ""}" data-route-id="${xml(route.id)}" transform="translate(${x} 484)" aria-label="${xml(route.label)}, ${token} tokens, ${route.minutes.min} to ${route.minutes.max} minutes, ${checks} engineering checks">
+    const fitted = fit(route.summary, FIT_BUDGET.summary, SUMMARY_FONT);
+    const fittedLabel = fit(route.label, FIT_BUDGET.cardLabel, CARD_LABEL_FONT);
+    return `<g class="card${route.recommended ? " selected" : ""}" data-route-id="${xml(route.id)}" transform="translate(${x} 484)" aria-label="${xml(route.label)}, ${token} tokens, ${route.minutes.min} to ${route.minutes.max} minutes, ${checks} engineering ${xml(t.checks)}">
       <rect width="320" height="132" rx="12" fill="${fill}" stroke="${outline}" stroke-width="1"/>
-      <text x="16" y="33" class="card-label">${xml(route.label)}</text>
+      <text x="16" y="33" class="card-label"${fontSizeAttr(fittedLabel, CARD_LABEL_FONT)}>${xml(fittedLabel.text)}</text>
       <text x="16" y="67" class="cost">${token}<tspan class="unit"> tok</tspan></text>
       <text x="16" y="87" class="meta" fill="${routeBrand.text}">${route.minutes.min}–${route.minutes.max} min</text>
-      ${trafficLight(238, 84, checks, palette)}
-      <text x="16" y="117" class="summary">${xml(short(route.summary, 34))}</text>
+      ${trafficLight(238, 84, checks, palette, t)}
+      <text x="16" y="117" class="summary"${fontSizeAttr(fitted, SUMMARY_FONT)}>${xml(fitted.text)}</text>
     </g>`;
   }).join("");
 
   const comparison = [...spec.routes].sort((a, b) => Number(b.recommended) - Number(a.recommended)).map((route) => `${route.label}: ${num(route.tokens.min)} to ${num(route.tokens.max)} tokens, ${route.minutes.min} to ${route.minutes.max} minutes, ${controlStops(spec, route.id)} checkpoints${route.recommended ? ", suggested" : ""}`).join(". ");
+  const title = fit(spec.destination, FIT_BUDGET.title, TITLE_FONT);
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="route-title route-desc">
   <title id="route-title">route map for ${xml(spec.destination)}</title>
   <desc id="route-desc">${xml(comparison)}</desc>
@@ -122,10 +164,10 @@ export function renderRouteMap(spec) {
   ${windowLights}
   <text x="100" y="40" class="eyebrow">via · a [p → q] project</text>
   <text x="1032" y="40" text-anchor="end" class="eyebrow subtle">ptoq.io</text>
-  <text x="48" y="80" class="title">${xml(spec.destination)}</text>
-  <text x="48" y="104" class="subtitle">Choose how this gets built</text>
+  <text x="48" y="80" class="title"${fontSizeAttr(title, TITLE_FONT)}>${xml(title.text)}</text>
+  <text x="48" y="104" class="subtitle">${xml(t.subtitle)}</text>
   <g class="map">${grid}${edges}${nodeSvg}</g>
-  ${endpointLabels(terminals, point)}
+  ${endpointLabels(terminals, point, t)}
   <rect class="route-dock" x="32" y="468" width="1016" height="164" rx="22" fill="${palette.paper}" stroke="#DEDEDE" filter="url(#dock-shadow)"/>
   ${cards}
   </svg>\n`;
@@ -133,34 +175,91 @@ export function renderRouteMap(spec) {
 
 function num(value) { return value >= 1000 ? `${Math.round(value / 100) / 10}k` : String(value); }
 function xml(value) { return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;"); }
-function short(value, limit) { const chars = [...String(value)]; return chars.length <= limit ? chars.join("") : `${chars.slice(0, limit - 1).join("")}…`; }
 
-function trafficLight(x, y, count, palette) {
-  return `<g class="gate-light" transform="translate(${x} ${y})" aria-label="${count} engineering checks">
-    <title>${count} engineering checks</title>
+// Width heuristic: full-width/CJK ≈ 1 em, wide Latin (W M w m) ≈ 1 em, narrow ASCII ≈ 0.55,
+// other ≈ 0.6. Arial's W is ~0.944 em, so measuring wide glyphs as narrow would let a
+// W-heavy label exceed its budget and overlap a neighbour.
+export function emWidth(value) {
+  let width = 0;
+  for (const char of String(value)) {
+    const code = char.codePointAt(0);
+    width += isFullWidth(code) || isWideLatin(code) ? 1 : code <= 0x7e ? 0.55 : 0.6;
+  }
+  return width;
+}
+
+function isWideLatin(code) {
+  return code === 0x4d || code === 0x57 || code === 0x6d || code === 0x77; // M W m w
+}
+
+export function fit(value, budgetPx, baseFontPx) {
+  const text = String(value);
+  const width = emWidth(text);
+  if (width === 0 || width * baseFontPx <= budgetPx) return { text, fontSize: baseFontPx };
+  const fontSize = budgetPx / width;
+  if (fontSize >= FLOOR) return { text, fontSize };
+  return { text: `${clipToEm(text, budgetPx / FLOOR - emWidth("…"))}…`, fontSize: FLOOR };
+}
+
+// Keep the longest prefix whose em width fits the budget; the caller appends "…".
+function clipToEm(value, emBudget) {
+  let width = 0;
+  let kept = "";
+  for (const char of String(value)) {
+    const next = width + emWidth(char);
+    if (next > emBudget) break;
+    width = next;
+    kept += char;
+  }
+  return kept;
+}
+
+// A presentation attribute loses to the class rule, so fitted sizes ride on inline style.
+function fontSizeAttr({ fontSize }, baseFontPx) {
+  if (fontSize === baseFontPx) return "";
+  return ` style="font-size:${Math.floor(fontSize * 100) / 100}px"`;
+}
+
+function isFullWidth(code) {
+  return (
+    (code >= 0x1100 && code <= 0x115f) ||
+    (code >= 0x2e80 && code <= 0xa4cf && code !== 0x303f) ||
+    (code >= 0xac00 && code <= 0xd7a3) ||
+    (code >= 0xf900 && code <= 0xfaff) ||
+    (code >= 0xfe30 && code <= 0xfe6f) ||
+    (code >= 0xff00 && code <= 0xff60) ||
+    (code >= 0xffe0 && code <= 0xffe6) ||
+    (code >= 0x20000 && code <= 0x3fffd)
+  );
+}
+
+function trafficLight(x, y, count, palette, t) {
+  return `<g class="gate-light" transform="translate(${x} ${y})" aria-label="${count} engineering ${xml(t.checks)}">
+    <title>${count} engineering ${xml(t.checks)}</title>
     <g transform="translate(0 -9)" fill="${palette.ink}">
       <rect x="5" y="1.5" width="8" height="15" rx="2.4" fill="none" stroke="${palette.ink}" stroke-width="1.8"/>
       <circle cx="9" cy="6" r="1.45"/>
       <circle cx="9" cy="12" r="1.45"/>
       <path d="M5 4.8H2.2c.25 1.45 1.15 2.45 2.8 2.85V4.8Zm8 0h2.8c-.25 1.45-1.15 2.45-2.8 2.85V4.8ZM5 10.8H2.2c.25 1.45 1.15 2.45 2.8 2.85v-2.85Zm8 0h2.8c-.25 1.45-1.15 2.45-2.8 2.85v-2.85Z"/>
     </g>
-    <text x="22" y="4" class="check-count">${count} checks</text>
+    <text x="22" y="4" class="check-count">${count} ${xml(t.checks)}</text>
   </g>`;
 }
 
 function endpointLabel(node, point, role) {
   const { x, y } = point(node);
+  const fitted = fit(node.label, FIT_BUDGET.endpoint, ENDPOINT_FONT);
   return `<g class="endpoint" transform="translate(${x} ${y})">
-    <text y="-24" text-anchor="middle" class="eyebrow">${role}</text>
-    <text y="29" text-anchor="middle" class="endpoint-sub">${xml(short(node.label, 18))}</text>
+    <text y="-24" text-anchor="middle" class="eyebrow">${xml(role)}</text>
+    <text y="29" text-anchor="middle" class="endpoint-sub"${fontSizeAttr(fitted, ENDPOINT_FONT)}>${xml(fitted.text)}</text>
   </g>`;
 }
 
-function endpointLabels(terminals, point) {
+function endpointLabels(terminals, point, t) {
   const roles = new Map();
-  for (const node of terminals.origins) roles.set(node.id, "START");
+  for (const node of terminals.origins) roles.set(node.id, t.start);
   for (const node of terminals.destinations) {
-    roles.set(node.id, roles.has(node.id) ? "START · DONE" : "DONE");
+    roles.set(node.id, roles.has(node.id) ? `${t.start} · ${t.done}` : t.done);
   }
   const nodes = new Map([...terminals.origins, ...terminals.destinations].map((node) => [node.id, node]));
   return [...nodes.values()]

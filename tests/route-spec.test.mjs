@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { validateRouteSpec } from "../skills/via-route/scripts/validate-route.mjs";
-import { renderRouteMap } from "../skills/via-route/scripts/render-route.mjs";
+import { renderRouteMap, fit, emWidth } from "../skills/via-route/scripts/render-route.mjs";
 import { spawnSync } from "node:child_process";
 import os from "node:os";
 import path from "node:path";
@@ -288,15 +288,118 @@ test("renderer emits Git-tree topology, signal window, and terse cards", () => {
   assert.doesNotMatch(svg, /Recommendation:/);
 });
 
-test("renderer fits column nine and truncates long labels", () => {
+test("renderer keeps column nine inside the frame under long labels", () => {
   const wide = structuredClone(fixture);
   wide.graph.nodes.find((node) => node.column === 7).column = 9;
   wide.graph.nodes.find((node) => node.id === "renderer").label = "a very long renderer checkpoint";
   wide.routes[0].summary = "A summary that is deliberately long enough to require safe truncation";
   const svg = renderRouteMap(wide);
   assert.doesNotMatch(svg, /cx="(?:1[1-9]\d\d|[2-9]\d{3})"/);
-  assert.match(svg, /a very long rende…/);
-  assert.match(svg, /A summary that is deliberately lo…/);
+  // Overlong strings are width-fitted: shrunk to the floor and ellipsized, never overflowing the column.
+  const nodeLabel = svg.match(/class="node-label" style="font-size:9px">([^<]*)<\/text>/);
+  assert.ok(nodeLabel, "long Latin node label should shrink to the floor");
+  assert.ok(nodeLabel[1].endsWith("…"));
+  const summary = svg.match(/class="summary" style="font-size:9px">([^<]*)<\/text>/);
+  assert.ok(summary, "long summary should shrink to the floor");
+  assert.ok(summary[1].endsWith("…"));
+});
+
+test("fit shrinks by width and only ellipsizes past the floor", () => {
+  // One budget where Latin-24 and CJK-12 fit but CJK-18 must shrink, proving width, not code-points, governs.
+  const budget = 180;
+  const base = 12;
+  for (const item of [
+    { label: "latin 24ch", text: "x".repeat(24), shrunk: false },
+    { label: "cjk 12ch", text: "路".repeat(12), shrunk: false },
+    { label: "cjk 18ch", text: "路".repeat(18), shrunk: true }
+  ]) {
+    const result = fit(item.text, budget, base);
+    assert.equal(result.text, item.text, `${item.label} keeps its full text`);
+    assert.equal(result.fontSize !== base, item.shrunk, `${item.label} shrink state`);
+    assert.ok(emWidth(result.text) * result.fontSize <= budget, `${item.label} fits its budget`);
+  }
+  const overFloor = fit("路".repeat(40), budget, base);
+  assert.equal(overFloor.fontSize, 9);
+  assert.ok(overFloor.text.endsWith("…"));
+  assert.ok(emWidth(overFloor.text) * overFloor.fontSize <= budget);
+});
+
+test("renderer shrinks a wide-script label instead of cutting at a code-point count", () => {
+  const cjk = structuredClone(fixture);
+  cjk.graph.nodes.find((node) => node.id === "renderer").label = "渲染地图生成管线检查点";
+  assert.deepEqual(validateRouteSpec(cjk), []);
+  const svg = renderRouteMap(cjk);
+  const match = svg.match(/class="node-label" style="font-size:([\d.]+)px">([^<]*)<\/text>/);
+  assert.ok(match, "a wide-script label should carry a fitted font-size");
+  assert.equal(match[2], "渲染地图生成管线检查点");
+  const size = Number(match[1]);
+  assert.ok(size >= 9 && size < 12);
+  assert.ok(emWidth(match[2]) * size <= 104);
+});
+
+test("card label is width-fitted to the card, shrinking wide scripts", () => {
+  const cjk = structuredClone(fixture);
+  cjk.routes[0].label = "路".repeat(22);
+  const svg = renderRouteMap(cjk);
+  const match = svg.match(/<text x="16" y="33" class="card-label" style="font-size:([\d.]+)px">([^<]*)<\/text>/);
+  assert.ok(match, "a wide card label should carry a fitted font-size");
+  assert.equal(match[2], "路".repeat(22));
+  const size = Number(match[1]);
+  assert.ok(size < 14 && size >= 9);
+  // The card is 320 wide with a 16 px inset on each side.
+  assert.ok(emWidth(match[2]) * size <= 288);
+});
+
+test("node-label budget follows the column step once it tightens below the fixed cap", () => {
+  // A Latin+CJK label that fits the fixed 104 px budget but not the nine-column step.
+  const label = "路径规划检查点abc";
+  const step = 924 / 9;
+  const fixed = 104;
+  assert.ok(emWidth(label) * 12 <= fixed, "label fits the fixed budget");
+  assert.ok(emWidth(label) * 12 > step, "label overflows the nine-column step");
+
+  const wide = structuredClone(fixture);
+  wide.graph.nodes.find((node) => node.column === 7).column = 9; // maxColumn 8 -> 9
+  wide.graph.nodes.find((node) => node.id === "renderer").label = label;
+  const svg = renderRouteMap(wide);
+  const match = svg.match(new RegExp(`<text[^>]*class="node-label" style="font-size:([\\d.]+)px">${label}</text>`));
+  assert.ok(match, "the tightened budget should shrink the label");
+  const size = Number(match[1]);
+  assert.ok(size < 12 && size >= 9);
+  assert.ok(emWidth(label) * size <= step);
+});
+
+test("wide Latin glyphs are measured conservatively, not as narrow ASCII", () => {
+  // Arial's W is ~0.944 em; treating it as 0.55 em let a "WWW…" label pass a budget it
+  // actually overflows, so adjacent node labels could overlap.
+  assert.ok(emWidth("W") >= 0.9, "a wide Latin glyph is measured near one em");
+  const result = fit("W".repeat(12), 104, 12);
+  assert.ok(emWidth(result.text) * result.fontSize <= 104, "wide Latin text stays within budget");
+  assert.ok(result.text.length < 12 || result.fontSize < 12, "wide Latin text shrinks or elides");
+});
+
+test("English example renders byte-identically to the committed asset", () => {
+  const asset = fs.readFileSync(new URL("../assets/web-coder-route.svg", import.meta.url), "utf8");
+  assert.equal(renderRouteMap(fixture), asset);
+});
+
+test("corridor check reaches the same verdict with and without graph.terminals", () => {
+  // A stray skill-first edge leaves its corridor; both modes must reject it identically.
+  const withoutTerminals = structuredClone(fixture);
+  withoutTerminals.graph.edges.push({ from: "frame", to: "user-check", routes: ["skill-first"] });
+  const plainErrors = validateRouteSpec(withoutTerminals);
+
+  const withTerminals = structuredClone(withoutTerminals);
+  withTerminals.graph.terminals = {
+    origins: { "skill-first": "current-draft", "ui-first": "current-draft", "telemetry-first": "current-draft" },
+    destinations: { "skill-first": "release-ready", "ui-first": "release-ready", "telemetry-first": "release-ready" }
+  };
+  const terminalErrors = validateRouteSpec(withTerminals);
+
+  const message = "skill-first has an edge outside its origin-to-destination path.";
+  assert.ok(plainErrors.includes(message), "no-terminals mode must reject the stray edge");
+  assert.ok(terminalErrors.includes(message), "terminals mode must reject the stray edge");
+  assert.deepEqual(plainErrors, terminalErrors);
 });
 
 test("via build writes the map and its own short documentation", () => {
@@ -338,4 +441,66 @@ test("CLI errors are concise and omit Node stacks", () => {
   const noOut = spawnSync(process.execPath, [cli, "build", "x.json", "--out"], { encoding: "utf8" });
   assert.equal(noOut.status, 1);
   assert.match(noOut.stderr, /--out requires a directory/);
+});
+
+test("chrome overlay is optional and validates each fixed word", () => {
+  const localized = structuredClone(fixture);
+  localized.chrome = { subtitle: "选择构建方式", start: "开始", done: "完成", checks: "检查点" };
+  assert.deepEqual(validateRouteSpec(localized), []);
+
+  const partial = structuredClone(fixture);
+  partial.chrome = { subtitle: "Only one key" };
+  assert.deepEqual(validateRouteSpec(partial), []);
+
+  const unknown = structuredClone(fixture);
+  unknown.chrome = { title: "nope" };
+  assert.match(validateRouteSpec(unknown).join("\n"), /chrome has unknown field title/);
+
+  const wrongType = structuredClone(fixture);
+  wrongType.chrome = "English";
+  assert.match(validateRouteSpec(wrongType).join("\n"), /chrome must be an object/);
+
+  const empty = structuredClone(fixture);
+  empty.chrome = { done: "" };
+  assert.match(validateRouteSpec(empty).join("\n"), /chrome\.done must be 1-16 characters/);
+
+  const tooLong = structuredClone(fixture);
+  tooLong.chrome = { checks: "x".repeat(17) };
+  assert.match(validateRouteSpec(tooLong).join("\n"), /chrome\.checks must be 1-16 characters/);
+});
+
+test("renderer reads the chrome dictionary and defaults to English", () => {
+  const localized = structuredClone(fixture);
+  localized.chrome = { subtitle: "选择构建方式", start: "开始", done: "完成", checks: "检查点" };
+  const svg = renderRouteMap(localized);
+  assert.match(svg, /class="subtitle">选择构建方式</);
+  assert.match(svg, /class="eyebrow">开始</);
+  assert.match(svg, /class="eyebrow">完成</);
+  assert.match(svg, /class="check-count">5 检查点</);
+  assert.match(svg, /5 engineering 检查点/);
+  assert.doesNotMatch(svg, /Choose how this gets built/);
+  // Brand copy stays English by design.
+  assert.match(svg, /via · a \[p → q\] project/);
+  assert.match(svg, /ptoq\.io/);
+
+  const partial = structuredClone(fixture);
+  partial.chrome = { start: "GO" };
+  const partialSvg = renderRouteMap(partial);
+  assert.match(partialSvg, /class="eyebrow">GO</);
+  assert.match(partialSvg, /class="subtitle">Choose how this gets built</);
+});
+
+test("example renders the committed English asset byte for byte", () => {
+  const asset = fs.readFileSync(new URL("../assets/web-coder-route.svg", import.meta.url), "utf8");
+  assert.equal(renderRouteMap(fixture), asset);
+});
+
+test("eval seed counts stay at ten triggers and five skips", () => {
+  // evals/README.md still describes the earlier seed intent ("eight expected triggers with four
+  // expected skips"); the shipped cases.json is 10 trigger / 5 skip = 15. The README prose is left
+  // untouched on purpose, so this test locks the data instead of the sentence.
+  const cases = JSON.parse(fs.readFileSync(new URL("../evals/cases.json", import.meta.url), "utf8"));
+  assert.equal(cases.length, 15);
+  assert.equal(cases.filter((item) => item.shouldTrigger === true).length, 10);
+  assert.equal(cases.filter((item) => item.shouldTrigger === false).length, 5);
 });
