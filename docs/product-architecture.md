@@ -92,4 +92,4 @@ The static SVG is always complete. In compatible viewers, a subtle dotted curren
 
 ## Runtime
 
-The Skill inspects the task, forms and explains the routes, writes their visible engineering structure into RouteSpec, validates it, renders it, and presents the SVG alongside the written answer. The CLI also writes `route.json` and `route.md`, so the graph documents its structure without making the user or model repeatedly explain the rendering format.
+The Skill inspects the task, forms and explains the routes, writes their visible engineering structure into RouteSpec, validates it, renders it, and presents the SVG alongside the written answer where the surface supports an image or host preview; text-only surfaces provide its file path instead. The CLI also writes `route.json` and `route.md`, so the graph documents its structure without making the user or model repeatedly explain the rendering format.
