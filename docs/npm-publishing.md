@@ -1,6 +1,6 @@
 # npm publishing notes
 
-Snapshot date: 2026-07-19.
+Snapshot date: 2026-10-25.
 
 Package name: `@afkv/via`
 
@@ -8,11 +8,11 @@ Source repository: `p-to-q/via`
 
 ## Current status
 
-`@afkv/via@0.3.7` is the current published npm release with public access. `0.3.8` is the next candidate in this repository.
+`@afkv/via@0.3.11` is the current published npm release with public access, paired with the GitHub pre-release `v0.3.11` on the same commit (`2edbaaa`). The npm version, the git tag, and `package.json` / `.codex-plugin/plugin.json` all read `0.3.11`.
 
 ```bash
-npm view @afkv/via@0.3.7 version
-NPM_CONFIG_USERCONFIG=/tmp/via-empty-npmrc npm install --global @afkv/via@0.3.7 --dry-run
+npm view @afkv/via version
+npm view @afkv/via dist-tags
 ```
 
 The package is configured for public npm publishing:
